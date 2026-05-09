@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+Route::get('walikelas/dashboard', [DashboardController::class, 'index'])->name('walikelas.dashboard');
 
 // Group rute Bendahara agar pengelolaan URL lebih mudah
 Route::prefix('bendahara')->group(function () {
