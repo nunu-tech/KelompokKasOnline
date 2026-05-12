@@ -12,18 +12,25 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transaksis', function (Blueprint $table) {
-            $table->id('id_transaksi'); // Primary Key
 
-            // Relasi ke (Bendahara yang login)
-            $table->foreignId('id_bendahara')->constrained('users', 'id_user')->onDelete('cascade'); 
+            $table->id('id_transaksi');
 
-            // Relasi ke Siswa (Opsional: Diisi jika uang kas masuk, kosongkan jika pengeluaran)
-            $table->foreignId('id_user')->nullable()->constrained('users', 'id_user')->onDelete('cascade'); 
-            
-            $table->enum('jenis', ['Masuk', 'Keluar']); 
+            // Bendahara
+            $table->foreignId('id_bendahara')
+                  ->constrained('users', 'id')
+                  ->onDelete('cascade');
+
+            // Siswa
+            $table->foreignId('id_user')
+                  ->nullable()
+                  ->constrained('users', 'id')
+                  ->onDelete('cascade');
+
+            $table->enum('jenis', ['Masuk', 'Keluar']);
             $table->decimal('nominal', 12, 2);
             $table->string('keterangan');
             $table->date('tanggal');
+
             $table->timestamps();
         });
     }
