@@ -9,8 +9,8 @@
 <body class="bg-gray-100">
 
     <div class="flex">
-        <!-- Manggil Sidebar -->
-        @include('navigasi.sidebar')
+        <!-- Manggil Sidebar -->/
+        {{-- @include('navigasi.sidebar') --}}
 
         <!-- Main Content -->
         <div class="flex-1 p-10">
