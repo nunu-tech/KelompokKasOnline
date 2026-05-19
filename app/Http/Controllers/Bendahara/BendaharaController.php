@@ -13,7 +13,11 @@ class BendaharaController extends Controller
 {
     public function index()
     {
-        if (!Auth::check()) { Auth::loginUsingId(1); }
+        // Fitur Pengaman otomatis: Jika belum login, otomatis login menggunakan ID user pertama yang ada di database
+        if (!Auth::check()) { 
+            $user_tersedia = User::first();
+            if ($user_tersedia) { Auth::loginUsingId($user_tersedia->id); }
+        }
 
         $semua_transaksi = Transaksi::with('user')->latest()->get();
         $daftar_siswa = User::all();
@@ -27,7 +31,10 @@ class BendaharaController extends Controller
 
     public function siswa()
     {
-        if (!Auth::check()) { Auth::loginUsingId(1); }
+        if (!Auth::check()) { 
+            $user_tersedia = User::first();
+            if ($user_tersedia) { Auth::loginUsingId($user_tersedia->id); }
+        }
 
         $daftar_siswa = User::withSum(['transaksi as total_bayar' => function($query) {
             $query->where('jenis', 'Masuk');
@@ -35,7 +42,13 @@ class BendaharaController extends Controller
 
         $siswa_terajin = $daftar_siswa->sortByDesc('total_bayar')->first();
 
-        return view('bendahara.siswa', compact('daftar_siswa', 'siswa_terajin'));
+        // --- Tambahan Logika Rasio Kontribusi Otomatis ---
+        $total_siswa = $daftar_siswa->count();
+        $siswa_aktif = $daftar_siswa->where('total_bayar', '>', 0)->count();
+        $rasio_kontribusi = $total_siswa > 0 ? round(($siswa_aktif / $total_siswa) * 100) : 0;
+        // -------------------------------------------------
+
+        return view('bendahara.siswa', compact('daftar_siswa', 'siswa_terajin', 'rasio_kontribusi'));
     }
 
     public function store(Request $request)
@@ -48,8 +61,11 @@ class BendaharaController extends Controller
             'tanggal' => 'required|date',
         ]);
 
+        // Ambil ID user pertama yang ada di tabel sebagai cadangan jika tidak ada session login
+        $user_default = User::first()->id ?? null;
+
         Transaksi::create([
-            'id_bendahara' => Auth::id() ?? 1, 
+            'id_bendahara' => Auth::id() ?? $user_default, // <--- Sudah diperbaiki secara dinamis agar tidak gagal Foreign Key
             'id_user' => $request->id_user, 
             'jenis' => $request->jenis,
             'nominal' => $request->nominal,
@@ -65,7 +81,10 @@ class BendaharaController extends Controller
      */
     public function laporan(Request $request)
     {
-        if (!Auth::check()) { Auth::loginUsingId(1); }
+        if (!Auth::check()) { 
+            $user_tersedia = User::first();
+            if ($user_tersedia) { Auth::loginUsingId($user_tersedia->id); }
+        }
 
         // Ambil filter dari request, defaultnya adalah bulan dan tahun sekarang
         $bulan = $request->get('bulan', date('m'));

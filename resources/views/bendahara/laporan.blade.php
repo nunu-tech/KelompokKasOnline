@@ -3,115 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Keuangan - Kas Management</title>
+    <title>Laporan Keuangan — ClassLedger Premium</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-rose': '#E57C70',
+                        'brand-nude': '#F6E6E4',
+                        'brand-cream': '#FDFBF9',
+                        'brand-slate': '#1A2130',
+                        'brand-grey': '#5A6578',
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #FDF8F7;
-            color: #1A1A1A;
+            background-color: #FDFBF9;
+            color: #5A6578;
+            letter-spacing: -0.2px;
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 32px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 20px 40px rgba(232, 141, 130, 0.05);
+            background: #FFFFFF;
+            border: 1px solid #F1ECE8;
+            border-radius: 24px;
+            box-shadow: 0 16px 40px rgba(142, 127, 122, 0.04);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 24px 48px rgba(142, 127, 122, 0.07);
+        }
+
+        /* Nav Link Styling - Matched 100% with Dashboard active state */
         .sidebar-active {
-            background: #E88D82;
-            color: white !important;
-            box-shadow: 0 10px 20px rgba(232, 141, 130, 0.2);
+            background: linear-gradient(135deg, #FAF4F2 0%, #F6E6E4 100%) !important;
+            color: #E57C70 !important;
+            font-weight: 700 !important;
+            border: 1px solid rgba(229, 124, 112, 0.15) !important;
         }
 
-        .input-field {
-            background: #F9FAFB;
-            border: 1.5px solid transparent;
-            transition: all 0.3s;
+        .input-premium {
+            background: #FDFDFD;
+            border: 1.5px solid #F1ECE8;
+            transition: all 0.3s ease;
         }
 
-        .input-field:focus {
-            background: white;
-            border-color: #E88D82;
-            box-shadow: 0 0 0 4px rgba(232, 141, 130, 0.1);
+        .input-premium:focus {
+            background: #FFFFFF;
+            border-color: #E57C70;
+            box-shadow: 0 0 0 4px rgba(229, 124, 112, 0.12);
             outline: none;
         }
 
-        /* Utility untuk cetak agar tidak berantakan */
+        /* Optimasi cetak laporan resmi sekolah */
         @media print {
             .no-print { display: none !important; }
-            body { background: white; }
-            .glass-card { box-shadow: none; border: 1px solid #eee; backdrop-filter: none; }
-            main { padding: 0 !important; }
+            body { background: #FFFFFF; color: #000000; }
+            .glass-card { border: 1px solid #E2E8F0; box-shadow: none !important; transform: none !important; background: #FFF; }
+            .print-layout { width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            .print-header { display: block !important; }
+            .print-footer { display: flex !important; }
         }
-
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #FDF8F7; }
-        ::-webkit-scrollbar-thumb { background: #E88D82; border-radius: 10px; }
     </style>
 </head>
-
 <body class="flex min-h-screen">
 
-    <aside class="no-print w-80 bg-white/60 p-8 hidden lg:flex flex-col border-r border-pink-50 sticky top-0 h-screen">
-        <div class="mb-12 px-4">
-            <h1 class="text-3xl font-extrabold text-[#E88D82] italic tracking-tighter">Kas</h1>
-            <p class="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-bold mt-1">Management System</p>
-        </div>
-
-        <nav class="flex-1 space-y-2">
-            <a href="{{ route('bendahara.index') }}" class="flex items-center gap-4 py-4 px-6 text-gray-400 hover:text-[#E88D82] hover:bg-pink-50 rounded-2xl font-bold transition-all">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-                Dashboard
-            </a>
-            <a href="{{ route('bendahara.siswa') }}" class="flex items-center gap-4 py-4 px-6 text-gray-400 hover:text-[#E88D82] hover:bg-pink-50 rounded-2xl font-bold transition-all">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                Data Siswa
-            </a>
-            <a href="{{ route('bendahara.laporan') }}" class="sidebar-active flex items-center gap-4 py-4 px-6 rounded-2xl font-bold transition-all">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                Laporan
-            </a>
-        </nav>
-
-        <div class="bg-gradient-to-br from-pink-50 to-white rounded-[2rem] p-6 border border-pink-100">
-            <div class="flex items-center gap-3 mb-4">
-                <img src="https://ui-avatars.com/api/?name=Bendahara&background=E88D82&color=fff" class="w-10 h-10 rounded-xl shadow-md">
+    <!-- SIDEBAR ARCHITECTURE (NO-PRINT) — 100% MATCHED WITH DASHBOARD WORKSPACE -->
+    <aside class="no-print w-[290px] bg-white p-6 hidden lg:flex flex-col sticky top-0 h-screen justify-between z-50 border-r border-[#F1ECE8]">
+        <div>
+            <!-- Workspace Logo Branding (Matched Architecture) -->
+            <div class="flex items-center gap-3 mb-12 mt-2 px-2">
+                <div class="w-[42px] h-[42px] rounded-2xl flex items-center justify-center shadow-sm bg-[#F6E6E4] text-[#E57C70]">
+                    <i class="bi bi-intersect text-[1.25rem]"></i>
+                </div>
                 <div>
-                    <p class="text-xs font-bold text-gray-800">Bendahara</p>
-                    <p class="text-[10px] text-gray-400">Online</p>
+                    <h1 class="text-base m-0 tracking-tight text-[#1A2130]" style="font-weight: 800; font-size: 1.25rem; letter-spacing: -0.5px;">
+                        Class<span class="text-[#E57C70]">Ledger.</span>
+                    </h1>
+                    <p class="text-[8px] uppercase tracking-widest text-[#A0AEC0] font-extrabold m-0 mt-0.5" style="letter-spacing: 1.8px;">FINANCIAL ECOSYSTEM</p>
                 </div>
             </div>
-            <button class="w-full bg-white text-[#E88D82] border border-pink-100 py-3 rounded-xl text-xs font-bold hover:bg-red-50 hover:text-red-500 transition-all">
-                Logout
+
+            <!-- Navigation Links (Matched Micro-interactions) -->
+            <nav class="space-y-2 flex flex-col">
+                <a href="{{ route('bendahara.index') }}" class="flex items-center py-3.5 px-5 text-[#5A6578] hover:text-[#E57C70] hover:bg-[#F6E6E4] rounded-2xl font-semibold text-[0.92rem] transition-all group">
+                    <i class="bi bi-columns-gap text-[1.1rem] mr-3 transition-transform group-hover:translate-x-1"></i> 
+                    Dashboard
+                </a>
+                <a href="{{ route('bendahara.siswa') }}" class="flex items-center py-3.5 px-5 text-[#5A6578] hover:text-[#E57C70] hover:bg-[#F6E6E4] rounded-2xl font-semibold text-[0.92rem] transition-all group">
+                    <i class="bi bi-person-lines-fill text-[1.1rem] mr-3 transition-transform group-hover:translate-x-1"></i> 
+                    Data Siswa
+                </a>
+                <a href="{{ route('bendahara.laporan') }}" class="sidebar-active flex items-center py-3.5 px-5 rounded-2xl text-[0.92rem] transition-all">
+                    <i class="bi bi-bar-chart-line text-[1.1rem] mr-3"></i> 
+                    Analytics & Laporan
+                </a>
+            </nav>
+        </div>
+
+        <!-- Session User Identity Card -->
+        <div class="p-3 rounded-2xl bg-[#FDFBF9] border border-[#F1ECE8]">
+            <div class="flex items-center gap-3 mb-3">
+                <img src="https://ui-avatars.com/api/?name=Bendahara+Kelas&background=F6E6E4&color=E57C70&bold=true" class="w-10 h-10 rounded-xl">
+                <div class="overflow-hidden">
+                    <p class="text-xs font-bold text-[#1A2130] truncate m-0">Bendahara Kelas</p>
+                    <p class="text-gray-400 m-0 text-[11px]" style="font-size: 11px;">Administrator Mode</p>
+                </div>
+            </div>
+            <button class="w-full bg-white text-[11px] font-bold py-2 rounded-xl border border-[#F1ECE8] text-red-500 hover:bg-red-50 transition-all shadow-none">
+                Logout Session
             </button>
         </div>
     </aside>
 
-    <main class="flex-1 p-6 lg:p-12 overflow-y-auto">
+    <!-- MAIN WORKSPACE -->
+    <main class="print-layout flex-1 p-6 lg:p-14 overflow-y-auto w-full">
         
-        <div class="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4">
+        <!-- INTRO HEADER PANEL -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-10 gap-4">
             <div>
-                <h2 class="text-3xl font-bold text-gray-800 italic">Financial Report</h2>
-                <p class="text-gray-400 text-sm">Rekapitulasi riwayat transaksi masuk dan keluar.</p>
+                <h2 class="text-3xl font-extrabold text-[#1A2130] tracking-tight" style="font-size: 1.85rem; letter-spacing: -0.5px;">Financial Analytics</h2>
+                <p class="text-[#5A6578] text-sm mt-1">Audit berkas rekapitulasi riwayat arus kas periode berjalan.</p>
             </div>
-            <div class="no-print flex items-center gap-3">
-                 <button onclick="window.print()" class="flex items-center gap-2 bg-[#E88D82] text-white px-6 py-4 rounded-2xl font-bold text-xs hover:bg-[#d67d72] transition-all shadow-lg shadow-pink-100">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+            <div class="no-print flex items-center">
+                 <button onclick="window.print()" class="flex items-center gap-2.5 bg-gradient-to-br from-[#EA9389] to-[#E57C70] text-white px-6 py-3.5 rounded-2xl font-bold text-xs hover:opacity-95 transition-all shadow-md shadow-[#E57C70]/20">
+                    <i class="bi bi-printer text-sm"></i>
                     CETAK LAPORAN
                 </button>
             </div>
         </div>
 
-        <section class="no-print glass-card p-8 mb-10 border-t-8 border-pink-200">
-            <form action="{{ route('bendahara.laporan') }}" method="GET" class="flex flex-col md:flex-row items-end gap-6">
+        <!-- FORMAL PRINT EMBEDDED HEADER (ONLY VISIBLE ON PRINT) -->
+        <div class="print-header hidden mb-8 pb-4 border-b-2 border-gray-800">
+            <div class="text-center">
+                <h1 class="text-2xl font-black uppercase tracking-wide text-black">LAPORAN PERTANGGUNGJAWABAN KAS KELAS</h1>
+                <p class="text-xs font-semibold text-gray-600 uppercase mt-1">Sistem Keuangan Digital ClassLedger Platform</p>
+                <p class="text-[11px] text-gray-500 mt-0.5">Periode Buku: {{ date('F', mktime(0, 0, 0, $bulan, 1)) }} {{ $tahun }}</p>
+            </div>
+        </div>
+
+        <!-- FILTER MASTER COMPONENT (NO-PRINT) -->
+        <section class="no-print glass-card p-6 sm:p-8 mb-8">
+            <form action="{{ route('bendahara.laporan') }}" method="GET" class="flex flex-col md:flex-row items-end gap-5">
                 <div class="w-full md:w-1/3">
-                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 block">Pilih Bulan</label>
-                    <select name="bulan" class="input-field w-full p-4 rounded-2xl text-xs font-bold">
+                    <label class="text-[10px] font-extrabold text-[#A0AEC0] uppercase tracking-widest mb-2.5 block px-1" style="letter-spacing: 0.5px;">Matriks Bulan</label>
+                    <select name="bulan" class="input-premium w-full p-3.5 rounded-2xl text-xs font-bold text-[#1A2130]">
                         @foreach(range(1, 12) as $m)
                             <option value="{{ sprintf('%02d', $m) }}" {{ $bulan == $m ? 'selected' : '' }}>
                                 {{ date('F', mktime(0, 0, 0, $m, 1)) }}
@@ -120,78 +170,121 @@
                     </select>
                 </div>
                 <div class="w-full md:w-1/3">
-                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 block">Pilih Tahun</label>
-                    <select name="tahun" class="input-field w-full p-4 rounded-2xl text-xs font-bold">
+                    <label class="text-[10px] font-extrabold text-[#A0AEC0] uppercase tracking-widest mb-2.5 block px-1" style="letter-spacing: 0.5px;">Matriks Tahun</label>
+                    <select name="tahun" class="input-premium w-full p-3.5 rounded-2xl text-xs font-bold text-[#1A2130]">
                         @foreach(range(date('Y')-2, date('Y')) as $y)
                             <option value="{{ $y }}" {{ $tahun == $y ? 'selected' : '' }}>{{ $y }}</option>
                         @endforeach
                     </select>
                 </div>
-                <button type="submit" class="w-full md:w-auto bg-gray-800 text-white px-10 py-4 rounded-2xl font-bold text-xs hover:bg-black transition-all">
-                    FILTER DATA
+                <button type="submit" class="w-full md:w-auto bg-[#1A2130] text-white px-8 py-4 rounded-2xl font-bold text-xs hover:bg-black transition-all">
+                    PROPAGASI FILTER
                 </button>
             </form>
         </section>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
-            <div class="glass-card p-8 border-l-8 border-teal-400">
-                <p class="text-gray-400 font-bold text-[10px] uppercase tracking-widest mb-1">Pemasukan Periode Ini</p>
-                <h3 class="text-xl font-bold text-teal-500 italic tracking-tighter">
-                    Rp {{ number_format($total_masuk, 0, ',', '.') }}
-                </h3>
+        <!-- TRI-GRID DATA LEDGER SUMMARY METRIC — UPGRADED BENTO VERSION -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            
+            <!-- Card Pemasukan Premium -->
+            <div class="glass-card p-6 relative overflow-hidden bg-gradient-to-br from-white to-[#F4FBF7]">
+                <div class="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-emerald-100/40 blur-xl"></div>
+                <div class="relative z-10 flex flex-col justify-between h-full">
+                    <div class="flex items-center justify-between mb-4">
+                        <p class="text-[#A0AEC0] font-extrabold text-[10px] uppercase tracking-widest" style="letter-spacing: 2px;">Total Arus Masuk</p>
+                        <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center border border-emerald-100/60 shadow-sm">
+                            <i class="bi bi-graph-up-arrow text-xs"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-black text-emerald-600 tracking-tight" style="font-weight: 800; tracking-spacing: -1.5px;">
+                            <span class="text-sm font-bold mr-0.5 text-emerald-500/70">Rp</span>{{ number_format($total_masuk, 0, ',', '.') }}
+                        </h3>
+                        <p class="text-[10px] text-emerald-600/60 font-semibold mt-1">Akumulasi dana masuk</p>
+                    </div>
+                </div>
             </div>
-            <div class="glass-card p-8 border-l-8 border-red-400">
-                <p class="text-gray-400 font-bold text-[10px] uppercase tracking-widest mb-1">Pengeluaran Periode Ini</p>
-                <h3 class="text-xl font-bold text-red-500 italic tracking-tighter">
-                    Rp {{ number_format($total_keluar, 0, ',', '.') }}
-                </h3>
+
+            <!-- Card Pengeluaran Premium -->
+            <div class="glass-card p-6 relative overflow-hidden bg-gradient-to-br from-white to-[#FFF5F5]">
+                <div class="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-rose-100/40 blur-xl"></div>
+                <div class="relative z-10 flex flex-col justify-between h-full">
+                    <div class="flex items-center justify-between mb-4">
+                        <p class="text-[#A0AEC0] font-extrabold text-[10px] uppercase tracking-widest" style="letter-spacing: 2px;">Total Pengeluaran</p>
+                        <div class="w-8 h-8 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center border border-rose-100/60 shadow-sm">
+                            <i class="bi bi-graph-down-arrow text-xs"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-black text-rose-500 tracking-tight" style="font-weight: 800; tracking-spacing: -1.5px;">
+                            <span class="text-sm font-bold mr-0.5 text-rose-400/70">Rp</span>{{ number_format($total_keluar, 0, ',', '.') }}
+                        </h3>
+                        <p class="text-[10px] text-rose-500/60 font-semibold mt-1">Alokasi pemakaian dana</p>
+                    </div>
+                </div>
             </div>
-            <div class="glass-card p-8 border-l-8 border-[#E88D82]">
-                <p class="text-gray-400 font-bold text-[10px] uppercase tracking-widest mb-1">Saldo Bersih Periode</p>
-                <h3 class="text-xl font-bold text-[#E88D82] italic tracking-tighter">
-                    Rp {{ number_format($saldo_periode, 0, ',', '.') }}
-                </h3>
+
+            <!-- Card Sisa Saldo / Kas Bersih Premium -->
+            <div class="glass-card p-6 relative overflow-hidden bg-gradient-to-br from-white to-[#FAF4F2] border border-[#E57C70]/10">
+                <div class="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-[#E57C70]/15 blur-xl"></div>
+                <div class="relative z-10 flex flex-col justify-between h-full">
+                    <div class="flex items-center justify-between mb-4">
+                        <p class="text-[#A0AEC0] font-extrabold text-[10px] uppercase tracking-widest" style="letter-spacing: 2px;">Kas Bersih Riil</p>
+                        <div class="w-8 h-8 rounded-xl bg-[#F6E6E4] text-[#E57C70] flex items-center justify-center border border-[#E57C70]/20 shadow-sm">
+                            <i class="bi bi-wallet2 text-xs"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-black text-[#E57C70] tracking-tight" style="font-weight: 800; tracking-spacing: -1.5px;">
+                            <span class="text-sm font-bold mr-0.5 text-[#E57C70]/70">Rp</span>{{ number_format($saldo_periode, 0, ',', '.') }}
+                        </h3>
+                        <p class="text-[10px] text-[#E57C70]/60 font-semibold mt-1">Sisa saldo siap pakai</p>
+                    </div>
+                </div>
             </div>
+
         </div>
 
-        <section class="glass-card p-10">
-            <div class="flex items-center gap-3 mb-10">
-                <div class="w-2 h-8 bg-[#E88D82] rounded-full"></div>
-                <h3 class="font-bold text-xl text-gray-800 italic">Riwayat Transaksi: {{ date('F', mktime(0, 0, 0, $bulan, 1)) }} {{ $tahun }}</h3>
+        <!-- CORE LEDGER AUDIT LOG TABLE -->
+        <section class="glass-card p-6 sm:p-8">
+            <div class="flex items-center gap-2.5 mb-8">
+                <div class="w-1 h-6 bg-[#E57C70] rounded-full"></div>
+                <h3 class="font-extrabold text-base text-[#1A2130]" style="font-weight: 700; letter-spacing: -0.2px;">Buku Kas: {{ date('F', mktime(0, 0, 0, $bulan, 1)) }} {{ $tahun }}</h3>
             </div>
 
             <div class="overflow-x-auto">
-                <table class="w-full text-left">
+                <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="text-gray-400 text-[10px] uppercase font-bold border-b border-gray-50 tracking-[0.15em]">
-                            <th class="pb-6 pl-4">Tanggal</th>
-                            <th class="pb-6">Keterangan</th>
-                            <th class="pb-6">Oleh/Anggota</th>
-                            <th class="pb-6 text-right pr-6">Nominal</th>
+                        <tr class="text-[#A0AEC0] text-[10px] uppercase font-extrabold border-b border-[#F1ECE8] tracking-wider">
+                            <th class="pb-4 pl-2">Tanggal</th>
+                            <th class="pb-4">Keterangan Komoditas</th>
+                            <th class="pb-4">Penanggung Jawab / Subjek</th>
+                            <th class="pb-4 text-right pr-4">Nominal</th>
                         </tr>
                     </thead>
-                    <tbody class="text-sm">
+                    <tbody class="text-[13.5px]">
                         @forelse($laporan as $t)
-                        <tr class="hover:bg-pink-50/30 transition-all border-b border-gray-50/50 group">
-                            <td class="py-5 pl-4 text-gray-400 font-medium">
+                        <tr class="hover:bg-[#FDFBF9] transition-all border-b border-[#F1ECE8]/60 group">
+                            <td class="py-4 pl-2 text-[#5A6578] font-medium">
                                 {{ date('d M Y', strtotime($t->tanggal)) }}
                             </td>
-                            <td class="py-5 font-bold text-gray-700 italic uppercase tracking-tighter">
+                            <td class="py-4 font-bold text-[#1A2130]">
                                 {{ $t->keterangan }}
                             </td>
-                            <td class="py-5 text-gray-500">
-                                {{ $t->user->name ?? 'Kas Umum' }}
+                            <td class="py-4 text-[#5A6578]">
+                                {{ $t->user->name ?? 'Kas Umum (Internal Kelas)' }}
                             </td>
-                            <td class="py-5 text-right pr-6">
-                                <p class="font-black {{ $t->jenis == 'Masuk' ? 'text-teal-500' : 'text-red-400' }} text-base tracking-tighter">
-                                    {{ $t->jenis == 'Masuk' ? '+' : '-' }} Rp {{ number_format($t->nominal, 0, ',', '.') }}
-                                </p>
+                            <td class="py-4 text-right pr-4">
+                                <span class="font-bold {{ $t->jenis == 'Masuk' ? 'text-emerald-600' : 'text-rose-500' }} text-[14.5px]">
+                                    {{ $t->jenis == 'Masuk' ? '+' : '-' }} Rp{{ number_format($t->nominal, 0, ',', '.') }}
+                                </span>
                             </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="text-center py-20">
-                                <p class="text-gray-300 text-sm italic">Tidak ada transaksi pada periode ini...</p>
+                            <td colspan="4" class="text-center py-24">
+                                <div class="text-gray-300 text-2xl mb-2"><i class="bi bi-folder-x"></i></div>
+                                <p class="text-gray-400 text-xs italic font-medium">Arsip data log kosong untuk periode filter ini.</p>
                             </td>
                         </tr>
                         @endforelse
@@ -199,6 +292,21 @@
                 </table>
             </div>
         </section>
+
+        <!-- FORMAL VALIDATION SIGNATURE BLOCK (ONLY VISIBLE ON PRINTED HARDCOPY) -->
+        <div class="print-footer hidden justify-between mt-20 text-xs font-semibold text-black px-10">
+            <div class="text-center">
+                <p class="mb-20">Mengetahui,<br>Wali Kelas</p>
+                <p class="border-b border-black w-40 mx-auto"></p>
+                <p class="text-[10px] text-gray-500 mt-1">NIP. ....................................</p>
+            </div>
+            <div class="text-center">
+                <p class="mb-20">Cirebon, {{ date('d F Y') }}<br>Bendahara Kelas</p>
+                <p class="border-b border-black w-40 mx-auto"></p>
+                <p class="text-[10px] text-gray-500 mt-1">Penanggung Jawab Kas</p>
+            </div>
+        </div>
+
     </main>
 
 </body>
