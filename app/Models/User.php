@@ -5,17 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+<<<<<<< HEAD
     // 1. WAJIB: Kasih tahu Laravel kalau Primary Key kita namanya id_user
     protected $primaryKey = 'id';
+=======
+    protected $primaryKey = 'id'; // Pastikan ini sesuai primary key di tabel users
+>>>>>>> ad41cc6f72428be06f3b5b9f5322077bbec4250b
 
-    /**
-     * 2. WAJIB: Tambahin 'username' di sini supaya bisa disimpan lewat Seeder/Form
-     */
     protected $fillable = [
         'name',
         'username',
@@ -23,22 +25,14 @@ class User extends Authenticatable
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    // ... (hidden & casts tetap sama) ...
 
     /**
-     * Get the attributes that should be cast.
+     * RELASI: User punya banyak Transaksi
      */
-    protected function casts(): array
+    public function transaksi(): HasMany
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        // 'id_user' adalah kolom di tabel transaksis yang merujuk ke 'id' di tabel users
+        return $this->hasMany(Transaksi::class, 'id_user', 'id');
     }
 }

@@ -1,156 +1,367 @@
-bendahara <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bendahara Dashboard - Kas.</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Aesthetic Kas Ledger — Premium Interface</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts (Plus Jakarta Sans) & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FDF8F7; }
-        .glass-card { background: white; border-radius: 28px; border: 1px solid rgba(255, 255, 255, 0.7); box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
-        .sidebar-active { background: #FDE7E4; color: #E88D82; border-radius: 16px; }
-        .btn-pink { background: #E88D82; color: white; transition: all 0.3s; }
-        .btn-pink:hover { background: #d67a6f; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(232, 141, 130, 0.3); }
-        .badge-lunas { background: #E0F9F4; color: #4FD1C5; }
-        .badge-tertunda { background: #FFF5F0; color: #FFB08E; }
+        :root {
+            --bg-base: #FDFBF9;         /* Soft warm ivory / cream */
+            --bg-sidebar: #FFFFFF;
+            --surface: #FFFFFF;
+            --accent-primary: #E57C70;  /* Soft Warm Rose */
+            --accent-secondary: #F6E6E4;/* Very soft nude blush */
+            --text-heading: #1A2130;    /* Deep elegant slate */
+            --text-body: #5A6578;       /* Clean muted grey */
+            --border-color: #F1ECE8;    /* Ultra soft warm border */
+            
+            /* Modern Layered Shadows */
+            --shadow-sm: 0 2px 12px rgba(229, 124, 112, 0.04);
+            --shadow-md: 0 16px 40px rgba(142, 127, 122, 0.06);
+            --shadow-lg: 0 32px 64px rgba(142, 127, 122, 0.08);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-body);
+            min-height: 100vh;
+            letter-spacing: -0.2px;
+        }
+
+        /* Bento-Style Container Card */
+        .bento-card {
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .bento-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(229, 124, 112, 0.25);
+        }
+
+        /* Sidebar Architecture */
+        .sidebar-container {
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            width: 290px;
+            height: 100vh;
+            position: fixed;
+            top: 0; left: 0;
+            z-index: 100;
+        }
+
+        .nav-aesthetic .nav-link {
+            color: var(--text-body);
+            font-weight: 600;
+            font-size: 0.92rem;
+            padding: 14px 20px;
+            border-radius: 16px;
+            margin-bottom: 8px;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-aesthetic .nav-link i {
+            font-size: 1.1rem;
+            transition: transform 0.25s ease;
+        }
+
+        .nav-aesthetic .nav-link:hover {
+            color: var(--accent-primary);
+            background: var(--accent-secondary);
+        }
+
+        .nav-aesthetic .nav-link:hover i {
+            transform: translateX(4px);
+        }
+
+        .nav-aesthetic .nav-link.active {
+            background: linear-gradient(135deg, #FAF4F2 0%, var(--accent-secondary) 100%);
+            color: var(--accent-primary);
+            font-weight: 700;
+            border: 1px solid rgba(229, 124, 112, 0.15);
+        }
+
+        /* Workspace Wrapper */
+        .workspace {
+            margin-left: 290px;
+            padding: 56px;
+            width: calc(100% - 290px);
+        }
+
+        /* Input Controls */
+        .input-premium {
+            background: #FDFDFD !important;
+            border: 1.5px solid var(--border-color) !important;
+            color: var(--text-heading) !important;
+            border-radius: 16px;
+            padding: 14px 18px;
+            font-size: 0.9rem;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .input-premium:focus {
+            background: #FFFFFF !important;
+            border-color: var(--accent-primary) !important;
+            box-shadow: 0 0 0 4px rgba(229, 124, 112, 0.12) !important;
+        }
+
+        /* Button Luxury Minimalist */
+        .btn-luxury {
+            background: linear-gradient(135deg, #EA9389 0%, var(--accent-primary) 100%);
+            color: #FFFFFF !important;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: none;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 10px 24px rgba(229, 124, 112, 0.2);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-luxury:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 32px rgba(229, 124, 112, 0.35);
+            opacity: 0.95;
+        }
+
+        /* Status Pill Circle */
+        .indicator-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        /* Ambient Glow Effect for Balance Card */
+        .glow-orb {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(246,230,228,0.6) 0%, rgba(255,255,255,0) 70%);
+            top: -60px;
+            right: -40px;
+            z-index: 0;
+        }
+
+        /* Responsive Mechanics */
+        @media (max-width: 991.98px) {
+            .sidebar-container { display: none !important; }
+            .workspace { margin-left: 0; width: 100%; padding: 28px; }
+        }
     </style>
 </head>
-<body class="flex min-h-screen">
+<body>
 
-   
+    <!-- SIDEBAR ARCHITECTURE -->
+    <div class="sidebar-container d-flex flex-column justify-content-between p-4">
+        <div>
+            <!-- Workspace Logo Branding -->
+            <div class="d-flex align-items-center gap-3 mb-5 mt-2 px-2">
+                <div class="rounded-4 d-flex align-items-center justify-content-center shadow-sm" style="width: 42px; height: 42px; background: var(--accent-secondary); color: var(--accent-primary);">
+                    <i class="bi bi-intersect fs-5"></i>
+                </div>
+                <div>
+                    <h1 class="h5 m-0 fw-bold tracking-tight" style="color: var(--text-heading); font-weight: 800;">Class<span style="color: var(--accent-primary)">Ledger.</span></h1>
+                    <p class="m-0 text-uppercase tracking-widest" style="font-size: 8px; font-weight: 800; color: #A0AEC0; letter-spacing: 1.8px;">FINANCIAL ECOSYSTEM</p>
+                </div>
+            </div>
 
-    <main class="flex-1 p-6 lg:p-12">
-        @if(session('sukses'))
-        <div class="mb-6 p-4 bg-green-100 text-green-700 rounded-2xl border border-green-200 animate-pulse">
-            {{ session('sukses') }}
+            <!-- Navigation Links -->
+            <nav class="nav nav-pills flex-column nav-aesthetic">
+                <a class="nav-link active" href="{{ route('bendahara.index') }}">
+                    <i class="bi bi-columns-gap me-3"></i> Dashboard
+                </a>
+                <a class="nav-link" href="{{ route('bendahara.siswa') }}">
+                    <i class="bi bi-person-lines-fill me-3"></i> Data Siswa
+                </a>
+                <a class="nav-link" href="{{ route('bendahara.laporan') }}">
+                    <i class="bi bi-bar-chart-line me-3"></i> Analytics & Laporan
+                </a>
+            </nav>
         </div>
+
+        <!-- Session User Identity Card -->
+        <div class="p-3 rounded-4" style="background: var(--bg-base); border: 1px solid var(--border-color)">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <img src="https://ui-avatars.com/api/?name=Bendahara+Kelas&background=F6E6E4&color=E57C70&bold=true" class="rounded-4" style="width: 40px; height: 40px;">
+                <div class="overflow-hidden">
+                    <p class="m-0 fw-bold small text-truncate" style="color: var(--text-heading);">Bendahara Kelas</p>
+                    <p class="m-0 text-muted" style="font-size: 11px;">Administrator Mode</p>
+                </div>
+            </div>
+            <button class="btn btn-sm w-100 btn-light rounded-3 py-2 fw-bold shadow-none" style="font-size: 11px; color: #E53E3E; background: #FFF; border: 1px solid var(--border-color); transition: all 0.2s;">
+                Logout Session
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN WORKSPACE CONTENT -->
+    <div class="workspace">
+        
+        <!-- Header Panel -->
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-5 gap-3">
+            <div>
+                <h2 class="fw-bold m-0" style="color: var(--text-heading); font-weight: 800; font-size: 1.85rem; letter-spacing: -0.5px;">Financial Hub</h2>
+                <p class="text-muted small m-0 mt-1">Kelola sirkulasi kas kelas dengan akurat, transparan, dan teratur.</p>
+            </div>
+            
+            <!-- Date Badge Component -->
+            <div class="d-flex align-items-center gap-2 px-3 py-2 rounded-4" style="background: #FFFFFF; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+                <i class="bi bi-calendar-check" style="color: var(--accent-primary);"></i>
+                <span class="fw-bold uppercase tracking-wider" style="font-size: 11px; color: var(--text-heading);">{{ date('d F Y') }}</span>
+            </div>
+        </div>
+
+        <!-- Success Feedback Toast Alert -->
+        @if(session('sukses'))
+            <div class="alert border-0 rounded-4 p-3 mb-4 d-flex align-items-center gap-3" style="background: #F0FDF4; color: #166534; border: 1px solid #DCFCE7 !important; box-shadow: var(--shadow-sm);">
+                <i class="bi bi-check-circle-fill fs-5 text-success"></i>
+                <span class="small fw-semibold">{{ session('sukses') }}</span>
+            </div>
         @endif
 
-        <header class="flex justify-between items-center mb-12">
-            <div>
-                <h1 class="text-3xl font-bold text-gray-800 italic">Dashboard Kas</h1>
-                <p class="text-gray-400 mt-1">Sistem Manajemen Keuangan Digital</p>
-            </div>
-            <div class="flex items-center gap-6 bg-white p-2 pr-6 rounded-full shadow-sm">
-                <div class="text-right hidden sm:block">
-                    <p class="text-sm font-bold text-gray-800 italic uppercase">Bendahara</p>
-                </div>
-                <img src="https://ui-avatars.com/api/?name=Bendahara&background=FDE7E4&color=E88D82" class="w-12 h-12 rounded-full border-2 border-white shadow-md" alt="User">
-            </div>
-        </header>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-            <div class="glass-card p-8 relative overflow-hidden bg-gradient-to-br from-white to-pink-50">
-                <p class="text-gray-400 font-bold text-sm mb-4">Total Saldo</p>
-                <h2 class="text-4xl font-bold text-gray-800 tracking-tight">Rp {{ number_format($saldo_akhir, 0, ',', '.') }}</h2>
-                <div class="mt-8">
-                    <svg viewBox="0 0 100 30" class="w-full h-12 text-teal-400 fill-none stroke-current stroke-2">
-                        <path d="M0 25C20 25 30 5 50 15C70 25 80 5 100 10" stroke-linecap="round"/>
-                    </svg>
-                </div>
-            </div>
-
-            <div class="glass-card p-8 lg:col-span-2">
-                <h3 class="font-bold text-gray-800 mb-6 italic">Input Transaksi Baru</h3>
-                <form action="{{ route('bendahara.store') }}" method="POST" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    @csrf
-                    <div class="space-y-1">
-                        <label class="text-[10px] font-bold text-gray-400 uppercase ml-2">Pilih Siswa</label>
-                        <select name="id_user" class="w-full p-4 bg-gray-50 rounded-2xl outline-none border-none focus:ring-2 focus:ring-pink-100 transition">
-                            <option value="">-- Pengeluaran Umum --</option>
-                            @foreach($daftar_siswa as $siswa)
-                                <option value="{{ $siswa->id_user }}">{{ $siswa->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="space-y-1">
-                        <label class="text-[10px] font-bold text-gray-400 uppercase ml-2">Nominal Rp</label>
-                        <input type="number" name="nominal" placeholder="5.000" class="w-full p-4 bg-gray-50 rounded-2xl outline-none border-none focus:ring-2 focus:ring-pink-100" required>
-                    </div>
-                    <div class="space-y-1">
-                        <label class="text-[10px] font-bold text-gray-400 uppercase ml-2">Kategori</label>
-                        <select name="jenis" class="w-full p-4 bg-gray-50 rounded-2xl outline-none border-none focus:ring-2 focus:ring-pink-100">
-                            <option value="Masuk">Uang Masuk</option>
-                            <option value="Keluar">Uang Keluar</option>
-                        </select>
-                    </div>
-                    <div class="space-y-1">
-                        <label class="text-[10px] font-bold text-gray-400 uppercase ml-2">Keterangan & Tanggal</label>
-                        <div class="flex gap-2">
-                            <input type="text" name="keterangan" placeholder="Bayar Kas" class="w-2/3 p-4 bg-gray-50 rounded-2xl outline-none border-none focus:ring-2 focus:ring-pink-100" required>
-                            <input type="date" name="tanggal" value="{{ date('Y-m-d') }}" class="w-1/3 p-4 bg-gray-50 rounded-2xl outline-none border-none text-xs" required>
+        <!-- Layout Grid Area -->
+        <div class="row g-4">
+            
+            <!-- LEFT AREA COMPONENT (FORM & ACCUMULATOR) -->
+            <div class="col-12 col-lg-8 d-flex flex-column gap-4">
+                
+                <!-- Financial Master Metrics Display -->
+                <div class="row g-4">
+                    <!-- Main Ledger Capital Card -->
+                    <div class="col-12">
+                        <div class="bento-card p-4 p-sm-5 position-relative overflow-hidden" style="background: linear-gradient(135deg, #FFFFFF 0%, #FFFDFD 100%);">
+                            <div class="glow-orb"></div>
+                            <div class="position-relative" style="z-index: 1;">
+                                <p class="fw-bold text-uppercase tracking-widest m-0" style="font-size: 10px; color: #A0AEC0; letter-spacing: 2px;">Akumulasi Saldo Aktif</p>
+                                <h2 class="m-0 mt-3" style="color: var(--text-heading); font-weight: 800; font-size: 3.25rem; letter-spacing: -1.5px;">
+                                    <span style="color: var(--accent-primary); font-size: 1.6rem; vertical-align: middle;" class="fw-bold me-1">Rp</span>{{ number_format($saldo_akhir, 0, ',', '.') }}
+                                </h2>
+                                <div class="d-flex align-items-center gap-2 mt-4 pt-3 border-top" style="border-color: var(--border-color) !important;">
+                                    <div class="rounded-circle bg-success" style="width: 6px; height: 6px; animation: pulse 2s infinite;"></div>
+                                    <span class="text-muted" style="font-size: 11px;">Data kas tervalidasi secara *real-time* oleh sistem</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <button type="submit" class="sm:col-span-2 btn-pink p-4 rounded-2xl font-bold text-sm tracking-widest uppercase mt-2">Simpan Transaksi</button>
-                </form>
-            </div>
-        </div>
+                </div>
 
-        <section class="glass-card p-8 overflow-x-auto">
-            <div class="flex justify-between items-center mb-8">
-                <h3 class="text-xl font-bold text-gray-800 italic">Transaksi Terkini</h3>
-                <div class="bg-gray-50 px-6 py-2 rounded-full border border-gray-100 flex items-center gap-2">
-                    <span class="text-xs text-gray-300 italic">Daftar semua riwayat kas</span>
+                <!-- Transaction Insertion Core Form -->
+                <div class="bento-card p-4 p-sm-5">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <div class="rounded-pill" style="width: 5px; height: 18px; background: var(--accent-primary);"></div>
+                        <h3 class="h6 m-0 fw-bold" style="color: var(--text-heading); font-weight: 700; letter-spacing: -0.2px;">Pencatatan Log Transaksi</h3>
+                    </div>
+
+                    <form action="{{ route('bendahara.store') }}" method="POST" class="row g-4">
+                        @csrf
+                        <div class="col-md-6 d-flex flex-column gap-1">
+                            <label class="fw-bold text-uppercase" style="font-size: 10px; color: #A0AEC0; letter-spacing: 0.5px; padding-left: 2px;">Penanggung Jawab / Siswa</label>
+                            <select name="id_user" class="form-select input-premium shadow-none">
+                                <option value="">Kategori Kas Umum (non-siswa)</option>
+                                @foreach($daftar_siswa as $siswa)
+                                    <option value="{{ $siswa->id_user }}">{{ $siswa->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 d-flex flex-column gap-1">
+                            <label class="fw-bold text-uppercase" style="font-size: 10px; color: #A0AEC0; letter-spacing: 0.5px; padding-left: 2px;">Nominal Dana (IDR)</label>
+                            <input type="number" name="nominal" placeholder="Masukan nominal angka" class="form-control input-premium shadow-none" required>
+                        </div>
+
+                        <div class="col-md-6 d-flex flex-column gap-1">
+                            <label class="fw-bold text-uppercase" style="font-size: 10px; color: #A0AEC0; letter-spacing: 0.5px; padding-left: 2px;">Jenis Aliran Arus</label>
+                            <select name="jenis" class="form-select input-premium shadow-none">
+                                <option value="Masuk">Pemasukan Dana</option>
+                                <option value="Keluar">Pengeluaran Dana</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 d-flex flex-column gap-1">
+                            <label class="fw-bold text-uppercase" style="font-size: 10px; color: #A0AEC0; letter-spacing: 0.5px; padding-left: 2px;">Tanggal Buku Matriks</label>
+                            <input type="date" name="tanggal" value="{{ date('Y-m-d') }}" class="form-control input-premium shadow-none" required>
+                        </div>
+
+                        <div class="col-12 d-flex flex-column gap-1">
+                            <label class="fw-bold text-uppercase" style="font-size: 10px; color: #A0AEC0; letter-spacing: 0.5px; padding-left: 2px;">Deskripsi Keperluan</label>
+                            <input type="text" name="keterangan" placeholder="Tulis rincian atau alasan alokasi dana..." class="form-control input-premium shadow-none" required>
+                        </div>
+
+                        <div class="col-12 mt-4">
+                            <button type="submit" class="btn btn-luxury w-100 shadow-none">Simpan Transaksi</button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
-            <table class="w-full text-left">
-                <thead>
-                    <tr class="text-gray-400 text-[12px] border-b border-gray-50">
-                        <th class="pb-6 font-medium pl-4">NAMA SISWA</th>
-                        <th class="pb-6 font-medium">KETERANGAN</th>
-                        <th class="pb-6 font-medium">STATUS</th>
-                        <th class="pb-6 font-medium">TANGGAL</th>
-                        <th class="pb-6 font-medium">JUMLAH</th>
-                        <th class="pb-6 text-right pr-4 font-medium">AKSI</th>
-                    </tr>
-                </thead>
-                <tbody class="text-sm">
-                    @foreach($semua_transaksi as $item)
-                    <tr class="group hover:bg-gray-50/50 transition-colors">
-                        <td class="py-6 border-b border-gray-50/50 pl-4">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden shadow-sm">
-                                    <img src="https://ui-avatars.com/api/?name={{ $item->user ? $item->user->name : 'Umum' }}&background=E88D82&color=fff" alt="">
+            <!-- RIGHT AREA COMPONENT (AUDIT FEED STREAM) -->
+            <div class="col-12 col-lg-4">
+                <div class="bento-card p-4 d-flex flex-column justify-content-between h-100">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center mb-4 px-1">
+                            <h3 class="h6 m-0 fw-bold" style="color: var(--text-heading); font-weight: 700;">Riwayat Aktivitas</h3>
+                            <a href="{{ route('bendahara.laporan') }}" class="text-decoration-none fw-bold text-uppercase" style="color: var(--accent-primary); font-size: 10px; letter-spacing: 0.5px;">Semua Data</a>
+                        </div>
+
+                        <!-- Stream Nodes Block -->
+                        <div class="d-flex flex-column gap-2">
+                            @foreach($semua_transaksi->take(5) as $item)
+                            <div class="d-flex align-items-center justify-content-between p-2 rounded-4" style="background: transparent;">
+                                <div class="d-flex align-items-center gap-3 min-w-0">
+                                    
+                                    <!-- Context Status Pill Indicators -->
+                                    <div class="indicator-icon flex-shrink-0" style="background-color: {{ $item->jenis == 'Masuk' ? '#F4FBF7' : '#FFF5F5' }}; color: {{ $item->jenis == 'Masuk' ? '#16A34A' : '#DC2626' }}; border: 1px solid {{ $item->jenis == 'Masuk' ? '#E6F4EA' : '#FEE2E2' }};">
+                                        <i class="bi {{ $item->jenis == 'Masuk' ? 'bi-arrow-up-right-circle' : 'bi-arrow-down-left-circle' }}"></i>
+                                    </div>
+                                    <div class="text-truncate">
+                                        <p class="m-0 fw-bold small text-truncate" style="color: var(--text-heading); font-size: 0.88rem;">{{ $item->user ? $item->user->name : 'Kas Umum' }}</p>
+                                        <p class="m-0 text-muted text-truncate" style="font-size: 11px; margin-top: 1px;">{{ $item->keterangan }}</p>
+                                    </div>
                                 </div>
-                                <p class="font-bold text-gray-700 capitalize">{{ $item->user ? $item->user->name : 'Umum' }}</p>
+                                <div class="text-end flex-shrink-0 ps-2">
+                                    <p class="m-0 fw-bold small" style="color: {{ $item->jenis == 'Masuk' ? '#16A34A' : '#DC2626' }}; font-size: 0.88rem;">
+                                        {{ $item->jenis == 'Masuk' ? '+' : '-' }}{{ number_format($item->nominal, 0, ',', '.') }}
+                                    </p>
+                                    <p class="m-0 text-muted" style="font-size: 9px; margin-top: 2px; font-weight: 600;">{{ date('d M', strtotime($item->tanggal)) }}</p>
+                                </div>
                             </div>
-                        </td>
-                        <td class="py-6 border-b border-gray-50/50 text-gray-400 italic">
-                            {{ $item->keterangan }}
-                        </td>
-                        <td class="py-6 border-b border-gray-50/50">
-                            <span class="px-4 py-1 rounded-full text-[10px] font-bold uppercase {{ $item->jenis == 'Masuk' ? 'badge-lunas' : 'badge-tertunda' }}">
-                                {{ $item->jenis == 'Masuk' ? 'Masuk' : 'Keluar' }}
-                            </span>
-                        </td>
-                        <td class="py-6 border-b border-gray-50/50 text-gray-400">
-                            {{ date('d M Y', strtotime($item->tanggal)) }}
-                        </td>
-                        <td class="py-6 border-b border-gray-50/50 font-bold text-gray-800">
-                            {{ number_format($item->nominal, 0, ',', '.') }}
-                        </td>
-                        <td class="py-6 border-b border-gray-50/50 text-right pr-4">
-                            <div class="flex justify-end gap-3">
-                                <a href="{{ route('bendahara.show', $item->id_transaksi) }}" class="bg-gray-100 text-gray-500 px-4 py-1 rounded-lg text-[10px] font-bold hover:bg-pink-100 hover:text-[#E88D82] transition shadow-sm uppercase">Detail</a>
-                                
-                                <form action="{{ route('bendahara.destroy', $item->id_transaksi) }}" method="POST" onsubmit="return confirm('Hapus data transaksi ini?')">
-                                    @csrf 
-                                    @method('DELETE')
-                                    <button type="submit" class="w-6 h-6 flex items-center justify-center text-gray-300 hover:text-red-500 transition-colors">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                    </button>
-                                </form>
+                            @endforeach
+                        </div>
+
+                        <!-- Empty Placeholder Node state -->
+                        @if($semua_transaksi->isEmpty())
+                            <div class="text-center py-5 my-5">
+                                <div class="text-muted fs-3 mb-2"><i class="bi bi-envelope-open" style="color: var(--accent-primary); opacity: 0.6;"></i></div>
+                                <p class="text-muted small m-0" style="font-style: italic;">Belum ada arus kas terdaftar.</p>
                             </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </section>
-    </main>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
