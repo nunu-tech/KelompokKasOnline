@@ -11,14 +11,14 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     // 1. WAJIB: Kasih tahu Laravel kalau Primary Key kita namanya id_user
-    protected $primaryKey = 'id_user';
+    protected $primaryKey = 'id';
 
     /**
      * 2. WAJIB: Tambahin 'username' di sini supaya bisa disimpan lewat Seeder/Form
      */
     protected $fillable = [
         'name',
-        'username', 
+        'username',
         'email',
         'password',
     ];
