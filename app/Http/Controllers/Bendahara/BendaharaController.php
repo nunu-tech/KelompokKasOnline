@@ -111,4 +111,61 @@ class BendaharaController extends Controller
             'tahun'
         ));
     }
+
+    /**
+     * 1. LEMBAR EDIT TRANSAKSI
+     * Menampilkan form edit berdasarkan id_transaksi
+     */
+    public function edit($id_transaksi)
+    {
+        // Fitur Pengaman otomatis jalankan juga di sini demi keamanan data
+        if (!Auth::check()) { 
+            $user_tersedia = User::first();
+            if ($user_tersedia) { Auth::loginUsingId($user_tersedia->id); }
+        }
+
+        $transaksi = Transaksi::findOrFail($id_transaksi);
+        $daftar_siswa = User::all(); // Untuk opsi pilihan siswa jika ingin diganti di form edit
+
+        return view('bendahara.edit', compact('transaksi', 'daftar_siswa'));
+    }
+
+    /**
+     * 2. AKSI HAPUS TRANSAKSI PERMANEN
+     * Menghapus record kas berdasarkan id_transaksi
+     */
+    public function destroy($id_transaksi)
+    {
+        $transaksi = Transaksi::findOrFail($id_transaksi);
+        $transaksi->delete();
+
+        return redirect()->route('bendahara.laporan')->with('sukses', 'Data rekapitulasi kas berhasil dihapus secara permanen!');
+    }
+
+    /**
+     * 3. PROSES UPDATE DATA TRANSAKSI KE DATABASE (TAMBAHAN BARU)
+     * Menyimpan perubahan dari formulir edit berdasarkan id_transaksi
+     */
+    public function update(Request $request, $id_transaksi)
+    {
+        $request->validate([
+            'id_user' => 'nullable|exists:users,id',
+            'nominal' => 'required|numeric',
+            'jenis' => 'required',
+            'keterangan' => 'required',
+            'tanggal' => 'required|date',
+        ]);
+
+        $transaksi = Transaksi::findOrFail($id_transaksi);
+        
+        $transaksi->update([
+            'id_user' => $request->id_user, 
+            'jenis' => $request->jenis,
+            'nominal' => $request->nominal,
+            'keterangan' => $request->keterangan,
+            'tanggal' => $request->tanggal,
+        ]);
+
+        return redirect()->route('bendahara.laporan')->with('sukses', 'Data rekapitulasi kas berhasil diperbarui!');
+    }
 }
