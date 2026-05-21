@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\WaliKelas\WaliKelasController;
+use App\Http\Controllers\WaliKelas\KasController;
 use App\Http\Controllers\Bendahara\BendaharaController;
 
 
@@ -32,5 +33,8 @@ Route::prefix('bendahara')->group(function () {
 
     // 7. Detail transaksi (Tetap di paling bawah)
     Route::get('/{id}', [BendaharaController::class, 'show'])->name('bendahara.show');
+
+    Route::get('/kas', [KasController::class, 'index'])
+    ->name('kas.index');
 
 });

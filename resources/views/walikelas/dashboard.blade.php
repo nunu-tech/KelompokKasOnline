@@ -11,9 +11,10 @@
                 Pantau perputaran kas kelas 12-MIPA 1 dengan mudah hari ini. Semua data pembayaran, tunggakan, dan laporan keuangan telah tersinkronisasi secara otomatis.
             </p>
             <div class="flex gap-3 pt-2">
-                <button class="px-5 py-2.5 bg-darkJet text-white text-sm font-medium rounded-xl hover:scale-[1.02] transition-all shadow-md shadow-darkJet/10">
-                    Kelola Kas
-                </button>
+                <a href="{{ route('kas.index') }}"
+                        class="px-5 py-2.5 bg-darkJet text-white text-sm font-medium rounded-xl hover:scale-[1.02] transition-all shadow-md shadow-darkJet/10">
+                            Kelola Kas
+                </a>
                 <button class="px-5 py-2.5 border border-darkJet/20 text-darkJet text-sm font-medium rounded-xl hover:bg-darkJet/5 transition-all">
                     Lihat Laporan
                 </button>
