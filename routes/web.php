@@ -2,10 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\WaliKelas\WaliKelasController;
 use App\Http\Controllers\Bendahara\BendaharaController;
 
+
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-Route::get('walikelas/dashboard', [DashboardController::class, 'index'])->name('walikelas.dashboard');
+Route::get('walikelas/dashboard', [WaliKelasController::class, 'index'])->name('walikelas.dashboard');
 
 // Group rute Bendahara
 Route::prefix('bendahara')->group(function () {
