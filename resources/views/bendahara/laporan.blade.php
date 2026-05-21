@@ -260,6 +260,7 @@
                             <th class="pb-4">Keterangan Komoditas</th>
                             <th class="pb-4">Penanggung Jawab / Subjek</th>
                             <th class="pb-4 text-right pr-4">Nominal</th>
+                            <th class="pb-4 text-center pr-2 no-print w-32">Tindakan Berkas</th>
                         </tr>
                     </thead>
                     <tbody class="text-[13.5px]">
@@ -279,10 +280,27 @@
                                     {{ $t->jenis == 'Masuk' ? '+' : '-' }} Rp{{ number_format($t->nominal, 0, ',', '.') }}
                                 </span>
                             </td>
+                            <td class="py-4 text-center pr-2 no-print">
+                                <div class="flex items-center justify-center gap-2">
+                                    <!-- 🌟 EDIT TRIGGER USING ID_TRANSAKSI -->
+                                    <a href="{{ route('bendahara.transaksi.edit', $t->id_transaksi) }}" class="w-8 h-8 rounded-lg bg-gray-50 text-gray-500 border border-gray-100 hover:text-[#E57C70] hover:bg-[#FAF4F2] hover:border-[#E57C70]/30 flex items-center justify-center transition-all shadow-sm" title="Ubah Data Log">
+                                        <i class="bi bi-pencil-square text-xs"></i>
+                                    </a>
+                                    
+                                    <!-- 🌟 DELETE FORM USING ID_TRANSAKSI -->
+                                    <form action="{{ route('bendahara.transaksi.destroy', $t->id_transaksi) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data rekap kas ini secara permanen?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="w-8 h-8 rounded-lg bg-gray-50 text-gray-400 border border-gray-100 hover:text-red-500 hover:bg-red-50 hover:border-red-200 flex items-center justify-center transition-all shadow-sm" title="Hapus Data Log">
+                                            <i class="bi bi-trash3 text-xs"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="text-center py-24">
+                            <td colspan="5" class="text-center py-24">
                                 <div class="text-gray-300 text-2xl mb-2"><i class="bi bi-folder-x"></i></div>
                                 <p class="text-gray-400 text-xs italic font-medium">Arsip data log kosong untuk periode filter ini.</p>
                             </td>
