@@ -1,6 +1,25 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+<<<<<<< HEAD
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
+=======
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Bendahara\BendaharaController;
 
@@ -34,3 +53,4 @@ Route::prefix('bendahara')->group(function () {
     Route::get('/{id}', [BendaharaController::class, 'show'])->name('bendahara.show');
 
 });
+>>>>>>> ad41cc6f72428be06f3b5b9f5322077bbec4250b
