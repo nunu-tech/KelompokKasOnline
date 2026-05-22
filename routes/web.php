@@ -21,7 +21,7 @@ require __DIR__.'/auth.php';
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\WaliKelas\WaliKelasController;
-use App\Http\Controllers\WaliKelas\KasController;
+use App\Http\Controllers\WaliKelas\LaporanController;
 use App\Http\Controllers\Bendahara\BendaharaController;
 
 // Rute Admin
@@ -29,8 +29,13 @@ Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('adm
 
 // Rute Wali Kelas
 Route::get('walikelas/dashboard', [WaliKelasController::class, 'index'])->name('walikelas.dashboard');
-// Kas milik Wali Kelas dipindah ke sini agar terpisah dari bendahara
-Route::get('/kas', [KasController::class, 'index'])->name('kas.index'); 
+
+Route::prefix('walikelas')->group(function () {
+
+    Route::get('/laporan', [LaporanController::class, 'index'])
+        ->name('walikelas.laporan');
+
+});
 
 // Group rute Bendahara
 Route::prefix('bendahara')->group(function () {
