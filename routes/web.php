@@ -21,6 +21,7 @@ require __DIR__.'/auth.php';
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\WaliKelas\WaliKelasController;
+use App\Http\Controller\Siswa;
 use App\Http\Controllers\WaliKelas\LaporanController;
 use App\Http\Controllers\Bendahara\BendaharaController;
 
@@ -34,6 +35,8 @@ Route::prefix('walikelas')->group(function () {
 
     Route::get('/laporan', [LaporanController::class, 'index'])
         ->name('walikelas.laporan');
+
+    Route::resource('siswa', SiswaController::class);
 
 });
 
