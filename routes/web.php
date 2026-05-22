@@ -3,9 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -21,16 +19,17 @@ require __DIR__.'/auth.php';
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\WaliKelas\WaliKelasController;
-use App\Http\Controllers\WaliKelas\KasController;
 use App\Http\Controllers\Bendahara\BendaharaController;
+use App\Http\Controllers\admin\UserController;
 
 // Rute Admin
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+// Rute untuk membuka halaman data siswa
+Route::get('/admin/user', [UserController::class, 'index']);
 
 // Rute Wali Kelas
 Route::get('walikelas/dashboard', [WaliKelasController::class, 'index'])->name('walikelas.dashboard');
-// Kas milik Wali Kelas dipindah ke sini agar terpisah dari bendahara
-Route::get('/kas', [KasController::class, 'index'])->name('kas.index'); 
+
 
 // Group rute Bendahara
 Route::prefix('bendahara')->group(function () {

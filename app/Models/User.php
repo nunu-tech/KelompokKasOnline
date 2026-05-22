@@ -5,34 +5,48 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasMany; // Pastikan ini tetap ada untuk relasi
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-<<<<<<< HEAD
-    // 1. WAJIB: Kasih tahu Laravel kalau Primary Key kita namanya id_user
-    protected $primaryKey = 'id';
-=======
-    protected $primaryKey = 'id'; // Pastikan ini sesuai primary key di tabel users
->>>>>>> ad41cc6f72428be06f3b5b9f5322077bbec4250b
+    // 1. Primary Key disesuaikan dengan ERD kamu
+    protected $primaryKey = 'id_user';
 
+    // 2. Kolom-kolom disesuaikan dengan tabel users yang baru
     protected $fillable = [
-        'name',
+        'id_kelas',
+        'nama_lengkap', // Menggantikan 'name'
+        'kelamin', 
         'username',
         'email',
         'password',
+        'id_role',
     ];
 
-    // ... (hidden & casts tetap sama) ...
+    // 3. Menyembunyikan data sensitif saat data dipanggil
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    // 4. Bawaan keamanan Laravel
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
 
     /**
      * RELASI: User punya banyak Transaksi
      */
     public function transaksi(): HasMany
     {
-        // 'id_user' adalah kolom di tabel transaksis yang merujuk ke 'id' di tabel users
-        return $this->hasMany(Transaksi::class, 'id_user', 'id');
+        // Parameter: (Model Tujuan, Foreign Key di tabel tujuan, Local Key di tabel saat ini)
+        // Karena Primary Key kita sekarang 'id_user', maka diubah menjadi seperti ini:
+        return $this->hasMany(Transaksi::class, 'id_user', 'id_user');
     }
 }

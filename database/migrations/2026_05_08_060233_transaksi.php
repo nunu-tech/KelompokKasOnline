@@ -17,13 +17,13 @@ return new class extends Migration
 
             // Bendahara
             $table->foreignId('id_bendahara')
-                  ->constrained('users', 'id')
+                  ->constrained('users', 'id_user')
                   ->onDelete('cascade');
 
             // Siswa
             $table->foreignId('id_user')
                   ->nullable()
-                  ->constrained('users', 'id')
+                  ->constrained('users', 'id_user')
                   ->onDelete('cascade');
 
             $table->enum('jenis', ['Masuk', 'Keluar']);
