@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\WaliKelas\WaliKelasController;
 use App\Http\Controller\WaliKelas\SiswaController;
 use App\Http\Controllers\WaliKelas\LaporanController;
 use App\Http\Controllers\Bendahara\BendaharaController;
 use App\Http\Controllers\admin\UserController;
+
 
 
 
@@ -22,6 +24,11 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Bendahara\BendaharaController;
+
 
 
 
@@ -70,7 +77,20 @@ Route::prefix('bendahara')->group(function () {
     // 7. Hapus transaksi
     Route::delete('/hapus/{id}', [BendaharaController::class, 'destroy'])->name('bendahara.transaksi.destroy');
 
+
     // 8. Detail transaksi (Tetap di paling bawah grup bendahara)
+
+    //  RUTE BARU: 8. Halaman Antrean Verifikasi Setoran Siswa
+    Route::get('/verifikasi', [BendaharaController::class, 'verifikasi'])->name('bendahara.verifikasi');
+
+    //  RUTE BARU: 9. Proses Verifikasi / Menyetujui Pembayaran
+    Route::patch('/verifikasi/{id}/setujui', [BendaharaController::class, 'setujui'])->name('bendahara.setujui');
+
+    //  RUTE BARU: 10. Proses Menolak Pembayaran yang Bermasalah
+    Route::patch('/verifikasi/{id}/tolak', [BendaharaController::class, 'tolak'])->name('bendahara.tolak');
+
+    // 8. Detail transaksi (Tetap di paling bawah agar tidak bentrok dengan parameter rute lain)
+
     Route::get('/{id}', [BendaharaController::class, 'show'])->name('bendahara.show');
 
 });

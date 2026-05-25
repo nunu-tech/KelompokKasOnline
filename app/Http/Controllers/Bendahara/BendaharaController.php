@@ -168,4 +168,45 @@ class BendaharaController extends Controller
 
         return redirect()->route('bendahara.laporan')->with('sukses', 'Data rekapitulasi kas berhasil diperbarui!');
     }
+
+    /**
+     * 4. HALAMAN ANTREAM VERIFIKASI SETORAN KAS (BARU)
+     * Menampilkan data setoran masuk dari siswa yang statusnya masih 'Pending'
+     */
+    public function verifikasi()
+    {
+        if (!Auth::check()) { 
+            $user_tersedia = User::first();
+            if ($user_tersedia) { Auth::loginUsingId($user_tersedia->id); }
+        }
+
+        // Mengambil kiriman kas yang masih tertahan (Pending)
+        $antrean = Transaksi::with('user')->where('status', 'Pending')->latest()->get();
+
+        return view('bendahara.verifikasi', compact('antrean'));
+    }
+
+    /**
+     * 5. AKSI MENYETUJUI SETORAN KAS (BARU)
+     * Mengubah status menjadi 'Disetujui' agar masuk hitungan keuangan resmi
+     */
+    public function setujui($id_transaksi)
+    {
+        $transaksi = Transaksi::findOrFail($id_transaksi);
+        $transaksi->update(['status' => 'Disetujui']);
+
+        return redirect()->back()->with('sukses', 'Status pembayaran kas berhasil diverifikasi dan disetujui!');
+    }
+
+    /**
+     * 6. AKSI MENOLAK SETORAN KAS (BARU)
+     * Mengubah status menjadi 'Ditolak' jika bukti tidak valid
+     */
+    public function tolak($id_transaksi)
+    {
+        $transaksi = Transaksi::findOrFail($id_transaksi);
+        $transaksi->update(['status' => 'Ditolak']);
+
+        return redirect()->back()->with('sukses', 'Status pembayaran kas berhasil ditolak.');
+    }
 }

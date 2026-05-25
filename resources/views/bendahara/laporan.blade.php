@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laporan Keuangan — ClassLedger Premium</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
@@ -82,10 +80,8 @@
 </head>
 <body class="flex min-h-screen">
 
-    <!-- SIDEBAR ARCHITECTURE (NO-PRINT) — 100% MATCHED WITH DASHBOARD WORKSPACE -->
     <aside class="no-print w-[290px] bg-white p-6 hidden lg:flex flex-col sticky top-0 h-screen justify-between z-50 border-r border-[#F1ECE8]">
         <div>
-            <!-- Workspace Logo Branding (Matched Architecture) -->
             <div class="flex items-center gap-3 mb-12 mt-2 px-2">
                 <div class="w-[42px] h-[42px] rounded-2xl flex items-center justify-center shadow-sm bg-[#F6E6E4] text-[#E57C70]">
                     <i class="bi bi-intersect text-[1.25rem]"></i>
@@ -98,7 +94,6 @@
                 </div>
             </div>
 
-            <!-- Navigation Links (Matched Micro-interactions) -->
             <nav class="space-y-2 flex flex-col">
                 <a href="{{ route('bendahara.index') }}" class="flex items-center py-3.5 px-5 text-[#5A6578] hover:text-[#E57C70] hover:bg-[#F6E6E4] rounded-2xl font-semibold text-[0.92rem] transition-all group">
                     <i class="bi bi-columns-gap text-[1.1rem] mr-3 transition-transform group-hover:translate-x-1"></i> 
@@ -112,10 +107,13 @@
                     <i class="bi bi-bar-chart-line text-[1.1rem] mr-3"></i> 
                     Analytics & Laporan
                 </a>
+                <a href="{{ route('bendahara.verifikasi') }}" class="flex items-center py-3.5 px-5 text-[#5A6578] hover:text-[#E57C70] hover:bg-[#F6E6E4] rounded-2xl font-semibold text-[0.92rem] transition-all group">
+                    <i class="bi bi-shield-check text-[1.1rem] mr-3 transition-transform group-hover:translate-x-1"></i> 
+                    Verifikasi Kas
+                </a>
             </nav>
         </div>
 
-        <!-- Session User Identity Card -->
         <div class="p-3 rounded-2xl bg-[#FDFBF9] border border-[#F1ECE8]">
             <div class="flex items-center gap-3 mb-3">
                 <img src="https://ui-avatars.com/api/?name=Bendahara+Kelas&background=F6E6E4&color=E57C70&bold=true" class="w-10 h-10 rounded-xl">
@@ -130,10 +128,8 @@
         </div>
     </aside>
 
-    <!-- MAIN WORKSPACE -->
     <main class="print-layout flex-1 p-6 lg:p-14 overflow-y-auto w-full">
         
-        <!-- INTRO HEADER PANEL -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-10 gap-4">
             <div>
                 <h2 class="text-3xl font-extrabold text-[#1A2130] tracking-tight" style="font-size: 1.85rem; letter-spacing: -0.5px;">Financial Analytics</h2>
@@ -147,7 +143,6 @@
             </div>
         </div>
 
-        <!-- FORMAL PRINT EMBEDDED HEADER (ONLY VISIBLE ON PRINT) -->
         <div class="print-header hidden mb-8 pb-4 border-b-2 border-gray-800">
             <div class="text-center">
                 <h1 class="text-2xl font-black uppercase tracking-wide text-black">LAPORAN PERTANGGUNGJAWABAN KAS KELAS</h1>
@@ -156,7 +151,6 @@
             </div>
         </div>
 
-        <!-- FILTER MASTER COMPONENT (NO-PRINT) -->
         <section class="no-print glass-card p-6 sm:p-8 mb-8">
             <form action="{{ route('bendahara.laporan') }}" method="GET" class="flex flex-col md:flex-row items-end gap-5">
                 <div class="w-full md:w-1/3">
@@ -183,10 +177,8 @@
             </form>
         </section>
 
-        <!-- TRI-GRID DATA LEDGER SUMMARY METRIC — UPGRADED BENTO VERSION -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             
-            <!-- Card Pemasukan Premium -->
             <div class="glass-card p-6 relative overflow-hidden bg-gradient-to-br from-white to-[#F4FBF7]">
                 <div class="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-emerald-100/40 blur-xl"></div>
                 <div class="relative z-10 flex flex-col justify-between h-full">
@@ -205,7 +197,6 @@
                 </div>
             </div>
 
-            <!-- Card Pengeluaran Premium -->
             <div class="glass-card p-6 relative overflow-hidden bg-gradient-to-br from-white to-[#FFF5F5]">
                 <div class="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-rose-100/40 blur-xl"></div>
                 <div class="relative z-10 flex flex-col justify-between h-full">
@@ -224,7 +215,6 @@
                 </div>
             </div>
 
-            <!-- Card Sisa Saldo / Kas Bersih Premium -->
             <div class="glass-card p-6 relative overflow-hidden bg-gradient-to-br from-white to-[#FAF4F2] border border-[#E57C70]/10">
                 <div class="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-[#E57C70]/15 blur-xl"></div>
                 <div class="relative z-10 flex flex-col justify-between h-full">
@@ -245,7 +235,6 @@
 
         </div>
 
-        <!-- CORE LEDGER AUDIT LOG TABLE -->
         <section class="glass-card p-6 sm:p-8">
             <div class="flex items-center gap-2.5 mb-8">
                 <div class="w-1 h-6 bg-[#E57C70] rounded-full"></div>
@@ -282,12 +271,10 @@
                             </td>
                             <td class="py-4 text-center pr-2 no-print">
                                 <div class="flex items-center justify-center gap-2">
-                                    <!-- 🌟 EDIT TRIGGER USING ID_TRANSAKSI -->
                                     <a href="{{ route('bendahara.transaksi.edit', $t->id_transaksi) }}" class="w-8 h-8 rounded-lg bg-gray-50 text-gray-500 border border-gray-100 hover:text-[#E57C70] hover:bg-[#FAF4F2] hover:border-[#E57C70]/30 flex items-center justify-center transition-all shadow-sm" title="Ubah Data Log">
                                         <i class="bi bi-pencil-square text-xs"></i>
                                     </a>
                                     
-                                    <!-- 🌟 DELETE FORM USING ID_TRANSAKSI -->
                                     <form action="{{ route('bendahara.transaksi.destroy', $t->id_transaksi) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data rekap kas ini secara permanen?')">
                                         @csrf
                                         @method('DELETE')
@@ -311,7 +298,6 @@
             </div>
         </section>
 
-        <!-- FORMAL VALIDATION SIGNATURE BLOCK (ONLY VISIBLE ON PRINTED HARDCOPY) -->
         <div class="print-footer hidden justify-between mt-20 text-xs font-semibold text-black px-10">
             <div class="text-center">
                 <p class="mb-20">Mengetahui,<br>Wali Kelas</p>

@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aesthetic Kas Ledger — Premium Interface</title>
     
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Google Fonts (Plus Jakarta Sans) & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
@@ -170,10 +168,8 @@
 </head>
 <body>
 
-    <!-- SIDEBAR ARCHITECTURE -->
     <div class="sidebar-container d-flex flex-column justify-content-between p-4">
         <div>
-            <!-- Workspace Logo Branding -->
             <div class="d-flex align-items-center gap-3 mb-5 mt-2 px-2">
                 <div class="rounded-4 d-flex align-items-center justify-content-center shadow-sm" style="width: 42px; height: 42px; background: var(--accent-secondary); color: var(--accent-primary);">
                     <i class="bi bi-intersect fs-5"></i>
@@ -184,7 +180,6 @@
                 </div>
             </div>
 
-            <!-- Navigation Links -->
             <nav class="nav nav-pills flex-column nav-aesthetic">
                 <a class="nav-link active" href="{{ route('bendahara.index') }}">
                     <i class="bi bi-columns-gap me-3"></i> Dashboard
@@ -195,10 +190,12 @@
                 <a class="nav-link" href="{{ route('bendahara.laporan') }}">
                     <i class="bi bi-bar-chart-line me-3"></i> Analytics & Laporan
                 </a>
+                <a class="nav-link" href="{{ route('bendahara.verifikasi') }}">
+                    <i class="bi bi-shield-check me-3"></i> Verifikasi Kas
+                </a>
             </nav>
         </div>
 
-        <!-- Session User Identity Card -->
         <div class="p-3 rounded-4" style="background: var(--bg-base); border: 1px solid var(--border-color)">
             <div class="d-flex align-items-center gap-3 mb-3">
                 <img src="https://ui-avatars.com/api/?name=Bendahara+Kelas&background=F6E6E4&color=E57C70&bold=true" class="rounded-4" style="width: 40px; height: 40px;">
@@ -213,24 +210,20 @@
         </div>
     </div>
 
-    <!-- MAIN WORKSPACE CONTENT -->
     <div class="workspace">
         
-        <!-- Header Panel -->
         <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-5 gap-3">
             <div>
                 <h2 class="fw-bold m-0" style="color: var(--text-heading); font-weight: 800; font-size: 1.85rem; letter-spacing: -0.5px;">Financial Hub</h2>
                 <p class="text-muted small m-0 mt-1">Kelola sirkulasi kas kelas dengan akurat, transparan, dan teratur.</p>
             </div>
             
-            <!-- Date Badge Component -->
             <div class="d-flex align-items-center gap-2 px-3 py-2 rounded-4" style="background: #FFFFFF; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
                 <i class="bi bi-calendar-check" style="color: var(--accent-primary);"></i>
                 <span class="fw-bold uppercase tracking-wider" style="font-size: 11px; color: var(--text-heading);">{{ date('d F Y') }}</span>
             </div>
         </div>
 
-        <!-- Success Feedback Toast Alert -->
         @if(session('sukses'))
             <div class="alert border-0 rounded-4 p-3 mb-4 d-flex align-items-center gap-3" style="background: #F0FDF4; color: #166534; border: 1px solid #DCFCE7 !important; box-shadow: var(--shadow-sm);">
                 <i class="bi bi-check-circle-fill fs-5 text-success"></i>
@@ -238,15 +231,11 @@
             </div>
         @endif
 
-        <!-- Layout Grid Area -->
         <div class="row g-4">
             
-            <!-- LEFT AREA COMPONENT (FORM & ACCUMULATOR) -->
             <div class="col-12 col-lg-8 d-flex flex-column gap-4">
                 
-                <!-- Financial Master Metrics Display -->
                 <div class="row g-4">
-                    <!-- Main Ledger Capital Card -->
                     <div class="col-12">
                         <div class="bento-card p-4 p-sm-5 position-relative overflow-hidden" style="background: linear-gradient(135deg, #FFFFFF 0%, #FFFDFD 100%);">
                             <div class="glow-orb"></div>
@@ -264,7 +253,6 @@
                     </div>
                 </div>
 
-                <!-- Transaction Insertion Core Form -->
                 <div class="bento-card p-4 p-sm-5">
                     <div class="d-flex align-items-center gap-2 mb-4">
                         <div class="rounded-pill" style="width: 5px; height: 18px; background: var(--accent-primary);"></div>
@@ -278,7 +266,7 @@
                             <select name="id_user" class="form-select input-premium shadow-none">
                                 <option value="">Kategori Kas Umum (non-siswa)</option>
                                 @foreach($daftar_siswa as $siswa)
-                                    <option value="{{ $siswa->id_user }}">{{ $siswa->name }}</option>
+                                    <option value="{{ $siswa->id }}">{{ $siswa->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -313,7 +301,6 @@
                 </div>
             </div>
 
-            <!-- RIGHT AREA COMPONENT (AUDIT FEED STREAM) -->
             <div class="col-12 col-lg-4">
                 <div class="bento-card p-4 d-flex flex-column justify-content-between h-100">
                     <div>
@@ -322,13 +309,11 @@
                             <a href="{{ route('bendahara.laporan') }}" class="text-decoration-none fw-bold text-uppercase" style="color: var(--accent-primary); font-size: 10px; letter-spacing: 0.5px;">Semua Data</a>
                         </div>
 
-                        <!-- Stream Nodes Block -->
                         <div class="d-flex flex-column gap-2">
                             @foreach($semua_transaksi->take(5) as $item)
                             <div class="d-flex align-items-center justify-content-between p-2 rounded-4" style="background: transparent;">
                                 <div class="d-flex align-items-center gap-3 min-w-0">
                                     
-                                    <!-- Context Status Pill Indicators -->
                                     <div class="indicator-icon flex-shrink-0" style="background-color: {{ $item->jenis == 'Masuk' ? '#F4FBF7' : '#FFF5F5' }}; color: {{ $item->jenis == 'Masuk' ? '#16A34A' : '#DC2626' }}; border: 1px solid {{ $item->jenis == 'Masuk' ? '#E6F4EA' : '#FEE2E2' }};">
                                         <i class="bi {{ $item->jenis == 'Masuk' ? 'bi-arrow-up-right-circle' : 'bi-arrow-down-left-circle' }}"></i>
                                     </div>
@@ -347,7 +332,6 @@
                             @endforeach
                         </div>
 
-                        <!-- Empty Placeholder Node state -->
                         @if($semua_transaksi->isEmpty())
                             <div class="text-center py-5 my-5">
                                 <div class="text-muted fs-3 mb-2"><i class="bi bi-envelope-open" style="color: var(--accent-primary); opacity: 0.6;"></i></div>
@@ -361,7 +345,6 @@
         </div>
     </div>
 
-    <!-- Bootstrap 5 Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

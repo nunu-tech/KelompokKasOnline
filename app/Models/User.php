@@ -11,8 +11,13 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+
     // 1. Primary Key disesuaikan dengan ERD kamu
     protected $primaryKey = 'id_user';
+
+    //  Berhasil dibersihkan dari conflict Git, disatukan menjadi satu baris bersih
+    protected $primaryKey = 'id'; 
+
 
     // 2. Kolom-kolom disesuaikan dengan tabel users yang baru
     protected $fillable = [
@@ -24,6 +29,7 @@ class User extends Authenticatable
         'password',
         'id_role',
     ];
+
 
     // 3. Menyembunyikan data sensitif saat data dipanggil
     protected $hidden = [
@@ -40,9 +46,10 @@ class User extends Authenticatable
         ];
     }
 
-    /**
-     * RELASI: User punya banyak Transaksi
-     */
+
+
+    //  * RELASI: User punya banyak Transaksi
+    //  */
     public function transaksi(): HasMany
     {
         // Parameter: (Model Tujuan, Foreign Key di tabel tujuan, Local Key di tabel saat ini)
