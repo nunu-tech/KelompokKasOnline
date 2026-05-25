@@ -2,6 +2,12 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\WaliKelas\WaliKelasController;
+use App\Http\Controller\WaliKelas\SiswaController;
+use App\Http\Controllers\WaliKelas\LaporanController;
+use App\Http\Controllers\Bendahara\BendaharaController;
+use App\Http\Controllers\admin\UserController;
 
 
 
@@ -17,18 +23,27 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\WaliKelas\WaliKelasController;
-use App\Http\Controllers\Bendahara\BendaharaController;
-use App\Http\Controllers\admin\UserController;
+
 
 // Rute Admin
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 // Rute untuk membuka halaman data siswa
-Route::get('/admin/user', [UserController::class, 'index']);
+Route::get('/admin/user', [UserController::class, 'index'])->name('admin.user.tampiluser');
+
+
 
 // Rute Wali Kelas
 Route::get('walikelas/dashboard', [WaliKelasController::class, 'index'])->name('walikelas.dashboard');
+
+
+Route::prefix('walikelas')->group(function () {
+
+    Route::get('/laporan', [LaporanController::class, 'index'])
+        ->name('walikelas.laporan');
+
+    Route::resource('siswa', SiswaController::class);
+
+});
 
 
 // Group rute Bendahara

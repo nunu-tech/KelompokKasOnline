@@ -27,7 +27,7 @@
             <!-- Header Halaman -->
             <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                 <div>
-                    <h2 class="text-3xl font-bold tracking-tight text-slate-900">Data Anggota Kelas 👥</h2>
+                    <h2 class="text-3xl font-bold tracking-tight text-slate-900">Data Anggota Kelas</h2>
                     <p class="text-slate-500 mt-1">Kelola data siswa untuk pencatatan iuran kas.</p>
                 </div>
                 <!-- Tombol Tambah Siswa -->
@@ -62,9 +62,9 @@
                             <tr class="bg-slate-50/50 text-slate-500 text-xs uppercase tracking-wider">
                                 <th class="px-6 py-4 font-medium w-12 text-center">No</th>
                                 <th class="px-6 py-4 font-medium">Nama Lengkap</th>
-                                <th class="px-6 py-4 font-medium">Nis</th>
+                                <th class="px-6 py-4 font-medium">Username</th>
                                 <th class="px-6 py-4 font-medium">Kelas</th>
-                                <th class="px-6 py-4 font-medium">L/P</th>
+                                <th class="px-6 py-4 font-medium">Jenis Kelamin</th>
                                 <th class="px-6 py-4 font-medium">Role</th>
                                 <th class="px-6 py-4 font-medium text-center">Aksi</th>
                             </tr>
@@ -84,7 +84,7 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 text-slate-600">{{ $user->username }}</td>
-                                <td class="px-6 py-4 text-slate-600">{{ $user->username }}</td>
+                                <td class="px-6 py-4 text-slate-600">{{ $user->kelas }}</td>
                                 <td class="px-6 py-4 text-slate-600">{{ $user->kelamin }}</td>
 
                                 <td class="px-6 py-4">
