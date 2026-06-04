@@ -33,4 +33,9 @@ class LaporanController extends Controller
             'pengeluaran'
         ));
     }
+
+    public function pdf()
+{
+    return "PDF laporan belum dibuat";
+}
 }

@@ -28,7 +28,7 @@ class KasController extends Controller
             });
         }
 
-        $kas = $query->latest()->get();
+        $kas = $query->latest()->paginate(10);
 
         $totalKas = Kas::where('status', 'lunas')->sum('jumlah');
         $sudahBayar = Kas::where('status', 'lunas')->count();

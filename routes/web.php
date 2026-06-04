@@ -49,6 +49,8 @@ Route::prefix('walikelas')->name('walikelas.')->group(function () {
     Route::get('/kas/create', [KasController::class, 'create'])->name('kas.create');
     Route::post('/kas', [KasController::class, 'store'])->name('kas.store');
 
+    Route::get('/kas/pdf', [KasController::class, 'pdf'])->name('kas.pdf');
+
     // Manajemen Pengeluaran
     Route::get('/pengeluaran', [PengeluaranController::class, 'index'])->name('pengeluaran.index');
     Route::post('/pengeluaran/store', [PengeluaranController::class, 'store'])->name('pengeluaran.store');
@@ -56,6 +58,7 @@ Route::prefix('walikelas')->name('walikelas.')->group(function () {
     // Laporan
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan');
     Route::get('/laporan/pdf', [LaporanController::class, 'pdf'])->name('laporan.pdf');
+
 
     // CRUD Siswa (Otomatis mencakup index, create, store, show, edit, update, destroy)
     Route::resource('siswa', SiswaController::class);
