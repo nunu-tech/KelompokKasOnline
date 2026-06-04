@@ -13,14 +13,46 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Ganti 'name' menjadi 'nama_lengkap' dan tambahkan id_role
+        User::create([
+            'nama_lengkap' => 'Nunu',
+            'kelamin'      => 'Laki-Laki',
+            'username'     => 'nunu123',
+            'email'        => 'nunu@gmail.com',
+            'password'     => Hash::make('password123'),
+            'id_role'      => 1, // Sesuaikan dengan id_role untuk Admin
+            'id_kelas'     => 2  // Sesuaikan dengan id_kelas untuk kelas X RPL 1
+        ]);
+        
+
         User::create([
             'nama_lengkap' => 'Melani',
-            'kelamin'      => 'perempuan',
+            'kelamin'      => 'Perempuan',
             'username'     => 'melani123',
             'email'        => 'melani@gmail.com',
             'password'     => Hash::make('password123'),
-            'id_role'      => 2, // Sesuaikan dengan id_role untuk Siswa
+            'id_role'      => 2, // Sesuaikan dengan id_role untuk Bendahara
+            'id_kelas'     => 2  // Sesuaikan dengan id_kelas untuk kelas X RPL 1
+        ]);
+
+        User::create([
+            'nama_lengkap' => 'Faiq',
+            'kelamin'      => 'Laki-Laki',
+            'username'     => 'faiq123',
+            'email'        => 'faiq@gmail.com',
+            'password'     => Hash::make('password123'),
+            'id_role'      => 3, // Sesuaikan dengan id_role untuk Walikelas
+            'id_kelas'     => 2 // Sesuaikan dengan id_kelas untuk kelas X RPL 1
+        ]); 
+        User::create([
+            'nama_lengkap' => 'Fajrina',
+            'kelamin'      => 'Perempuan',
+            'username'     => 'fajrina123',
+            'email'        => 'fajrina@gmail.com',
+            'password'     => Hash::make('password123'),
+            'id_role'      => 4, // Sesuaikan dengan id_role untuk Walikelas
+            'id_kelas'     => 1 // Sesuaikan dengan id_kelas untuk kelas Guru
         ]);
     }
 }
+
+            

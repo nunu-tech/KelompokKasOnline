@@ -19,7 +19,7 @@
 <body class="bg-gray-50 flex h-screen overflow-hidden">
 
     <!-- SIDEBAR -->
-    <aside class="w-72 bg-[#0f172a] flex flex-col justify-between transition-all duration-300">
+    <aside class="w-72 shrink-0 min-h-screen bg-[#0f172a] flex flex-col justify-between">
 
         <div>
 
@@ -96,7 +96,7 @@
 
                     </svg>
 
-                    <span class="font-medium">Data Siswa</span>
+                    <span class="font-medium">Data User</span>
                 </a>
 
                 <!-- PEMASUKAN -->

@@ -12,16 +12,19 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     //  Berhasil dibersihkan dari conflict Git, disatukan menjadi satu baris bersih
-    protected $primaryKey = 'id'; 
+    protected $primaryKey = 'id_user';
 
 
     // 2. Kolom-kolom disesuaikan dengan tabel users yang baru
     protected $fillable = [
-    'name',
-    'email',
-    'password',
-    'role',
-];
+        'nama_lengkap',
+        'username',
+        'kelamin',
+        'email',
+        'password',
+        'id_role',
+        'id_kelas',
+    ];
 
 
     // 3. Menyembunyikan data sensitif saat data dipanggil
@@ -37,6 +40,16 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'id_role');
+    }
+
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'id_kelas');
     }
 
 

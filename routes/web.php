@@ -26,14 +26,26 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 // Rute Admin
+// Dashboard
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
     ->name('admin.dashboard');
-
+//Tampil User
 Route::get('/admin/user', [UserController::class, 'index'])
     ->name('admin.user.tampiluser');
+// Menampilkan halaman tambah user
+Route::get('/admin/user/create', [UserController::class, 'create'])
+    ->name('admin.user.create');
+
+// Menyimpan data user
+Route::post('/admin/user/store', [UserController::class, 'store'])
+    ->name('admin.user.store');
+
+// Hapus user
+Route::delete('/admin/user/{id_user}', [UserController::class, 'destroy'])
+    ->name('admin.user.destroy');
 
 
 
@@ -68,7 +80,6 @@ Route::prefix('walikelas')->group(function () {
 
     Route::post('/pengeluaran/store', [PengeluaranController::class, 'store'])
         ->name('walikelas.pengeluaran.store');
-
 });
 
 Route::prefix('walikelas')->name('walikelas.')->group(function () {
@@ -86,7 +97,7 @@ Route::prefix('walikelas')->name('walikelas.')->group(function () {
 
 // Group rute Bendahara
 Route::prefix('bendahara')->group(function () {
-    
+
     // 1. Halaman Dashboard Utama
     Route::get('/', [BendaharaController::class, 'index'])->name('bendahara.index');
 
@@ -123,5 +134,4 @@ Route::prefix('bendahara')->group(function () {
     // 8. Detail transaksi (Tetap di paling bawah agar tidak bentrok dengan parameter rute lain)
 
     Route::get('/{id}', [BendaharaController::class, 'show'])->name('bendahara.show');
-
 });

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User; // Memanggil Model User
+use App\Models\User; 
+use App\Models\Kelas;
+use App\Models\Role;
 use Illuminate\Support\Facades\Hash; // Digunakan untuk enkripsi password
 
 class UserController extends Controller
@@ -17,8 +19,8 @@ class UserController extends Controller
         // Mengambil semua data user, diurutkan berdasarkan role terkecil (admin dulu) 
         // lalu berdasarkan abjad nama_lengkap
         $data_user = User::orderBy('id_role', 'asc')
-                         ->orderBy('nama_lengkap', 'asc')
-                         ->get();
+            ->orderBy('nama_lengkap', 'asc')
+            ->get();
 
         // Mengarahkan ke file view: resources/views/admin/DataUser/tampiluser.blade.php
         return view('admin.DataUser.tampiluser', compact('data_user'));
@@ -29,8 +31,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        // Mengarahkan ke file view: resources/views/admin/user_create.blade.php
-        return view('admin.user_create');
+        $roles = Role::all();
+        $kelas = Kelas::all();
+
+        return view('admin.DataUser.tambahuser', compact('roles', 'kelas'));
     }
 
     /**
@@ -42,6 +46,7 @@ class UserController extends Controller
         $request->validate([
             'nama_lengkap' => 'required|string|max:255',
             'username'     => 'required|string|max:255|unique:users,username',
+            'kelamin'      => 'required|string|in:Laki-laki,Perempuan',
             'email'        => 'required|string|email|max:255|unique:users,email',
             'password'     => 'required|string|min:6',
             'id_role'      => 'required|integer',
@@ -52,6 +57,7 @@ class UserController extends Controller
         User::create([
             'nama_lengkap' => $request->nama_lengkap,
             'username'     => $request->username,
+            'kelamin'      => $request->kelamin,
             'email'        => $request->email,
             'password'     => Hash::make($request->password), // Password wajib di-hash/enkripsi
             'id_role'      => $request->id_role,
@@ -59,7 +65,7 @@ class UserController extends Controller
         ]);
 
         // Kembali ke halaman utama dengan pesan sukses
-        return redirect()->route('admin.user')->with('sukses', 'Data user berhasil ditambahkan!');
+        return redirect()->route('admin.user.tampiluser')->with('sukses', 'Data user berhasil ditambahkan!');
     }
 
     /**
@@ -109,7 +115,7 @@ class UserController extends Controller
         // Jalankan perintah update
         $user->update($dataUpdate);
 
-        return redirect()->route('admin.user')->with('sukses', 'Data user berhasil diperbarui!');
+        return redirect()->route('admin.user.tampiluser')->with('sukses', 'Data user berhasil diperbarui!');
     }
 
     /**
@@ -120,6 +126,6 @@ class UserController extends Controller
         $user = User::findOrFail($id_user);
         $user->delete(); // Jalankan fungsi hapus
 
-        return redirect()->route('admin.user')->with('sukses', 'Data user berhasil dihapus!');
+        return redirect()->route('admin.user.tampiluser')->with('sukses', 'Data user berhasil dihapus!');
     }
 }
