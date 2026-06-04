@@ -26,10 +26,6 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Bendahara\BendaharaController;
-
-
 
 
 // Rute Admin

@@ -13,10 +13,7 @@ class User extends Authenticatable
 
 
     // 1. Primary Key disesuaikan dengan ERD kamu
-    protected $primaryKey = 'id_user';
-
-    //  Berhasil dibersihkan dari conflict Git, disatukan menjadi satu baris bersih
-    protected $primaryKey = 'id'; 
+    protected $primaryKey = 'id';
 
 
     // 2. Kolom-kolom disesuaikan dengan tabel users yang baru
@@ -54,6 +51,6 @@ class User extends Authenticatable
     {
         // Parameter: (Model Tujuan, Foreign Key di tabel tujuan, Local Key di tabel saat ini)
         // Karena Primary Key kita sekarang 'id_user', maka diubah menjadi seperti ini:
-        return $this->hasMany(Transaksi::class, 'id_user', 'id_user');
+        return $this->hasMany(Transaksi::class, 'id_user', 'id');
     }
 }
