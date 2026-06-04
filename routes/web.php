@@ -10,6 +10,7 @@ use App\Http\Controllers\WaliKelas\WaliKelasController;
 use App\Http\Controllers\WaliKelas\SiswaController;
 use App\Http\Controllers\WaliKelas\LaporanController;
 use App\Http\Controllers\WaliKelas\PengeluaranController;
+use App\Http\Controllers\WaliKelas\KasController;
 
 use App\Http\Controllers\Bendahara\BendaharaController;
 
@@ -68,6 +69,19 @@ Route::prefix('walikelas')->group(function () {
     Route::post('/pengeluaran/store', [PengeluaranController::class, 'store'])
         ->name('walikelas.pengeluaran.store');
 
+});
+
+Route::prefix('walikelas')->name('walikelas.')->group(function () {
+
+    Route::get('/siswa', function () {
+        return "Siswa page";
+    })->name('siswa.index');
+
+    Route::get('/kas', [KasController::class, 'index'])
+        ->name('kas.index');
+
+    Route::get('/laporan', [LaporanController::class, 'index'])
+        ->name('laporan');
 });
 
 // Group rute Bendahara

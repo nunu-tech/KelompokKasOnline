@@ -52,28 +52,25 @@
 
                 {{-- Dashboard / Pengeluaran --}}
                 <a href="{{ route('walikelas.dashboard') }}"
-                    class="flex items-center gap-4 px-4 py-3 rounded-xl font-medium transition-all duration-300
-   {{ request()->routeIs('walikelas.dashboard') 
-        ? 'text-luxuryGold bg-luxuryGold/10' 
-        : 'text-gray-400 hover:text-luxuryGold hover:bg-luxuryGold/5' }}">
-
+                    class="flex items-center gap-4 px-4 py-3 rounded-xl font-medium
+{{ request()->routeIs('walikelas.dashboard') ? 'text-luxuryGold bg-luxuryGold/10' : 'text-gray-400 hover:text-luxuryGold' }}">
                     <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
                     Dashboard
                 </a>
 
                 {{-- Data Siswa --}}
-                <a href="{{ route('walikelas.siswa.index') }}"
-                    class="flex items-center gap-4 px-4 py-3 rounded-xl font-medium transition-all duration-300 group
-       {{ request()->routeIs('walikelas.siswa.*')
-            ? 'text-luxuryGold bg-luxuryGold/10'
-            : 'text-gray-400 hover:text-luxuryGold hover:bg-luxuryGold/5' }}">
+                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-xl font-medium transition-all duration-300 text-gray-400">
 
                     <i data-lucide="users" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
                     Data Siswa
                 </a>
 
                 {{-- Pembayaran Kas --}}
-                <a href="{{ route('walikelas.kas.index') }}">
+                <a href="{{ route('walikelas.kas.index') }}"
+                    class="flex items-center gap-4 px-4 py-3 rounded-xl font-medium transition-all duration-300
+{{ request()->routeIs('walikelas.kas.*')
+    ? 'text-luxuryGold bg-luxuryGold/10'
+    : 'text-gray-400 hover:text-luxuryGold hover:bg-luxuryGold/5' }}">
 
                     <i data-lucide="wallet" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
                     Pembayaran Kas

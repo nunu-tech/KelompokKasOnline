@@ -13,15 +13,15 @@ class WaliKelasController extends Controller
     {
         $totalSiswa = Siswa::count();
 
-        $kasMasuk = Kas::sum('jumlah');
+        $kasMasuk = Kas::where('status', 'lunas')->sum('jumlah');
 
         $pengeluaran = Pengeluaran::sum('jumlah');
 
         $saldo = $kasMasuk - $pengeluaran;
 
-        // sementara
-        $sudahBayar = 0;
-        $menunggak = $totalSiswa;
+        $sudahBayar = Kas::where('status', 'lunas')->count();
+
+        $menunggak = Siswa::count() - $sudahBayar;
 
         return view('waliKelas.dashboard', compact(
             'totalSiswa',
