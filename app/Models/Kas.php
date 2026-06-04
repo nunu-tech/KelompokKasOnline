@@ -14,4 +14,9 @@ class Kas extends Model
         'jumlah',
         'keterangan'
     ];
+
+    public function siswa()
+{
+    return $this->belongsTo(Siswa::class);
+}
 }

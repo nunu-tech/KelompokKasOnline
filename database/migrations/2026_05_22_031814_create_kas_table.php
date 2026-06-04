@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             // Nama siswa
-            $table->string('nama');
+            $table->string('nama')->nullable();
 
             // Tanggal pembayaran
             $table->date('tanggal');

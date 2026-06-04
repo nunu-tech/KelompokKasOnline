@@ -3,20 +3,23 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\UserController;
+
 use App\Http\Controllers\WaliKelas\WaliKelasController;
-use App\Http\Controller\WaliKelas\SiswaController;
+use App\Http\Controllers\WaliKelas\SiswaController;
 use App\Http\Controllers\WaliKelas\LaporanController;
+use App\Http\Controllers\WaliKelas\PengeluaranController;
+use App\Http\Controllers\WaliKelas\KasController;
+
 use App\Http\Controllers\Bendahara\BendaharaController;
-use App\Http\Controllers\admin\UserController;
 
-
-
-
+// Rute Utama / Dashboard Default
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// Rute Profile User (Breeze/Jetstream)
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -26,30 +29,42 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-
-
-// Rute Admin
-Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-// Rute untuk membuka halaman data siswa
+// ==========================================
+// RUTE ADMIN
+// ==========================================
+Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 Route::get('/admin/user', [UserController::class, 'index'])->name('admin.user.tampiluser');
 
 
+// ==========================================
+// RUTE WALI KELAS
+// ==========================================
+Route::prefix('walikelas')->name('walikelas.')->group(function () {
 
-// Rute Wali Kelas
-Route::get('walikelas/dashboard', [WaliKelasController::class, 'index'])->name('walikelas.dashboard');
+    // Dashboard Wali Kelas
+    Route::get('/dashboard', [WaliKelasController::class, 'index'])->name('dashboard');
 
+    // Manajemen Kas
+    Route::get('/kas', [KasController::class, 'index'])->name('kas.index');
+    Route::get('/kas/create', [KasController::class, 'create'])->name('kas.create');
+    Route::post('/kas', [KasController::class, 'store'])->name('kas.store');
 
-Route::prefix('walikelas')->group(function () {
+    // Manajemen Pengeluaran
+    Route::get('/pengeluaran', [PengeluaranController::class, 'index'])->name('pengeluaran.index');
+    Route::post('/pengeluaran/store', [PengeluaranController::class, 'store'])->name('pengeluaran.store');
 
-    Route::get('/laporan', [LaporanController::class, 'index'])
-        ->name('walikelas.laporan');
+    // Laporan
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan');
+    Route::get('/laporan/pdf', [LaporanController::class, 'pdf'])->name('laporan.pdf');
 
+    // CRUD Siswa (Otomatis mencakup index, create, store, show, edit, update, destroy)
     Route::resource('siswa', SiswaController::class);
-
 });
 
 
-// Group rute Bendahara
+// ==========================================
+// RUTE BENDAHARA
+// ==========================================
 Route::prefix('bendahara')->group(function () {
     
     // 1. Halaman Dashboard Utama
@@ -73,20 +88,15 @@ Route::prefix('bendahara')->group(function () {
     // 7. Hapus transaksi
     Route::delete('/hapus/{id}', [BendaharaController::class, 'destroy'])->name('bendahara.transaksi.destroy');
 
-
-    // 8. Detail transaksi (Tetap di paling bawah grup bendahara)
-
-    //  RUTE BARU: 8. Halaman Antrean Verifikasi Setoran Siswa
+    // 8. Halaman Antrean Verifikasi Setoran Siswa
     Route::get('/verifikasi', [BendaharaController::class, 'verifikasi'])->name('bendahara.verifikasi');
 
-    //  RUTE BARU: 9. Proses Verifikasi / Menyetujui Pembayaran
+    // 9. Proses Verifikasi / Menyetujui Pembayaran
     Route::patch('/verifikasi/{id}/setujui', [BendaharaController::class, 'setujui'])->name('bendahara.setujui');
 
-    //  RUTE BARU: 10. Proses Menolak Pembayaran yang Bermasalah
+    // 10. Proses Menolak Pembayaran yang Bermasalah
     Route::patch('/verifikasi/{id}/tolak', [BendaharaController::class, 'tolak'])->name('bendahara.tolak');
 
-    // 8. Detail transaksi (Tetap di paling bawah agar tidak bentrok dengan parameter rute lain)
-
+    // 11. Detail transaksi (Wajib paling bawah agar tidak memblokir rute text / rute lain)
     Route::get('/{id}', [BendaharaController::class, 'show'])->name('bendahara.show');
-
 });

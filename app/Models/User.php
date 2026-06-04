@@ -18,14 +18,11 @@ class User extends Authenticatable
 
     // 2. Kolom-kolom disesuaikan dengan tabel users yang baru
     protected $fillable = [
-        'id_kelas',
-        'nama_lengkap', // Menggantikan 'name'
-        'kelamin', 
-        'username',
-        'email',
-        'password',
-        'id_role',
-    ];
+    'name',
+    'email',
+    'password',
+    'role',
+];
 
 
     // 3. Menyembunyikan data sensitif saat data dipanggil
