@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,10 +28,17 @@
     </script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #FAFAFA; }
-        .font-poppins { font-family: 'Poppins', sans-serif; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FAFAFA;
+        }
+
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
     </style>
 </head>
+
 <body class="bg-[#FAFAFA] text-darkJet antialiased flex h-screen overflow-hidden">
 
     <aside class="w-64 bg-darkJet text-white flex flex-col justify-between p-6 border-r border-luxuryGold/10 z-10">
@@ -41,24 +49,63 @@
             </div>
 
             <nav class="space-y-2">
-                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-xl text-luxuryGold bg-luxuryGold/10 font-medium transition-all duration-300">
-                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
+
+                {{-- Dashboard / Pengeluaran --}}
+                <a href="{{ route('walikelas.dashboard') }}"
+                    class="flex items-center gap-4 px-4 py-3 rounded-xl font-medium transition-all duration-300
+   {{ request()->routeIs('walikelas.dashboard') 
+        ? 'text-luxuryGold bg-luxuryGold/10' 
+        : 'text-gray-400 hover:text-luxuryGold hover:bg-luxuryGold/5' }}">
+
+                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                    Dashboard
                 </a>
-                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-400 hover:text-luxuryGold hover:bg-luxuryGold/5 font-medium transition-all duration-300 group">
-                    <i data-lucide="users" class="w-5 h-5 group-hover:scale-110 transition-transform"></i> Data Siswa
+
+                {{-- Data Siswa --}}
+                <a href="{{ route('walikelas.siswa.index') }}"
+                    class="flex items-center gap-4 px-4 py-3 rounded-xl font-medium transition-all duration-300 group
+       {{ request()->routeIs('walikelas.siswa.*')
+            ? 'text-luxuryGold bg-luxuryGold/10'
+            : 'text-gray-400 hover:text-luxuryGold hover:bg-luxuryGold/5' }}">
+
+                    <i data-lucide="users" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                    Data Siswa
                 </a>
-                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-400 hover:text-luxuryGold hover:bg-luxuryGold/5 font-medium transition-all duration-300 group">
-                    <i data-lucide="wallet" class="w-5 h-5 group-hover:scale-110 transition-transform"></i> Pembayaran Kas
+
+                {{-- Pembayaran Kas --}}
+                <a href="{{ route('walikelas.kas.index') }}">
+
+                    <i data-lucide="wallet" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                    Pembayaran Kas
                 </a>
-                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-400 hover:text-luxuryGold hover:bg-luxuryGold/5 font-medium transition-all duration-300 group">
-                    <i data-lucide="file-text" class="w-5 h-5 group-hover:scale-110 transition-transform"></i> Laporan Keuangan
+
+                {{-- Laporan --}}
+                <a href="{{ route('walikelas.laporan') }}"
+                    class="flex items-center gap-4 px-4 py-3 rounded-xl font-medium transition-all duration-300 group
+       {{ request()->routeIs('walikelas.laporan')
+            ? 'text-luxuryGold bg-luxuryGold/10'
+            : 'text-gray-400 hover:text-luxuryGold hover:bg-luxuryGold/5' }}">
+
+                    <i data-lucide="file-text" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                    Laporan Keuangan
                 </a>
-                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-400 hover:text-luxuryGold hover:bg-luxuryGold/5 font-medium transition-all duration-300 group">
-                    <i data-lucide="alert-circle" class="w-5 h-5 group-hover:scale-110 transition-transform"></i> Izin & Tunggakan
+
+                {{-- Izin & Tunggakan --}}
+                <a href="#"
+                    class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-400 hover:text-luxuryGold hover:bg-luxuryGold/5 font-medium transition-all duration-300 group">
+
+                    <i data-lucide="alert-circle" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                    Izin & Tunggakan
                 </a>
-                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-400 hover:text-luxuryGold hover:bg-luxuryGold/5 font-medium transition-all duration-300 group">
-                    <i data-lucide="megaphone" class="w-5 h-5 group-hover:scale-110 transition-transform"></i> Pengumuman
+
+                {{-- Pengumuman --}}
+                <a href="#"
+                    class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-400 hover:text-luxuryGold hover:bg-luxuryGold/5 font-medium transition-all duration-300 group">
+
+                    <i data-lucide="megaphone" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                    Pengumuman
                 </a>
+
             </nav>
         </div>
 
@@ -81,7 +128,7 @@
                 <h2 class="text-2xl font-bold font-poppins text-darkJet">Dashboard Utama</h2>
                 <p class="text-sm text-gray-400">Selasa, 19 Mei 2026</p>
             </div>
-            
+
             <div class="flex items-center gap-6">
                 <div class="relative w-64">
                     <i data-lucide="search" class="w-4 h-4 absolute left-4 top-3.5 text-gray-400"></i>
@@ -110,4 +157,5 @@
         lucide.createIcons();
     </script>
 </body>
+
 </html>

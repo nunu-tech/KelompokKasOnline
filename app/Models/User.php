@@ -11,24 +11,17 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-
-    // 1. Primary Key disesuaikan dengan ERD kamu
-    protected $primaryKey = 'id_user';
-
     //  Berhasil dibersihkan dari conflict Git, disatukan menjadi satu baris bersih
     protected $primaryKey = 'id'; 
 
 
     // 2. Kolom-kolom disesuaikan dengan tabel users yang baru
     protected $fillable = [
-        'id_kelas',
-        'nama_lengkap', // Menggantikan 'name'
-        'kelamin', 
-        'username',
-        'email',
-        'password',
-        'id_role',
-    ];
+    'name',
+    'email',
+    'password',
+    'role',
+];
 
 
     // 3. Menyembunyikan data sensitif saat data dipanggil

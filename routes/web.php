@@ -3,13 +3,15 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\WaliKelas\WaliKelasController;
-use App\Http\Controller\WaliKelas\SiswaController;
-use App\Http\Controllers\WaliKelas\LaporanController;
-use App\Http\Controllers\Bendahara\BendaharaController;
-use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\UserController;
 
+use App\Http\Controllers\WaliKelas\WaliKelasController;
+use App\Http\Controllers\WaliKelas\SiswaController;
+use App\Http\Controllers\WaliKelas\LaporanController;
+use App\Http\Controllers\WaliKelas\PengeluaranController;
+
+use App\Http\Controllers\Bendahara\BendaharaController;
 
 
 
@@ -25,33 +27,48 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Bendahara\BendaharaController;
-
-
-
-
 // Rute Admin
-Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-// Rute untuk membuka halaman data siswa
-Route::get('/admin/user', [UserController::class, 'index'])->name('admin.user.tampiluser');
+Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
+    ->name('admin.dashboard');
+
+Route::get('/admin/user', [UserController::class, 'index'])
+    ->name('admin.user.tampiluser');
 
 
 
 // Rute Wali Kelas
-Route::get('walikelas/dashboard', [WaliKelasController::class, 'index'])->name('walikelas.dashboard');
-
+Route::get('walikelas/dashboard', [WaliKelasController::class, 'index'])
+    ->name('walikelas.dashboard');
 
 Route::prefix('walikelas')->group(function () {
 
+    // Laporan
     Route::get('/laporan', [LaporanController::class, 'index'])
         ->name('walikelas.laporan');
 
+    // Siswa
     Route::resource('siswa', SiswaController::class);
 
-});
+    // Pengeluaran
+    Route::get('/pengeluaran', [PengeluaranController::class, 'index'])
+        ->name('walikelas.pengeluaran.index');
 
+    Route::get('/pengeluaran/create', [PengeluaranController::class, 'create'])
+        ->name('walikelas.pengeluaran.create');
+
+    Route::get('/pengeluaran/{id}/edit', [PengeluaranController::class, 'edit'])
+        ->name('walikelas.pengeluaran.edit');
+
+    Route::put('/walikelas/pengeluaran/{id}', [PengeluaranController::class, 'update'])
+        ->name('walikelas.pengeluaran.update');
+
+    Route::delete('/walikelas/pengeluaran/{id}', [PengeluaranController::class, 'destroy'])
+        ->name('walikelas.pengeluaran.destroy');
+
+    Route::post('/pengeluaran/store', [PengeluaranController::class, 'store'])
+        ->name('walikelas.pengeluaran.store');
+
+});
 
 // Group rute Bendahara
 Route::prefix('bendahara')->group(function () {
