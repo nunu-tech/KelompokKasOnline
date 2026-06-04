@@ -116,38 +116,53 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50 text-sm">
+
+                    @forelse($tunggakan as $item)
+
                     <tr class="group hover:bg-softCream/10 transition-all duration-200">
+
                         <td class="py-4 flex items-center gap-3 pl-1 group-hover:translate-x-1 transition-transform">
-                            <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=100" class="w-8 h-8 rounded-full object-cover">
-                            <span class="font-medium text-darkJet">Ahmad Dhani</span>
+
+                            <span class="font-medium text-darkJet">
+                                {{ $item->siswa->nama }}
+                            </span>
                         </td>
-                        <td class="py-4 text-gray-500">12-MIPA 1</td>
-                        <td class="py-4 font-semibold text-darkJet">Rp 40.000</td>
+
+                        <td class="py-4 text-gray-500">
+                            {{ $item->siswa->kelas }}
+                        </td>
+
+                        <td class="py-4 font-semibold text-darkJet">
+                            Rp {{ number_format($item->jumlah, 0, ',', '.') }}
+                        </td>
+
                         <td class="py-4">
-                            <span class="px-2.5 py-1 text-xs font-medium rounded-full bg-softCream text-darkJet border border-luxuryGold/20">2 Minggu</span>
+                            <span class="px-2.5 py-1 text-xs font-medium rounded-full bg-softCream text-darkJet border border-luxuryGold/20">
+                                {{ $item->created_at->diffForHumans() }}
+                            </span>
                         </td>
+
                         <td class="py-4 text-right">
-                            <button class="px-3 py-1.5 bg-darkJet text-white text-xs rounded-lg hover:bg-luxuryGold hover:text-darkJet transition-colors">
-                                Ingatkan
-                            </button>
+                            <form action="{{ route('wali.ingatkan', $item->id) }}" method="POST">
+                                @csrf
+                                <button class="px-3 py-1.5 bg-darkJet text-white text-xs rounded-lg hover:bg-luxuryGold hover:text-darkJet transition-colors">
+                                    Ingatkan
+                                </button>
+                            </form>
+                        </td>
+
+                    </tr>
+
+                    @empty
+
+                    <tr>
+                        <td colspan="5" class="text-center py-6 text-gray-400">
+                            Tidak ada data tunggakan
                         </td>
                     </tr>
-                    <tr class="group hover:bg-softCream/10 transition-all duration-200">
-                        <td class="py-4 flex items-center gap-3 pl-1 group-hover:translate-x-1 transition-transform">
-                            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=100" class="w-8 h-8 rounded-full object-cover">
-                            <span class="font-medium text-darkJet">Citra Kirana</span>
-                        </td>
-                        <td class="py-4 text-gray-500">12-MIPA 1</td>
-                        <td class="py-4 font-semibold text-darkJet">Rp 20.000</td>
-                        <td class="py-4">
-                            <span class="px-2.5 py-1 text-xs font-medium rounded-full bg-softCream text-darkJet border border-luxuryGold/20">1 Minggu</span>
-                        </td>
-                        <td class="py-4 text-right">
-                            <button class="px-3 py-1.5 bg-darkJet text-white text-xs rounded-lg hover:bg-luxuryGold hover:text-darkJet transition-colors">
-                                Ingatkan
-                            </button>
-                        </td>
-                    </tr>
+
+                    @endforelse
+
                 </tbody>
             </table>
         </div>
@@ -157,14 +172,16 @@
         <div class="bg-darkJet text-white p-6 rounded-[24px] space-y-4">
             <h5 class="text-sm font-semibold font-poppins text-luxuryGold tracking-wide uppercase">Aksi Cepat</h5>
             <div class="grid grid-cols-2 gap-3">
-                <button class="p-3 bg-white/10 rounded-xl hover:bg-white/20 transition-all text-left space-y-2">
+                <a href="{{ route('walikelas.kas.create') }}"
+                    class="p-3 bg-white/10 rounded-xl hover:bg-white/20 transition-all text-left space-y-2 block">
                     <i data-lucide="plus-circle" class="w-5 h-5 text-luxuryGold"></i>
                     <p class="text-xs font-medium">Input Kas</p>
-                </button>
-                <button class="p-3 bg-white/10 rounded-xl hover:bg-white/20 transition-all text-left space-y-2">
+                </a>
+                <a href="{{ route('walikelas.laporan.pdf') }}"
+                    class="p-3 bg-white/10 rounded-xl hover:bg-white/20 transition-all text-left space-y-2 block">
                     <i data-lucide="download" class="w-5 h-5 text-luxuryGold"></i>
                     <p class="text-xs font-medium">Unduh PDF</p>
-                </button>
+                </a>
             </div>
         </div>
 

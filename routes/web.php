@@ -41,34 +41,27 @@ Route::get('/admin/user', [UserController::class, 'index'])
 Route::get('walikelas/dashboard', [WaliKelasController::class, 'index'])
     ->name('walikelas.dashboard');
 
-Route::prefix('walikelas')->group(function () {
+Route::prefix('walikelas')->name('walikelas.')->group(function () {
 
-    // Laporan
-    Route::get('/laporan', [LaporanController::class, 'index'])
-        ->name('walikelas.laporan');
+    // DASHBOARD
+    Route::get('/dashboard', [WaliKelasController::class, 'index'])
+        ->name('dashboard');
 
-    // Siswa
+    // KAS
+    Route::get('/kas', [KasController::class, 'index'])->name('kas.index');
+    Route::get('/kas/create', [KasController::class, 'create'])->name('kas.create');
+    Route::post('/kas', [KasController::class, 'store'])->name('kas.store');
+
+    // PENGELUARAN
+    Route::get('/pengeluaran', [PengeluaranController::class, 'index'])->name('pengeluaran.index');
+    Route::post('/pengeluaran/store', [PengeluaranController::class, 'store'])->name('pengeluaran.store');
+
+    // LAPORAN
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan');
+    Route::get('/laporan/pdf', [LaporanController::class, 'pdf'])->name('laporan.pdf');
+
+    // SISWA
     Route::resource('siswa', SiswaController::class);
-
-    // Pengeluaran
-    Route::get('/pengeluaran', [PengeluaranController::class, 'index'])
-        ->name('walikelas.pengeluaran.index');
-
-    Route::get('/pengeluaran/create', [PengeluaranController::class, 'create'])
-        ->name('walikelas.pengeluaran.create');
-
-    Route::get('/pengeluaran/{id}/edit', [PengeluaranController::class, 'edit'])
-        ->name('walikelas.pengeluaran.edit');
-
-    Route::put('/walikelas/pengeluaran/{id}', [PengeluaranController::class, 'update'])
-        ->name('walikelas.pengeluaran.update');
-
-    Route::delete('/walikelas/pengeluaran/{id}', [PengeluaranController::class, 'destroy'])
-        ->name('walikelas.pengeluaran.destroy');
-
-    Route::post('/pengeluaran/store', [PengeluaranController::class, 'store'])
-        ->name('walikelas.pengeluaran.store');
-
 });
 
 Route::prefix('walikelas')->name('walikelas.')->group(function () {
@@ -82,6 +75,8 @@ Route::prefix('walikelas')->name('walikelas.')->group(function () {
 
     Route::get('/laporan', [LaporanController::class, 'index'])
         ->name('laporan');
+
+    Route::post('/kas', [KasController::class, 'store'])->name('kas.store'); 
 });
 
 // Group rute Bendahara
