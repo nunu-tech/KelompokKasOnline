@@ -59,11 +59,12 @@
                 </a>
 
                 {{-- Data Siswa --}}
-                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-xl font-medium transition-all duration-300 text-gray-400">
+<a href="{{ route('walikelas.siswa.index') }}"
+   class="flex items-center gap-4 px-4 py-3 rounded-xl font-medium transition-all duration-300 text-gray-400 hover:text-white hover:bg-blue-600 group">
 
-                    <i data-lucide="users" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-                    Data Siswa
-                </a>
+    <i data-lucide="users" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+    <span>Data Siswa</span>
+</a>
 
                 {{-- Pembayaran Kas --}}
                 <a href="{{ route('walikelas.kas.index') }}"

@@ -8,7 +8,7 @@
     <div class="max-w-xl space-y-4 z-10">
         <h3 class="text-2xl font-bold font-poppins text-darkJet">Selamat Datang, Wali Kelas ✨</h3>
         <p class="text-darkJet/80 text-sm leading-relaxed">
-            Pantau perputaran kas kelas 12-MIPA 1 dengan mudah hari ini. Semua data pembayaran, tunggakan, dan laporan keuangan telah tersinkronisasi secara otomatis.
+            Pantau perputaran kas kelas 11 RPL 2 dengan mudah hari ini. Semua data pembayaran, tunggakan, dan laporan keuangan telah tersinkronisasi secara otomatis.
         </p>
         <div class="flex gap-3 pt-2">
             <a href="{{ route('walikelas.laporan') }}"

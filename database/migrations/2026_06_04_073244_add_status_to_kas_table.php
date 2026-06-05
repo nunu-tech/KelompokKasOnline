@@ -6,20 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
-{
-    Schema::table('kas', function (Blueprint $table) {
-        $table->string('status')->default('lunas');
-    });
-}
+    {
+        Schema::table('kas', function (Blueprint $table) {
+            $table->enum('status', ['lunas', 'belum'])
+                  ->default('belum')
+                  ->after('jumlah');
+        });
+    }
 
-public function down(): void
-{
-    Schema::table('kas', function (Blueprint $table) {
-        $table->dropColumn('status');
-    });
-}
+    public function down(): void
+    {
+        Schema::table('kas', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
+    }
 };

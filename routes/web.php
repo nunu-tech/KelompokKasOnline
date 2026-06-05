@@ -11,7 +11,6 @@ use App\Http\Controllers\WaliKelas\SiswaController;
 use App\Http\Controllers\WaliKelas\LaporanController;
 use App\Http\Controllers\WaliKelas\PengeluaranController;
 use App\Http\Controllers\WaliKelas\KasController;
-
 use App\Http\Controllers\Bendahara\BendaharaController;
 
 // Rute Utama / Dashboard Default
@@ -62,6 +61,11 @@ Route::prefix('walikelas')->name('walikelas.')->group(function () {
 
     // CRUD Siswa (Otomatis mencakup index, create, store, show, edit, update, destroy)
     Route::resource('siswa', SiswaController::class);
+
+Route::prefix('walikelas')->name('walikelas.')->group(function () {
+    Route::get('/siswa', [SiswaController::class, 'index'])
+        ->name('siswa.index');
+});
 });
 
 
