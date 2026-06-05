@@ -16,7 +16,7 @@
 
     </div>
 
-    <form action="{{ route('siswa.update', $siswa->id) }}"
+    <form action="{{ route('walikelas.siswa.update', $siswa->id) }}"
           method="POST">
 
         @csrf
@@ -102,7 +102,7 @@
 
             </button>
 
-            <a href="{{ route('siswa.index') }}"
+            <a href="{{ route('walikelas.siswa.index') }}"
                class="px-5 py-3 border border-gray-200 rounded-2xl">
 
                 Kembali

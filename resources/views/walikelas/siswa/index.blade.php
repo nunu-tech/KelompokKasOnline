@@ -16,7 +16,7 @@
             </p>
         </div>
 
-        <a href="{{ route('siswa.create') }}"
+        <a href="{{ route('walikelas.siswa.create') }}"
            class="px-5 py-2 bg-darkJet text-white rounded-xl">
             + Tambah Siswa
         </a>
@@ -75,12 +75,12 @@
 
                         <td class="py-4 flex gap-2">
 
-                            <a href="{{ route('siswa.edit', $item->id) }}"
+                            <a href="{{ route('walikelas.siswa.edit', $item->id) }}"
                                class="px-3 py-1 bg-yellow-400 rounded-lg text-xs">
                                 Edit
                             </a>
 
-                            <form action="{{ route('siswa.destroy', $item->id) }}"
+                            <form action="{{ route('walikelas.siswa.destroy', $item->id) }}"
                                   method="POST">
 
                                 @csrf

@@ -33,7 +33,7 @@ class SiswaController extends Controller
         Siswa::create($request->all());
 
         return redirect()
-            ->route('siswa.index')
+            ->route('walikelas.siswa.index')
             ->with('success', 'Data siswa berhasil ditambahkan');
     }
 
@@ -58,7 +58,7 @@ class SiswaController extends Controller
         $siswa->update($request->all());
 
         return redirect()
-            ->route('siswa.index')
+            ->route('walikelas.siswa.index')
             ->with('success', 'Data siswa berhasil diperbarui');
     }
 
@@ -67,7 +67,7 @@ class SiswaController extends Controller
         Siswa::findOrFail($id)->delete();
 
         return redirect()
-            ->route('siswa.index')
+            ->route('walikelas.siswa.index')
             ->with('success', 'Data siswa berhasil dihapus');
     }
 }

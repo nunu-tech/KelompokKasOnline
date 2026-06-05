@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Siswa;
 use App\Models\Kas;
 use App\Models\Pembayaran;
-use Illuminate\Support\Collection;
+use App\Models\Pengeluaran;
 use Exception;
 
 class WaliKelasController extends Controller
@@ -17,6 +17,7 @@ class WaliKelasController extends Controller
         $kasMasuk = Kas::sum('jumlah');
 
         try {
+
             $sudahBayar = Pembayaran::where('status', 'lunas')->count();
 
             $menunggak = Pembayaran::where('status', 'menunggak')->count();
@@ -26,18 +27,51 @@ class WaliKelasController extends Controller
                 ->latest()
                 ->take(10)
                 ->get();
+
+            $totalPengeluaran = Pengeluaran::sum('jumlah');
+
+            $saldoKas = $kasMasuk - $totalPengeluaran;
+
+            $aktivitas = Pengeluaran::latest()
+                ->take(5)
+                ->get();
         } catch (Exception $e) {
+
             $sudahBayar = 0;
             $menunggak = 0;
             $tunggakan = collect();
         }
+
+        $persentase = $totalSiswa > 0
+            ? round(($sudahBayar / $totalSiswa) * 100)
+            : 0;
 
         return view('waliKelas.dashboard', compact(
             'totalSiswa',
             'sudahBayar',
             'menunggak',
             'kasMasuk',
-            'tunggakan'
+            'tunggakan',
+            'persentase',
+            'totalPengeluaran',
+            'saldoKas',
+            'aktivitas'
         ));
     }
+
+    public function tunggakan()
+{
+    $tunggakan = Pembayaran::with('siswa')
+        ->where('status', 'menunggak')
+        ->latest()
+        ->get();
+
+    return view('walikelas.tunggakan.index', compact('tunggakan'));
+}
+
+    public function pengumuman()
+    {
+        return view('walikelas.pengumuman.index');
+    }
+
 }

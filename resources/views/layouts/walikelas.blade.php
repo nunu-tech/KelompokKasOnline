@@ -61,15 +61,15 @@
         Laporan Keuangan
     </a>
 
-    <!-- Izin & Tunggakan -->
-    <a href="#"
+    <!-- Tunggakan -->
+    <a href="{{ route('walikelas.tunggakan') }}"
        class="flex items-center gap-3 px-4 py-3 hover:text-white hover:bg-[#1A1A1A] rounded-xl font-medium transition-all">
         <i class="fa-solid fa-circle-exclamation text-sm"></i>
-        Izin & Tunggakan
+      Tunggakan
     </a>
 
     <!-- Pengumuman -->
-    <a href="#"
+   <a href="{{ route('walikelas.pengumuman') }}"
        class="flex items-center gap-3 px-4 py-3 hover:text-white hover:bg-[#1A1A1A] rounded-xl font-medium transition-all">
         <i class="fa-solid fa-bullhorn text-sm"></i>
         Pengumuman
