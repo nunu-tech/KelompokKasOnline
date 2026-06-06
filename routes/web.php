@@ -146,6 +146,9 @@ Route::prefix('bendahara')->group(function () {
     // 10. Proses Menolak Pembayaran yang Bermasalah
     Route::patch('/verifikasi/{id}/tolak', [BendaharaController::class, 'tolak'])->name('bendahara.tolak');
 
-    // 11. Detail transaksi (Wajib paling bawah agar tidak memblokir rute text / rute lain)
+    // 11. Fitur Aksi Kirim Tagihan Notifikasi Ke Siswa (BARU)
+    Route::get('/tagih/{id}', [BendaharaController::class, 'kirimTagihan'])->name('bendahara.tagih');
+
+    // 12. Detail transaksi (Wajib paling bawah agar tidak memblokir rute text / rute lain)
     Route::get('/{id}', [BendaharaController::class, 'show'])->name('bendahara.show');
 });
