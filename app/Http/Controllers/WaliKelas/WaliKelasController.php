@@ -69,9 +69,9 @@ class WaliKelasController extends Controller
     return view('walikelas.tunggakan.index', compact('tunggakan'));
 }
 
-    public function pengumuman()
-    {
-        return view('walikelas.pengumuman.index');
-    }
+public function pengumuman()
+{
+    return view('walikelas.pengumuman.index');
+}
 
 }

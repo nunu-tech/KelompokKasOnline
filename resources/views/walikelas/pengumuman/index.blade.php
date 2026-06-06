@@ -1,4 +1,4 @@
-@extends('waliKelas.layouts.app')
+@extends('walikelas.layouts.app')
 
 @section('content')
 
@@ -11,27 +11,23 @@
 
             <div>
                 <h1 class="text-3xl font-bold text-darkJet font-poppins">
-                    Monitoring Tunggakan Kas
+                    Pengumuman Kelas
                 </h1>
 
                 <p class="text-gray-500 mt-2">
-                    Pantau siswa yang belum menyelesaikan pembayaran kas kelas secara real-time.
+                    Informasi terbaru mengenai kegiatan, pembayaran kas, dan agenda kelas.
                 </p>
             </div>
 
-            <div class="flex items-center gap-3">
+            <div class="bg-white px-6 py-4 rounded-2xl shadow-sm border border-gray-100">
 
-                <div class="bg-white px-6 py-4 rounded-2xl shadow-sm border border-gray-100">
+                <p class="text-xs uppercase text-gray-400">
+                    Status
+                </p>
 
-                    <p class="text-xs uppercase text-gray-400">
-                        Total Tunggakan
-                    </p>
-
-                    <h2 class="text-3xl font-bold text-red-500">
-                        {{ $tunggakan->count() }}
-                    </h2>
-
-                </div>
+                <h2 class="text-2xl font-bold text-green-500">
+                    Aktif
+                </h2>
 
             </div>
 
@@ -42,25 +38,23 @@
     {{-- STATISTIK --}}
     <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        <div class="bg-white rounded-[24px] p-6 shadow-sm border border-gray-100">
+        <div class="bg-white p-6 rounded-[24px] shadow-sm border border-gray-100">
 
             <div class="flex items-center justify-between">
 
                 <div>
-
                     <p class="text-sm text-gray-400">
-                        Siswa Menunggak
+                        Total Pengumuman
                     </p>
 
-                    <h2 class="text-3xl font-bold text-red-500 mt-2">
-                        {{ $tunggakan->count() }}
+                    <h2 class="text-3xl font-bold text-darkJet mt-2">
+                        3
                     </h2>
-
                 </div>
 
-                <div class="w-14 h-14 rounded-2xl bg-red-100 flex items-center justify-center">
+                <div class="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center">
 
-                    <i class="fa-solid fa-triangle-exclamation text-red-500 text-xl"></i>
+                    <i class="fa-solid fa-bullhorn text-blue-500 text-xl"></i>
 
                 </div>
 
@@ -68,25 +62,23 @@
 
         </div>
 
-        <div class="bg-white rounded-[24px] p-6 shadow-sm border border-gray-100">
+        <div class="bg-white p-6 rounded-[24px] shadow-sm border border-gray-100">
 
             <div class="flex items-center justify-between">
 
                 <div>
-
                     <p class="text-sm text-gray-400">
-                        Status Monitoring
+                        Pengumuman Terbaru
                     </p>
 
                     <h2 class="text-2xl font-bold text-green-500 mt-2">
-                        Aktif
+                        Hari Ini
                     </h2>
-
                 </div>
 
                 <div class="w-14 h-14 rounded-2xl bg-green-100 flex items-center justify-center">
 
-                    <i class="fa-solid fa-chart-line text-green-500 text-xl"></i>
+                    <i class="fa-solid fa-bell text-green-500 text-xl"></i>
 
                 </div>
 
@@ -94,25 +86,23 @@
 
         </div>
 
-        <div class="bg-white rounded-[24px] p-6 shadow-sm border border-gray-100">
+        <div class="bg-white p-6 rounded-[24px] shadow-sm border border-gray-100">
 
             <div class="flex items-center justify-between">
 
                 <div>
-
                     <p class="text-sm text-gray-400">
-                        Perlu Ditindaklanjuti
+                        Status Sistem
                     </p>
 
-                    <h2 class="text-2xl font-bold text-orange-500 mt-2">
-                        Ya
+                    <h2 class="text-2xl font-bold text-luxuryGold mt-2">
+                        Online
                     </h2>
-
                 </div>
 
-                <div class="w-14 h-14 rounded-2xl bg-orange-100 flex items-center justify-center">
+                <div class="w-14 h-14 rounded-2xl bg-yellow-100 flex items-center justify-center">
 
-                    <i class="fa-solid fa-bell text-orange-500 text-xl"></i>
+                    <i class="fa-solid fa-signal text-yellow-600 text-xl"></i>
 
                 </div>
 
@@ -122,179 +112,109 @@
 
     </section>
 
-    {{-- TABEL --}}
+    {{-- DAFTAR PENGUMUMAN --}}
     <section class="bg-white rounded-[28px] shadow-sm border border-gray-100 overflow-hidden">
 
         <div class="p-6 border-b border-gray-100">
 
-            <div class="flex items-center justify-between">
+            <h2 class="text-xl font-bold text-darkJet">
+                Daftar Pengumuman
+            </h2>
 
-                <div>
-
-                    <h2 class="text-xl font-bold text-darkJet">
-                        Daftar Siswa Menunggak
-                    </h2>
-
-                    <p class="text-sm text-gray-400 mt-1">
-                        Data siswa yang belum melakukan pembayaran kas.
-                    </p>
-
-                </div>
-
-            </div>
+            <p class="text-sm text-gray-400 mt-1">
+                Informasi terbaru untuk seluruh siswa.
+            </p>
 
         </div>
 
-        <div class="overflow-x-auto">
+        <div class="p-6 space-y-5">
 
-            <table class="w-full">
+            {{-- Pengumuman 1 --}}
+            <div class="border border-gray-100 rounded-2xl p-5 hover:shadow-md transition">
 
-                <thead class="bg-gray-50">
+                <div class="flex items-start justify-between">
 
-                    <tr>
+                    <div>
 
-                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase text-gray-500">
-                            No
-                        </th>
+                        <h3 class="font-bold text-lg text-darkJet">
+                            Pembayaran Kas Bulan Juni
+                        </h3>
 
-                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase text-gray-500">
-                            Nama Siswa
-                        </th>
+                        <p class="text-gray-500 mt-2">
+                            Seluruh siswa diharapkan menyelesaikan pembayaran kas bulan Juni sebelum tanggal 15.
+                        </p>
 
-                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase text-gray-500">
-                            Kelas
-                        </th>
+                    </div>
 
-                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase text-gray-500">
-                            Status
-                        </th>
+                    <span class="px-3 py-1 bg-red-100 text-red-600 rounded-full text-xs font-semibold">
+                        Penting
+                    </span>
 
-                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase text-gray-500">
-                            Terakhir Update
-                        </th>
+                </div>
 
-                        <th class="px-6 py-4 text-center text-xs font-semibold uppercase text-gray-500">
-                            Aksi
-                        </th>
+                <p class="text-sm text-gray-400 mt-4">
+                    Dipublikasikan: Hari ini
+                </p>
 
-                    </tr>
+            </div>
 
-                </thead>
+            {{-- Pengumuman 2 --}}
+            <div class="border border-gray-100 rounded-2xl p-5 hover:shadow-md transition">
 
-                <tbody>
+                <div class="flex items-start justify-between">
 
-                    @forelse($tunggakan as $item)
+                    <div>
 
-                    <tr class="border-b border-gray-100 hover:bg-gray-50 transition duration-300">
+                        <h3 class="font-bold text-lg text-darkJet">
+                            Rapat Kelas
+                        </h3>
 
-                        <td class="px-6 py-5">
-                            {{ $loop->iteration }}
-                        </td>
+                        <p class="text-gray-500 mt-2">
+                            Akan diadakan rapat kelas pada hari Jumat setelah jam pelajaran selesai.
+                        </p>
 
-                        <td class="px-6 py-5">
+                    </div>
 
-                            <div class="flex items-center gap-3">
+                    <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-semibold">
+                        Informasi
+                    </span>
 
-                                <div class="w-10 h-10 rounded-full bg-luxuryGold/20 flex items-center justify-center font-semibold text-darkJet">
+                </div>
 
-                                    {{ strtoupper(substr($item->siswa->nama ?? 'S',0,1)) }}
+                <p class="text-sm text-gray-400 mt-4">
+                    Dipublikasikan: 2 hari lalu
+                </p>
 
-                                </div>
+            </div>
 
-                                <div>
+            {{-- Pengumuman 3 --}}
+            <div class="border border-gray-100 rounded-2xl p-5 hover:shadow-md transition">
 
-                                    <h4 class="font-semibold text-darkJet">
-                                        {{ $item->siswa->nama ?? '-' }}
-                                    </h4>
+                <div class="flex items-start justify-between">
 
-                                </div>
+                    <div>
 
-                            </div>
+                        <h3 class="font-bold text-lg text-darkJet">
+                            Laporan Keuangan Tersedia
+                        </h3>
 
-                        </td>
+                        <p class="text-gray-500 mt-2">
+                            Laporan keuangan kas kelas bulan ini sudah dapat dilihat melalui menu laporan.
+                        </p>
 
-                        <td class="px-6 py-5">
-                            {{ $item->siswa->kelas ?? '-' }}
-                        </td>
+                    </div>
 
-                        <td class="px-6 py-5">
+                    <span class="px-3 py-1 bg-green-100 text-green-600 rounded-full text-xs font-semibold">
+                        Baru
+                    </span>
 
-                            <span class="px-3 py-1 bg-red-100 text-red-600 rounded-full text-xs font-semibold">
+                </div>
 
-                                Menunggak
+                <p class="text-sm text-gray-400 mt-4">
+                    Dipublikasikan: 3 hari lalu
+                </p>
 
-                            </span>
-
-                        </td>
-
-                        <td class="px-6 py-5 text-gray-500">
-
-                            {{ $item->created_at?->diffForHumans() ?? '-' }}
-
-                        </td>
-
-                        <td class="px-6 py-5">
-
-                            <div class="flex justify-center gap-2">
-
-                                <form action="{{ route('walikelas.ingatkan', $item->id) }}"
-                                      method="POST">
-
-                                    @csrf
-
-                                    <button type="submit"
-                                            class="px-4 py-2 bg-darkJet text-white rounded-xl hover:bg-luxuryGold hover:text-darkJet transition-all">
-
-                                        <i class="fa-solid fa-paper-plane mr-2"></i>
-                                        Ingatkan
-
-                                    </button>
-
-                                </form>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
-
-                    @empty
-
-                    <tr>
-
-                        <td colspan="6">
-
-                            <div class="py-20 text-center">
-
-                                <div class="w-24 h-24 mx-auto rounded-full bg-green-100 flex items-center justify-center">
-
-                                    <i class="fa-solid fa-circle-check text-5xl text-green-500"></i>
-
-                                </div>
-
-                                <h3 class="text-2xl font-bold text-darkJet mt-6">
-
-                                    Tidak Ada Tunggakan
-
-                                </h3>
-
-                                <p class="text-gray-400 mt-2">
-
-                                    Semua siswa telah melunasi pembayaran kas.
-
-                                </p>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
-
-                    @endforelse
-
-                </tbody>
-
-            </table>
+            </div>
 
         </div>
 

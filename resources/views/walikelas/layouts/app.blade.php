@@ -59,12 +59,12 @@
                 </a>
 
                 {{-- Data Siswa --}}
-<a href="{{ route('walikelas.siswa.index') }}"
-   class="flex items-center gap-4 px-4 py-3 rounded-xl font-medium transition-all duration-300 text-gray-400 hover:text-white hover:bg-blue-600 group">
+                <a href="{{ route('walikelas.siswa.index') }}"
+                    class="flex items-center gap-4 px-4 py-3 rounded-xl font-medium transition-all duration-300 text-gray-400 hover:text-white hover:bg-blue-600 group">
 
-    <i data-lucide="users" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-    <span>Data Siswa</span>
-</a>
+                    <i data-lucide="users" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                    <span>Data Siswa</span>
+                </a>
 
                 {{-- Pembayaran Kas --}}
                 <a href="{{ route('walikelas.kas.index') }}"
@@ -88,16 +88,14 @@
                     Laporan Keuangan
                 </a>
 
-                {{-- Izin & Tunggakan --}}
-                <a href="#"
+                <a href="{{ route('walikelas.tunggakan') }}"
                     class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-400 hover:text-luxuryGold hover:bg-luxuryGold/5 font-medium transition-all duration-300 group">
 
                     <i data-lucide="alert-circle" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-                    Izin & Tunggakan
+                    Tunggakan
                 </a>
 
-                {{-- Pengumuman --}}
-                <a href="#"
+                <a href="{{ route('walikelas.pengumuman') }}"
                     class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-400 hover:text-luxuryGold hover:bg-luxuryGold/5 font-medium transition-all duration-300 group">
 
                     <i data-lucide="megaphone" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>

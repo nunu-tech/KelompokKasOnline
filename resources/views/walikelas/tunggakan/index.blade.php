@@ -1,4 +1,4 @@
-@extends('waliKelas.layouts.app')
+@extends('walikelas.layouts.app')
 
 @section('content')
 

@@ -2,15 +2,26 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Siswa extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'nama',
         'nis',
         'kelas',
         'jenis_kelamin',
-        'no_hp'
+        'no_hp',
     ];
+
+    /**
+     * Relasi ke pembayaran
+     */
+    public function pembayarans()
+    {
+        return $this->hasMany(Pembayaran::class);
+    }
 }
