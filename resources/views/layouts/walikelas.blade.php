@@ -126,7 +126,7 @@
                     <div class="space-y-2 max-w-xl z-10">
                         <h2 class="text-xl md:text-2xl font-bold text-[#5C4033]">Selamat Datang, Wali Kelas ✨</h2>
                         <p class="text-sm text-[#7F604E] leading-relaxed">
-                            Pantau perputaran kas kelas 12-MIPA 1 dengan mudah hari ini. Semua data pembayaran, tunggakan, dan laporan keuangan telah tersinkronisasi secara otomatis.
+                            Pantau perputaran kas kelas 11 RPL 2 dengan mudah hari ini. Semua data pembayaran, tunggakan, dan laporan keuangan telah tersinkronisasi secara otomatis.
                         </p>
                         <div class="pt-2">
                             <button class="px-5 py-2.5 bg-white border border-[#E6C6A2] text-[#5C4033] font-semibold text-sm rounded-xl shadow-sm hover:bg-amber-50/50 transition-all">

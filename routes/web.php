@@ -2,24 +2,23 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController;
-
+use App\Http\Controllers\Admin\KelasController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\WaliKelas\WaliKelasController;
 use App\Http\Controllers\WaliKelas\SiswaController;
 use App\Http\Controllers\WaliKelas\LaporanController;
 use App\Http\Controllers\WaliKelas\PengeluaranController;
 use App\Http\Controllers\WaliKelas\KasController;
-
 use App\Http\Controllers\Bendahara\BendaharaController;
 
-
-
+// Rute Utama / Dashboard Default
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// Rute Profile User (Breeze/Jetstream)
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -28,74 +27,95 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
-// Rute Admin
+
+
+
+// Rute Wali Kelas
+
+
+
+// ==========================================
+// RUTE ADMIN
+// ==========================================
 // Dashboard
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
     ->name('admin.dashboard');
+
+
+//USER
 //Tampil User
 Route::get('/admin/user', [UserController::class, 'index'])
     ->name('admin.user.tampiluser');
 // Menampilkan halaman tambah user
 Route::get('/admin/user/create', [UserController::class, 'create'])
     ->name('admin.user.create');
-
 // Menyimpan data user
 Route::post('/admin/user/store', [UserController::class, 'store'])
     ->name('admin.user.store');
-
+// EDIT
+Route::get('/user/{id_user}/edit', [UserController::class, 'edit'])->name('admin.user.edit');
+// UPDATE
+Route::put('/user/{id_user}', [UserController::class, 'update'])->name('admin.user.update');
 // Hapus user
 Route::delete('/admin/user/{id_user}', [UserController::class, 'destroy'])
     ->name('admin.user.destroy');
 
+//KELAS
+//Tampil Kelas
+Route::get('/admin/kelas', [KelasController::class, 'index'])->name('admin.kelas.index');
+//Tambah Kelas
+Route::get('/admin/kelas/create', [KelasController::class, 'create'])->name('admin.kelas.create');
+// Simpan Kelas
+Route::post('/admin/kelas', [KelasController::class, 'store'])->name('admin.kelas.store');
+// EDIT Kelas
+Route::get('/admin/kelas/{id}/edit', [KelasController::class, 'edit'])->name('admin.kelas.edit');
+// UPDATE Kelas
+Route::put('/admin/kelas/{id}', [KelasController::class, 'update'])->name('admin.kelas.update');
+// Hapus Kelas
+Route::delete('/admin/kelas/{id}', [KelasController::class, 'destroy'])->name('admin.kelas.destroy');
+
+// PERAN
+Route::get('/admin/peran', [RoleController::class, 'index'])->name('admin.peran.index');
+    Route::get('/admin/peran/tambah', [RoleController::class, 'create'])->name('admin.peran.create');
+    Route::post('/admin/peran', [RoleController::class, 'store'])->name('admin.peran.store');
+    Route::get('/admin/peran/{id}/edit', [RoleController::class, 'edit'])->name('admin.peran.edit');
+    Route::put('/admin/peran/{id}', [RoleController::class, 'update'])->name('admin.peran.update');
+    Route::delete('/peran/{id}', [RoleController::class, 'destroy'])->name('admin.peran.destroy');
 
 
-// Rute Wali Kelas
-Route::get('walikelas/dashboard', [WaliKelasController::class, 'index'])
-    ->name('walikelas.dashboard');
-
-Route::prefix('walikelas')->group(function () {
-
-    // Laporan
-    Route::get('/laporan', [LaporanController::class, 'index'])
-        ->name('walikelas.laporan');
-
-    // Siswa
-    Route::resource('siswa', SiswaController::class);
-
-    // Pengeluaran
-    Route::get('/pengeluaran', [PengeluaranController::class, 'index'])
-        ->name('walikelas.pengeluaran.index');
-
-    Route::get('/pengeluaran/create', [PengeluaranController::class, 'create'])
-        ->name('walikelas.pengeluaran.create');
-
-    Route::get('/pengeluaran/{id}/edit', [PengeluaranController::class, 'edit'])
-        ->name('walikelas.pengeluaran.edit');
-
-    Route::put('/walikelas/pengeluaran/{id}', [PengeluaranController::class, 'update'])
-        ->name('walikelas.pengeluaran.update');
-
-    Route::delete('/walikelas/pengeluaran/{id}', [PengeluaranController::class, 'destroy'])
-        ->name('walikelas.pengeluaran.destroy');
-
-    Route::post('/pengeluaran/store', [PengeluaranController::class, 'store'])
-        ->name('walikelas.pengeluaran.store');
-});
+// ==========================================
+// RUTE WALI KELAS
+// ==========================================
 
 Route::prefix('walikelas')->name('walikelas.')->group(function () {
 
-    Route::get('/siswa', function () {
-        return "Siswa page";
-    })->name('siswa.index');
+    // Dashboard Wali Kelas
+    Route::get('/dashboard', [WaliKelasController::class, 'index'])->name('dashboard');
 
-    Route::get('/kas', [KasController::class, 'index'])
-        ->name('kas.index');
+    // Manajemen Kas
+    Route::get('/kas', [KasController::class, 'index'])->name('kas.index');
+    Route::get('/kas/create', [KasController::class, 'create'])->name('kas.create');
+    Route::post('/kas', [KasController::class, 'store'])->name('kas.store');
 
-    Route::get('/laporan', [LaporanController::class, 'index'])
-        ->name('laporan');
+    Route::get('/kas/pdf', [KasController::class, 'pdf'])->name('kas.pdf');
+
+    // Manajemen Pengeluaran
+    Route::get('/pengeluaran', [PengeluaranController::class, 'index'])->name('pengeluaran.index');
+    Route::post('/pengeluaran/store', [PengeluaranController::class, 'store'])->name('pengeluaran.store');
+
+    // Laporan
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan');
+    Route::get('/laporan/pdf', [LaporanController::class, 'pdf'])->name('laporan.pdf');
+
+
+    // CRUD Siswa (Otomatis mencakup index, create, store, show, edit, update, destroy)
+    Route::resource('siswa', SiswaController::class);
 });
 
-// Group rute Bendahara
+
+// ==========================================
+// RUTE BENDAHARA
+// ==========================================
 Route::prefix('bendahara')->group(function () {
 
     // 1. Halaman Dashboard Utama
@@ -119,19 +139,15 @@ Route::prefix('bendahara')->group(function () {
     // 7. Hapus transaksi
     Route::delete('/hapus/{id}', [BendaharaController::class, 'destroy'])->name('bendahara.transaksi.destroy');
 
-
-    // 8. Detail transaksi (Tetap di paling bawah grup bendahara)
-
-    //  RUTE BARU: 8. Halaman Antrean Verifikasi Setoran Siswa
+    // 8. Halaman Antrean Verifikasi Setoran Siswa
     Route::get('/verifikasi', [BendaharaController::class, 'verifikasi'])->name('bendahara.verifikasi');
 
-    //  RUTE BARU: 9. Proses Verifikasi / Menyetujui Pembayaran
+    // 9. Proses Verifikasi / Menyetujui Pembayaran
     Route::patch('/verifikasi/{id}/setujui', [BendaharaController::class, 'setujui'])->name('bendahara.setujui');
 
-    //  RUTE BARU: 10. Proses Menolak Pembayaran yang Bermasalah
+    // 10. Proses Menolak Pembayaran yang Bermasalah
     Route::patch('/verifikasi/{id}/tolak', [BendaharaController::class, 'tolak'])->name('bendahara.tolak');
 
-    // 8. Detail transaksi (Tetap di paling bawah agar tidak bentrok dengan parameter rute lain)
-
+    // 11. Detail transaksi (Wajib paling bawah agar tidak memblokir rute text / rute lain)
     Route::get('/{id}', [BendaharaController::class, 'show'])->name('bendahara.show');
 });

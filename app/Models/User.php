@@ -11,9 +11,9 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+
     //  Berhasil dibersihkan dari conflict Git, disatukan menjadi satu baris bersih
     protected $primaryKey = 'id_user';
-
 
     // 2. Kolom-kolom disesuaikan dengan tabel users yang baru
     protected $fillable = [
@@ -60,6 +60,6 @@ class User extends Authenticatable
     {
         // Parameter: (Model Tujuan, Foreign Key di tabel tujuan, Local Key di tabel saat ini)
         // Karena Primary Key kita sekarang 'id_user', maka diubah menjadi seperti ini:
-        return $this->hasMany(Transaksi::class, 'id_user', 'id_user');
+        return $this->hasMany(Transaksi::class, 'id_user', 'id');
     }
 }

@@ -43,15 +43,7 @@
         </div>
 
         <!-- Form -->
-        @if ($errors->any())
-        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
+        
         <form action="{{ route('admin.user.store') }}" method="POST" class="p-8">
             @csrf
 
@@ -69,6 +61,11 @@
                         value="{{ old('nama_lengkap') }}"
                         placeholder="Masukkan nama lengkap"
                         class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500">
+                    @error('nama_lengkap')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
                 </div>
 
                 <!-- Username -->
@@ -83,6 +80,11 @@
                         value="{{ old('username') }}"
                         placeholder="Masukkan username"
                         class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500">
+                    @error('username')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
                 </div>
 
                 <!-- Jenis Kelamin -->
@@ -100,6 +102,11 @@
                         <option value="Perempuan">Perempuan</option>
 
                     </select>
+                    @error('kelamin')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
                 </div>
 
                 <!-- Email -->
@@ -114,6 +121,11 @@
                         value="{{ old('email') }}"
                         placeholder="contoh@gmail.com"
                         class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500">
+                    @error('email')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
                 </div>
 
                 <!-- Kelas -->
@@ -132,9 +144,14 @@
                         <option value="{{ $item->id }}">
                             {{ $item->nama_kelas }}
                         </option>
-                        @endforeach
+                        @endforeach 
 
                     </select>
+                    @error('id_kelas')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
                 </div>
 
                 <!-- Role -->
@@ -156,6 +173,11 @@
                         @endforeach
 
                     </select>
+                    @error('id_role')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
                 </div>
 
                 <!-- Password -->
@@ -168,6 +190,11 @@
                         type="password"
                         name="password"
                         class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500">
+                    @error('password')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
                 </div>
 
                 <!-- Konfirmasi Password -->
@@ -180,6 +207,11 @@
                         type="password"
                         name="password_confirmation"
                         class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500">
+                    @error('password_confirmation')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
                 </div>
 
             </div>

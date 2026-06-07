@@ -28,7 +28,7 @@ class KasController extends Controller
             });
         }
 
-        $kas = $query->latest()->get();
+        $kas = $query->latest()->paginate(10);
 
         $totalKas = Kas::where('status', 'lunas')->sum('jumlah');
         $sudahBayar = Kas::where('status', 'lunas')->count();
@@ -41,4 +41,26 @@ class KasController extends Controller
             'belumBayar'
         ));
     }
+
+    public function create()
+{
+    return view('walikelas.kas.create');
+}
+
+public function store(Request $request)
+{
+    $request->validate([
+        'jumlah' => 'required|numeric',
+        'tanggal' => 'required|date',
+    ]);
+
+    Kas::create([
+        'jumlah' => $request->jumlah,
+        'tanggal' => $request->tanggal,
+        'status' => 'lunas',
+    ]);
+
+    return redirect()->route('walikelas.kas.index')
+        ->with('success', 'Data kas berhasil ditambahkan');
+}
 }
