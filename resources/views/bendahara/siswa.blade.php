@@ -5,16 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Siswa</title>
     
-    <!-- BOOTSTRAP 5 CORE (Untuk Layouting & Sidebar Presisi) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- TAILWIND CSS (Untuk Render Tampilan Konten & Bento Card) -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
     <script>
-        // Re-aktivasi Konfigurasi Warna Estetik Tailwind Anda
         tailwind.config = {
             theme: {
                 extend: {
@@ -49,7 +45,6 @@
             letter-spacing: -0.2px;
         }
 
-        /* Bento-Style Container Card Custom Elements */
         .bento-card {
             background: #FFFFFF;
             border: 1px solid #F1ECE8;
@@ -64,7 +59,6 @@
             border-color: rgba(229, 124, 112, 0.2);
         }
 
-        /* SIDEBAR ARCHITECTURE STYLE — 100% MATCH DENGAN INDEX/DASHBOARD */
         .sidebar-container {
             background: var(--bg-sidebar);
             border-right: 1px solid var(--border-color);
@@ -109,7 +103,6 @@
             border: 1px solid rgba(229, 124, 112, 0.15);
         }
 
-        /* WORKSPACE COPIED SIZE */
         .workspace {
             margin-left: 290px;
             padding: 56px;
@@ -141,10 +134,8 @@
 </head>
 <body class="min-h-screen">
 
-    <!-- SIDEBAR ARCHITECTURE — BOOTSTRAP FIXED STRUCTURE (100% SAMA) -->
     <div class="sidebar-container d-flex flex-column justify-content-between p-4">
         <div>
-            <!-- Branding Header -->
             <div class="d-flex align-items-center gap-3 mb-5 mt-2 px-2">
                 <div class="rounded-4 d-flex align-items-center justify-content-center shadow-sm" style="width: 42px; height: 42px; background: var(--accent-secondary); color: var(--accent-primary);">
                     <i class="bi bi-intersect fs-5"></i>
@@ -157,7 +148,6 @@
                 </div>
             </div>
 
-            <!-- Navigation Links -->
             <nav class="nav nav-pills flex-column nav-aesthetic">
                 <a class="nav-link" href="{{ route('bendahara.index') }}">
                     <i class="bi bi-columns-gap me-3"></i> Dashboard
@@ -174,7 +164,6 @@
             </nav>
         </div>
 
-        <!-- Session User Identity Card -->
         <div class="p-3 rounded-4" style="background: var(--bg-base); border: 1px solid var(--border-color)">
             <div class="d-flex align-items-center gap-3 mb-3">
                 <img src="https://ui-avatars.com/api/?name=Bendahara+Kelas&background=F6E6E4&color=E57C70&bold=true" class="rounded-4" style="width: 40px; height: 40px;">
@@ -189,10 +178,26 @@
         </div>
     </div>
 
-    <!-- WORKSPACE WRAPPER — KONTEN SEKARANG MUNBUL SEMPURNA DENGAN RENDER TAILWIND -->
     <div class="workspace">
         
-        <!-- Header Panel -->
+        @if(session('sukses'))
+        <div class="mb-6 p-4 bg-emerald-50 border border-emerald-100 rounded-2xl flex items-center gap-3 shadow-sm transition-all">
+            <div class="w-8 h-8 rounded-xl bg-emerald-500 text-white flex items-center justify-center flex-shrink-0 text-sm">
+                <i class="bi bi-check2-circle"></i>
+            </div>
+            <p class="text-xs font-bold text-emerald-800">{{ session('sukses') }}</p>
+        </div>
+        @endif
+
+        @if(session('error'))
+        <div class="mb-6 p-4 bg-amber-50 border border-amber-100 rounded-2xl flex items-center gap-3 shadow-sm transition-all">
+            <div class="w-8 h-8 rounded-xl bg-amber-500 text-white flex items-center justify-center flex-shrink-0 text-sm">
+                <i class="bi bi-exclamation-circle"></i>
+            </div>
+            <p class="text-xs font-bold text-amber-800">{{ session('error') }}</p>
+        </div>
+        @endif
+        
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 gap-4">
             <div>
                 <h2 class="text-3xl font-extrabold text-[#1A2130] tracking-tight" style="font-size: 1.85rem; letter-spacing: -0.5px;">Student Directory</h2>
@@ -210,10 +215,8 @@
             </div>
         </div>
 
-        <!-- INSIGHT BENTO PANELS -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             
-            <!-- Card 1: Tabungan Tertinggi -->
             <div class="bento-card p-6 bg-white flex items-center gap-4">
                 <div class="w-12 h-12 rounded-2xl bg-[#F6E6E4] text-[#E57C70] flex items-center justify-center text-xl flex-shrink-0">
                     <i class="bi bi-trophy-fill"></i>
@@ -221,12 +224,11 @@
                 <div class="overflow-hidden">
                     <p class="text-[#A0AEC0] font-extrabold text-[9px] uppercase tracking-wider m-0">Tabungan Tertinggi</p>
                     <h3 class="text-[15px] font-bold text-[#1A2130] truncate mt-0.5" style="letter-spacing: -0.2px;">
-                        {{ $siswa_terajin->name ?? 'Belum ada data' }}
+                        {{ $siswa_terajin->nama_lengkap ?? 'Belum ada data' }}
                     </h3>
                 </div>
             </div>
 
-            <!-- Card 2: Rasio Kontribusi -->
             <div class="bento-card p-6 bg-white flex items-center gap-4">
                 <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl flex-shrink-0">
                     <i class="bi bi-check-circle-fill"></i>
@@ -239,7 +241,6 @@
                 </div>
             </div>
 
-            <!-- Card 3: Rata-Rata Simpanan -->
             <div class="bento-card p-6 bg-white flex items-center gap-4">
                 <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl flex-shrink-0">
                     <i class="bi bi-wallet2"></i>
@@ -254,7 +255,6 @@
             
         </div>
 
-        <!-- CORE DATA DIRECTORY TABLE CONTAINER -->
         <section class="bento-card p-6 sm:p-8">
             
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
@@ -278,29 +278,58 @@
                         <tr class="text-[#A0AEC0] text-[10px] uppercase font-extrabold border-b border-[#F1ECE8] tracking-wider">
                             <th class="pb-4 pl-4 w-24">Profil</th>
                             <th class="pb-4">Nama Lengkap Siswa</th>
-                            <th class="pb-4 text-center">Status Keanggotaan</th>
-                            <th class="pb-4 text-right pr-6">Akumulasi Iuran (Riil)</th>
+                            <th class="pb-4 text-center">Status Tagihan</th>
+                            <th class="pb-4 text-right">Sudah Dibayar</th>
+                            <th class="pb-4 text-right pr-6 text-red-400">Sisa Tunggakan</th>
                         </tr>
                     </thead>
                     <tbody class="text-[13.5px]">
+                        @php
+                            // DIUBAH: Mengunci target kas flat Rp5.000 saja per minggu sesuai request
+                            $target_kas = 5000; 
+                        @endphp
+
                         @foreach($daftar_siswa as $siswa)
+                        @php
+                            $sudah_bayar = $siswa->total_bayar ?? 0;
+                            $tunggakan = $target_kas - $sudah_bayar;
+                            if($tunggakan < 0) $tunggakan = 0;
+                        @endphp
                         <tr class="hover:bg-[#FDFBF9] transition-all border-b border-[#F1ECE8]/60 group">
                             <td class="py-4 pl-4">
-                                <img src="https://ui-avatars.com/api/?name={{ urlencode($siswa->name) }}&background=F6E6E4&color=E57C70&bold=true" 
+                                <img src="https://ui-avatars.com/api/?name={{ urlencode($siswa->nama_lengkap) }}&background=F6E6E4&color=E57C70&bold=true" 
                                      class="w-11 h-11 rounded-2xl border border-[#F1ECE8] group-hover:scale-105 transition-transform duration-300">
                             </td>
                             <td class="nama-siswa py-4 font-bold text-[#1A2130] group-hover:text-[#E57C70] transition-colors">
-                                {{ $siswa->name }}
+                                {{ $siswa->nama_lengkap }}
                             </td>
+                            
                             <td class="py-4 text-center">
-                                <span class="px-3 py-1 bg-[#F4FBF7] text-emerald-600 border border-emerald-100/60 rounded-full text-[9px] font-extrabold uppercase tracking-widest">
-                                    Aktif
-                                </span>
+                                @if($tunggakan <= 0)
+                                    <span class="px-3 py-1 bg-[#F4FBF7] text-emerald-600 border border-emerald-100/60 rounded-full text-[9px] font-extrabold uppercase tracking-widest">
+                                        Lunas
+                                    </span>
+                                @else
+                                    <div class="flex flex-col items-center gap-2">
+                                        <span class="px-3 py-1 bg-red-50 text-red-500 border border-red-100/60 rounded-full text-[9px] font-extrabold uppercase tracking-widest">
+                                            Belum Lunas
+                                        </span>
+                                        <a href="{{ route('bendahara.tagih', $siswa->id_user) }}" class="inline-flex items-center gap-1 px-2 py-1 bg-[#E57C70] hover:bg-[#d66b5f] text-white rounded-xl text-[10px] font-bold shadow-sm transition-all active:scale-95 no-underline">
+                                            <i class="bi bi-bell-fill text-[9px]"></i> Tagih
+                                        </a>
+                                    </div>
+                                @endif
                             </td>
-                            <td class="py-4 text-right pr-6">
-                                <p class="font-bold text-[#1A2130] text-[14.5px]">
-                                    <span class="text-xs font-bold text-[#A0AEC0] mr-0.5">Rp</span>{{ number_format($siswa->total_bayar ?? 0, 0, ',', '.') }}
-                                </p>
+                            
+                            <td class="py-4 text-right font-bold text-[#1A2130]">
+                                <span class="text-xs font-bold text-[#A0AEC0] mr-0.5">Rp</span>{{ number_format($sudah_bayar, 0, ',', '.') }}
+                            </td>
+                            <td class="py-4 text-right pr-6 font-bold {{ $tunggakan > 0 ? 'text-red-500' : 'text-gray-400' }}">
+                                @if($tunggakan > 0)
+                                    <span class="text-xs font-bold mr-0.5 text-red-400">Rp</span>{{ number_format($tunggakan, 0, ',', '.') }}
+                                @else
+                                    <span class="text-xs font-semibold">Rp0</span>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -317,7 +346,6 @@
         </section>
     </div>
 
-    <!-- LIVE SEARCH DOM SCRIPT -->
     <script>
         document.getElementById('searchSiswa').addEventListener('keyup', function() {
             let filter = this.value.toLowerCase().trim();

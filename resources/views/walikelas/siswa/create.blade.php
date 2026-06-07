@@ -8,7 +8,7 @@
         Tambah Siswa
     </h2>
 
-    <form action="{{ route('siswa.store') }}" method="POST">
+    <form action="{{ route('walikelas.siswa.store') }}" method="POST">
 
         @csrf
 

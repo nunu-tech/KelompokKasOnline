@@ -25,13 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__ . '/auth.php';
-
-
-
-
-// Rute Wali Kelas
-
+require __DIR__.'/auth.php';
 
 
 // ==========================================
@@ -92,6 +86,9 @@ Route::prefix('walikelas')->name('walikelas.')->group(function () {
     // Dashboard Wali Kelas
     Route::get('/dashboard', [WaliKelasController::class, 'index'])->name('dashboard');
 
+    Route::post('/ingatkan/{id}', [WaliKelasController::class, 'ingatkan'])
+        ->name('ingatkan');
+
     // Manajemen Kas
     Route::get('/kas', [KasController::class, 'index'])->name('kas.index');
     Route::get('/kas/create', [KasController::class, 'create'])->name('kas.create');
@@ -102,14 +99,58 @@ Route::prefix('walikelas')->name('walikelas.')->group(function () {
     // Manajemen Pengeluaran
     Route::get('/pengeluaran', [PengeluaranController::class, 'index'])->name('pengeluaran.index');
     Route::post('/pengeluaran/store', [PengeluaranController::class, 'store'])->name('pengeluaran.store');
+    Route::get('/pengeluaran/create', [PengeluaranController::class, 'create'])
+         ->name('pengeluaran.create');
+
+    Route::get('/pengeluaran/{id}/edit', [PengeluaranController::class, 'edit'])
+        ->name('pengeluaran.edit');
+
+    Route::put('/pengeluaran/{id}', [PengeluaranController::class, 'update'])
+        ->name('pengeluaran.update');
+
+    Route::delete('/pengeluaran/{id}', [PengeluaranController::class, 'destroy'])
+        ->name('pengeluaran.destroy');
 
     // Laporan
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan');
     Route::get('/laporan/pdf', [LaporanController::class, 'pdf'])->name('laporan.pdf');
 
+    // Tunggakan
+Route::get('/tunggakan', [WaliKelasController::class, 'tunggakan'])
+    ->name('tunggakan');
 
-    // CRUD Siswa (Otomatis mencakup index, create, store, show, edit, update, destroy)
-    Route::resource('siswa', SiswaController::class);
+// Pengumuman
+Route::get('/pengumuman', [WaliKelasController::class, 'pengumuman'])
+    ->name('pengumuman');
+
+
+    // ==========================================
+// CRUD SISWA
+// ==========================================
+
+// Tampil daftar siswa
+Route::get('/siswa', [SiswaController::class, 'index'])
+    ->name('siswa.index');
+
+// Form tambah siswa
+Route::get('/siswa/create', [SiswaController::class, 'create'])
+    ->name('siswa.create');
+
+// Simpan siswa baru
+Route::post('/siswa', [SiswaController::class, 'store'])
+    ->name('siswa.store');
+
+// Form edit siswa
+Route::get('/siswa/{id}/edit', [SiswaController::class, 'edit'])
+    ->name('siswa.edit');
+
+// Update siswa
+Route::put('/siswa/{id}', [SiswaController::class, 'update'])
+    ->name('siswa.update');
+
+// Hapus siswa
+Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])
+    ->name('siswa.destroy');
 });
 
 
@@ -148,6 +189,9 @@ Route::prefix('bendahara')->group(function () {
     // 10. Proses Menolak Pembayaran yang Bermasalah
     Route::patch('/verifikasi/{id}/tolak', [BendaharaController::class, 'tolak'])->name('bendahara.tolak');
 
-    // 11. Detail transaksi (Wajib paling bawah agar tidak memblokir rute text / rute lain)
+    // 11. Fitur Aksi Kirim Tagihan Notifikasi Ke Siswa (BARU)
+    Route::get('/tagih/{id}', [BendaharaController::class, 'kirimTagihan'])->name('bendahara.tagih');
+
+    // 12. Detail transaksi (Wajib paling bawah agar tidak memblokir rute text / rute lain)
     Route::get('/{id}', [BendaharaController::class, 'show'])->name('bendahara.show');
 });
