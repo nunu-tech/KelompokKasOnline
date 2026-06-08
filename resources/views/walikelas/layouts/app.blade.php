@@ -66,17 +66,6 @@
                     <span>Data Siswa</span>
                 </a>
 
-                {{-- Pembayaran Kas --}}
-                <a href="{{ route('walikelas.kas.index') }}"
-                    class="flex items-center gap-4 px-4 py-3 rounded-xl font-medium transition-all duration-300
-{{ request()->routeIs('walikelas.kas.*')
-    ? 'text-luxuryGold bg-luxuryGold/10'
-    : 'text-gray-400 hover:text-luxuryGold hover:bg-luxuryGold/5' }}">
-
-                    <i data-lucide="wallet" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-                    Pembayaran Kas
-                </a>
-
                 {{-- Laporan --}}
                 <a href="{{ route('walikelas.laporan') }}"
                     class="flex items-center gap-4 px-4 py-3 rounded-xl font-medium transition-all duration-300 group
@@ -93,13 +82,6 @@
 
                     <i data-lucide="alert-circle" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
                     Tunggakan
-                </a>
-
-                <a href="{{ route('walikelas.pengumuman') }}"
-                    class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-400 hover:text-luxuryGold hover:bg-luxuryGold/5 font-medium transition-all duration-300 group">
-
-                    <i data-lucide="megaphone" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-                    Pengumuman
                 </a>
 
             </nav>

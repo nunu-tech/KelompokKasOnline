@@ -10,7 +10,6 @@ use App\Http\Controllers\WaliKelas\WaliKelasController;
 use App\Http\Controllers\WaliKelas\SiswaController;
 use App\Http\Controllers\WaliKelas\LaporanController;
 use App\Http\Controllers\WaliKelas\PengeluaranController;
-use App\Http\Controllers\WaliKelas\KasController;
 use App\Http\Controllers\Bendahara\BendaharaController;
 
 // Rute Utama / Dashboard Default

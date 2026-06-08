@@ -22,53 +22,41 @@
 
         <div class="overflow-x-auto">
 
-            <table class="w-full text-sm">
+        <table class="w-full text-sm">
 
                 <thead>
                     <tr class="border-b border-gray-100 text-left">
-
                         <th class="pb-4">No</th>
                         <th class="pb-4">Nama</th>
                         <th class="pb-4">Kelas</th>
-                        <th claas="pb-4">jenis kelamin</th>
-
+                        <th class="pb-4">Jenis Kelamin</th>
                     </tr>
                 </thead>
 
-                <tbody class="divide-y divide-gray-50">
-
+                <tbody>
                     @forelse($siswa as $item)
-
                     <tr>
-
-                        <td class="py-4">
-                            {{ $loop->iteration }}
-                        </td>
+                        <td class="py-4">{{ $loop->iteration }}</td>
 
                         <td class="py-4 font-medium">
-                            {{ $item->nama }}
+                            {{ $item->nama_lengkap }}
                         </td>
 
                         <td class="py-4">
-                            {{ $item->kelas }}
+                            {{ $item->kelas->nama_kelas ?? '-' }}
                         </td>
 
                         <td class="py-4">
-                            {{ $item->jenis_kelamin }}
+                            {{ $item->kelamin }}
                         </td>
-
                     </tr>
-
                     @empty
-
                     <tr>
-                        <td colspan="7" class="py-6 text-center text-gray-400">
+                        <td colspan="4" class="py-6 text-center text-gray-400">
                             Belum ada data siswa
                         </td>
                     </tr>
-
                     @endforelse
-
                 </tbody>
 
             </table>
