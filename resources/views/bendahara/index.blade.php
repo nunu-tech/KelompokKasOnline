@@ -261,14 +261,20 @@
 
                     <form action="{{ route('bendahara.store') }}" method="POST" class="row g-4">
                         @csrf
+                        
                         <div class="col-md-6 d-flex flex-column gap-1">
                             <label class="fw-bold text-uppercase" style="font-size: 10px; color: #A0AEC0; letter-spacing: 0.5px; padding-left: 2px;">Penanggung Jawab / Siswa</label>
-                            <select name="id_user" class="form-select input-premium shadow-none">
-                                <option value="">Kategori Kas Umum (non-siswa)</option>
+                            
+                            <input type="text" id="siswa_input" placeholder="Ketik nama siswa..." class="form-control input-premium shadow-none" list="daftar_nama_siswa">
+                            
+                            <datalist id="daftar_nama_siswa">
+                                <option data-id="" value="Kategori Kas Umum (non-siswa)">
                                 @foreach($daftar_siswa as $siswa)
-                                    <option value="{{ $siswa->id }}">{{ $siswa->name }}</option>
+                                    <option data-id="{{ $siswa->id_user }}" value="{{ $siswa->nama_lengkap }}">
                                 @endforeach
-                            </select>
+                            </datalist>
+
+                            <input type="hidden" name="id_user" id="id_user_hidden">
                         </div>
 
                         <div class="col-md-6 d-flex flex-column gap-1">
@@ -313,12 +319,11 @@
                             @foreach($semua_transaksi->take(5) as $item)
                             <div class="d-flex align-items-center justify-content-between p-2 rounded-4" style="background: transparent;">
                                 <div class="d-flex align-items-center gap-3 min-w-0">
-                                    
                                     <div class="indicator-icon flex-shrink-0" style="background-color: {{ $item->jenis == 'Masuk' ? '#F4FBF7' : '#FFF5F5' }}; color: {{ $item->jenis == 'Masuk' ? '#16A34A' : '#DC2626' }}; border: 1px solid {{ $item->jenis == 'Masuk' ? '#E6F4EA' : '#FEE2E2' }};">
                                         <i class="bi {{ $item->jenis == 'Masuk' ? 'bi-arrow-up-right-circle' : 'bi-arrow-down-left-circle' }}"></i>
                                     </div>
                                     <div class="text-truncate">
-                                        <p class="m-0 fw-bold small text-truncate" style="color: var(--text-heading); font-size: 0.88rem;">{{ $item->user ? $item->user->name : 'Kas Umum' }}</p>
+                                        <p class="m-0 fw-bold small text-truncate" style="color: var(--text-heading); font-size: 0.88rem;">{{ $item->user ? $item->user->nama_lengkap : 'Kas Umum' }}</p>
                                         <p class="m-0 text-muted text-truncate" style="font-size: 11px; margin-top: 1px;">{{ $item->keterangan }}</p>
                                     </div>
                                 </div>
@@ -344,6 +349,23 @@
 
         </div>
     </div>
+
+    <script>
+        document.getElementById('siswa_input').addEventListener('input', function() {
+            var inputVal = this.value;
+            var options = document.querySelectorAll('#daftar_nama_siswa option');
+            var hiddenInput = document.getElementById('id_user_hidden');
+            
+            hiddenInput.value = ""; // Default set kosong (Kas umum)
+
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].value === inputVal) {
+                    hiddenInput.value = options[i].getAttribute('data-id');
+                    break;
+                }
+            }
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

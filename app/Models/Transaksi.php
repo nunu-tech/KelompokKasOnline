@@ -26,8 +26,9 @@ class Transaksi extends Model
      */
     public function user()
     {
-        // 'id_user' di Transaksi merujuk ke 'id' di tabel Users
-        return $this->belongsTo(User::class, 'id_user', 'id');
+        // Parameter kedua: nama kolom di tabel transaksis (id_user)
+        // Parameter ketiga: nama primary key di tabel users (id_user)
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 
     /**
@@ -35,6 +36,8 @@ class Transaksi extends Model
      */
     public function bendahara()
     {
-        return $this->belongsTo(User::class, 'id_bendahara', 'id');
+        // Parameter kedua: nama kolom di tabel transaksis (id_bendahara)
+        // Parameter ketiga: nama primary key di tabel users (id_user)
+        return $this->belongsTo(User::class, 'id_bendahara', 'id_user');
     }
 }

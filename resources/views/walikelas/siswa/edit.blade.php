@@ -16,7 +16,7 @@
 
     </div>
 
-    <form action="{{ route('siswa.update', $siswa->id) }}"
+    <form action="{{ route('walikelas.siswa.update', $siswa->id) }}"
           method="POST">
 
         @csrf
@@ -32,17 +32,6 @@
                 <input type="text"
                        name="nama"
                        value="{{ $siswa->nama }}"
-                       class="w-full mt-2 border border-gray-200 rounded-2xl p-3">
-            </div>
-
-            <div>
-                <label class="text-sm font-medium text-darkJet">
-                    NIS
-                </label>
-
-                <input type="text"
-                       name="nis"
-                       value="{{ $siswa->nis }}"
                        class="w-full mt-2 border border-gray-200 rounded-2xl p-3">
             </div>
 
@@ -77,20 +66,6 @@
 
                 </select>
             </div>
-
-            <div class="md:col-span-2">
-
-                <label class="text-sm font-medium text-darkJet">
-                    No HP
-                </label>
-
-                <input type="text"
-                       name="no_hp"
-                       value="{{ $siswa->no_hp }}"
-                       class="w-full mt-2 border border-gray-200 rounded-2xl p-3">
-
-            </div>
-
         </div>
 
         <div class="mt-8 flex gap-3">
@@ -102,7 +77,7 @@
 
             </button>
 
-            <a href="{{ route('siswa.index') }}"
+            <a href="{{ route('walikelas.siswa.index') }}"
                class="px-5 py-3 border border-gray-200 rounded-2xl">
 
                 Kembali

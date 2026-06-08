@@ -4,24 +4,85 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User; // Memanggil Model User
+use App\Models\User;
+use App\Models\Kelas;
+use App\Models\Role;
 use Illuminate\Support\Facades\Hash; // Digunakan untuk enkripsi password
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     /**
      * 1. READ: Menampilkan semua data user di halaman utama admin
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Mengambil semua data user, diurutkan berdasarkan role terkecil (admin dulu) 
-        // lalu berdasarkan abjad nama_lengkap
-        $data_user = User::orderBy('id_role', 'asc')
-                         ->orderBy('nama_lengkap', 'asc')
-                         ->get();
+        $query = User::with(['kelas', 'role']);
 
-        // Mengarahkan ke file view: resources/views/admin/DataUser/tampiluser.blade.php
-        return view('admin.DataUser.tampiluser', compact('data_user'));
+        // Search nama, username, email
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_lengkap', 'like', "%{$search}%")
+                    ->orWhere('username', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        // Filter Role
+        if ($request->filled('role')) {
+            $query->where('id_role', $request->role);
+        }
+
+        // Filter Tingkat
+        if ($request->filled('tingkat')) {
+            $query->whereHas('kelas', function ($q) use ($request) {
+                $q->where('nama_kelas', 'like', $request->tingkat . ' %');
+            });
+        }
+
+        // Filter Jurusan
+        if ($request->filled('jurusan')) {
+            $query->whereHas('kelas', function ($q) use ($request) {
+                $q->where('nama_kelas', 'like', '%' . $request->jurusan . '%');
+            });
+        }
+
+        // Statistik mengikuti filter aktif
+        $totalUser = (clone $query)->count();
+
+        $totalAdmin = (clone $query)
+            ->where('id_role', 1)
+            ->count();
+
+        $totalSiswa = (clone $query)
+            ->where('id_role', 3)
+            ->count();
+
+        $totalWaliKelas = (clone $query)
+            ->where('id_role', 4)
+            ->count();
+
+        $totalBendahara = (clone $query)
+            ->where('id_role', 2)
+            ->count();
+
+        // Data tabel
+        $data_user = $query
+            ->orderBy('id_role')
+            ->orderBy('nama_lengkap')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('admin.DataUser.tampiluser', compact(
+            'data_user',
+            'totalUser',
+            'totalAdmin',
+            'totalSiswa',
+            'totalWaliKelas',
+            'totalBendahara'
+        ));
     }
 
     /**
@@ -29,8 +90,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        // Mengarahkan ke file view: resources/views/admin/user_create.blade.php
-        return view('admin.user_create');
+        $roles = Role::all();
+        $kelas = Kelas::all();
+
+        return view('admin.DataUser.tambahuser', compact('roles', 'kelas'));
     }
 
     /**
@@ -38,28 +101,41 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi input data dari form agar sesuai aturan database
         $request->validate([
             'nama_lengkap' => 'required|string|max:255',
             'username'     => 'required|string|max:255|unique:users,username',
+            'kelamin'      => 'required|string|in:Laki-laki,Perempuan',
             'email'        => 'required|string|email|max:255|unique:users,email',
             'password'     => 'required|string|min:6',
             'id_role'      => 'required|integer',
-            'id_kelas'     => 'nullable|integer',
+            'id_kelas'     => 'required|integer',
+        ], [
+            'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
+            'username.required'     => 'Username wajib diisi.',
+            'username.unique'       => 'Username sudah digunakan.',
+            'email.required'        => 'Email wajib diisi.',
+            'email.email'           => 'Format email tidak valid.',
+            'email.unique'          => 'Email sudah digunakan.',
+            'password.required'     => 'Password wajib diisi.',
+            'password.min'          => 'Password minimal 6 karakter.',
+            'kelamin.required'      => 'Jenis kelamin wajib dipilih.',
+            'id_role.required'      => 'Role wajib dipilih.',
+            'id_kelas.required'      => 'Kelas wajib dipilih.',
         ]);
 
-        // Proses simpan ke database
         User::create([
             'nama_lengkap' => $request->nama_lengkap,
             'username'     => $request->username,
+            'kelamin'      => $request->kelamin,
             'email'        => $request->email,
-            'password'     => Hash::make($request->password), // Password wajib di-hash/enkripsi
+            'password'     => Hash::make($request->password),
             'id_role'      => $request->id_role,
             'id_kelas'     => $request->id_kelas,
         ]);
 
-        // Kembali ke halaman utama dengan pesan sukses
-        return redirect()->route('admin.user')->with('sukses', 'Data user berhasil ditambahkan!');
+        return redirect()
+            ->route('admin.user.tampiluser')
+            ->with('sukses', 'Data user berhasil ditambahkan!');
     }
 
     /**
@@ -71,8 +147,11 @@ class UserController extends Controller
         // Jika data tidak ditemukan, otomatis memunculkan error 404
         $user = User::findOrFail($id_user);
 
-        // Mengarahkan ke file view: resources/views/admin/user_edit.blade.php
-        return view('admin.user_edit', compact('user'));
+        return view('admin.DataUser.edituser', [
+            'user' => $user,
+            'roles' => Role::all(),
+            'kelas' => Kelas::all()
+        ]);
     }
 
     /**
@@ -82,16 +161,23 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id_user);
 
-        // Validasi data (untuk username & email, abaikan validasi unik untuk data milik user ini sendiri)
         $request->validate([
             'nama_lengkap' => 'required|string|max:255',
             'username'     => 'required|string|max:255|unique:users,username,' . $user->id_user . ',id_user',
             'email'        => 'required|string|email|max:255|unique:users,email,' . $user->id_user . ',id_user',
             'id_role'      => 'required|integer',
             'id_kelas'     => 'nullable|integer',
+        ], [
+            'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
+            'username.required'     => 'Username wajib diisi.',
+            'username.unique'       => 'Username sudah digunakan.',
+            'email.required'        => 'Email wajib diisi.',
+            'email.email'           => 'Format email tidak valid.',
+            'email.unique'          => 'Email sudah digunakan.',
+            'id_role.required'      => 'Role wajib dipilih.',
+            'id_kelas.integer'      => 'Kelas tidak valid.',
         ]);
 
-        // Siapkan data yang akan diupdate
         $dataUpdate = [
             'nama_lengkap' => $request->nama_lengkap,
             'username'     => $request->username,
@@ -100,16 +186,23 @@ class UserController extends Controller
             'id_kelas'     => $request->id_kelas,
         ];
 
-        // Jika kolom password di form diisi, artinya user ingin mengganti password
         if ($request->filled('password')) {
-            $request->validate(['password' => 'string|min:6']);
+
+            $request->validate([
+                'password' => 'min:8|confirmed'
+            ], [
+                'password.min' => 'Password minimal 8 karakter.',
+                'password.confirmed' => 'Konfirmasi password tidak sesuai.',
+            ]);
+
             $dataUpdate['password'] = Hash::make($request->password);
         }
 
-        // Jalankan perintah update
         $user->update($dataUpdate);
 
-        return redirect()->route('admin.user')->with('sukses', 'Data user berhasil diperbarui!');
+        return redirect()
+            ->route('admin.user.tampiluser')
+            ->with('sukses', 'Data user berhasil diperbarui!');
     }
 
     /**
@@ -117,9 +210,18 @@ class UserController extends Controller
      */
     public function destroy($id_user)
     {
-        $user = User::findOrFail($id_user);
-        $user->delete(); // Jalankan fungsi hapus
+        // // Cek apakah admin mencoba menghapus dirinya sendiri
+        // if (Auth::user()->id_user == $id_user) {
+        //     return redirect()
+        //         ->route('admin.user.tampiluser')
+        //         ->with('gagal', 'Anda tidak dapat menghapus akun yang sedang digunakan.');
+        // }
 
-        return redirect()->route('admin.user')->with('sukses', 'Data user berhasil dihapus!');
+        $user = User::findOrFail($id_user);
+        $user->delete();
+
+        return redirect()
+            ->route('admin.user.tampiluser')
+            ->with('sukses', 'Data user berhasil dihapus!');
     }
 }

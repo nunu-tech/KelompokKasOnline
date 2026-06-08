@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
         // Panggil UserSeeder yang berisi data Melani, Arya, dll
         $this->call([
             UserSeeder::class,
+            RoleSeeder::class,
+            KelasSeeder::class,
         ]);
     }
 }

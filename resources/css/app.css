@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+<<<<<<< HEAD
 /* Soft gradient background untuk auth */
 .auth-bg {
     background: linear-gradient(135deg, #f5f7ff, #e8f3ff);
@@ -22,4 +23,179 @@
 /* Input lembut */
 .input-soft {
     @apply border border-slate-200 focus:border-indigo-400 focus:ring-indigo-200 bg-slate-50/60;
+=======
+/* Background */
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1f2937, #374151);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efek cahaya background */
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: -1;
+}
+
+body::before {
+    width: 400px;
+    height: 400px;
+    background: rgba(59, 130, 246, 0.35);
+    top: -100px;
+    left: -100px;
+    animation: blob1 15s infinite alternate ease-in-out;
+}
+
+body::after {
+    width: 350px;
+    height: 350px;
+    background: rgba(16, 185, 129, 0.25);
+    bottom: -100px;
+    right: -100px;
+    animation: blob2 18s infinite alternate ease-in-out;
+}
+
+@keyframes blob1 {
+    from {
+        transform: translate(0, 0);
+    }
+
+    to {
+        transform: translate(150px, 100px);
+    }
+}
+
+@keyframes blob2 {
+    from {
+        transform: translate(0, 0);
+    }
+
+    to {
+        transform: translate(-120px, -80px);
+    }
+}
+
+/* Card */
+.w-full.sm\:max-w-md {
+    background: #2d3748;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .4);
+    animation: cardFade 0.8s ease;
+}
+
+@keyframes cardFade {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Logo */
+.w-20.h-20 {
+    transition: all 0.4s ease;
+}
+
+.w-20.h-20:hover {
+    transform: rotate(10deg) scale(1.08);
+}
+
+/* Label */
+label {
+    color: #e5e7eb;
+    font-weight: 600;
+}
+
+/* Input */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    background: #374151 !important;
+    border: 2px solid #4b5563 !important;
+    color: #f9fafb !important;
+    border-radius: 14px !important;
+    padding: 8px 10px !important;
+    transition: all 0.3s ease;
+}
+
+input::placeholder {
+    color: #9ca3af !important;
+}
+
+input:hover {
+    border-color: #60a5fa !important;
+}
+
+input:focus {
+    border-color: #60a5fa !important;
+    box-shadow: 0 0 0 5px rgba(96, 165, 250, .15) !important;
+}
+
+/* Checkbox */
+input[type="checkbox"] {
+    accent-color: #3b82f6;
+}
+
+/* Tombol */
+button,
+[type="submit"] {
+    position: relative;
+    overflow: hidden;
+    background: #2563eb !important;
+    color: white !important;
+    border-radius: 14px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+}
+
+button:hover,
+[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(37, 99, 235, .35);
+}
+
+/* Efek cahaya geser */
+button::before,
+[type="submit"]::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 60%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: skewX(-25deg);
+}
+
+button:hover::before,
+[type="submit"]:hover::before {
+    animation: shine 0.8s ease;
+}
+
+@keyframes shine {
+    100% {
+        left: 180%;
+    }
+}
+
+/* Link */
+a {
+    color: #93c5fd;
+    transition: 0.3s;
+}
+
+a:hover {
+    color: #ffffff !important;
+>>>>>>> 60810f02bcb09570a9db86b401e027e9c156408a
 }
