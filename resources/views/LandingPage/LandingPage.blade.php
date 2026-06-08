@@ -607,7 +607,6 @@
         .btn-cta-white {
             display: inline-block;
             padding: .9rem 2.2rem;
-            background: white;
             color: var(--primary);
             border-radius: 12px;
             font-weight: 700;
