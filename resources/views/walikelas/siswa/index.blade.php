@@ -30,7 +30,7 @@
                         <th class="pb-4">No</th>
                         <th class="pb-4">Nama</th>
                         <th class="pb-4">Kelas</th>
-                        <th claas="pb-4">jenis_kelamin</th>
+                        <th claas="pb-4">jenis kelamin</th>
 
                     </tr>
                 </thead>
@@ -55,27 +55,6 @@
 
                         <td class="py-4">
                             {{ $item->jenis_kelamin }}
-                        </td>
-
-                        <td class="py-4 flex gap-2">
-
-                            <a href="{{ route('walikelas.siswa.edit', $item->id) }}"
-                               class="px-3 py-1 bg-yellow-400 rounded-lg text-xs">
-                                Edit
-                            </a>
-
-                            <form action="{{ route('walikelas.siswa.destroy', $item->id) }}"
-                                  method="POST">
-
-                                @csrf
-                                @method('DELETE')
-
-                                <button class="px-3 py-1 bg-red-500 text-white rounded-lg text-xs">
-                                    Hapus
-                                </button>
-
-                            </form>
-
                         </td>
 
                     </tr>
