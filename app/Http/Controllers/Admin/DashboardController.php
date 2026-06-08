@@ -11,9 +11,4 @@ class DashboardController extends Controller
     {
         return view('admin.dashboard');
     }
-
-    public function cobain()
-    {
-        return view('admin.cobain');
-    }
 }

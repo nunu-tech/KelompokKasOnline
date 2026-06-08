@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Soft gradient background untuk auth */
+.auth-bg {
+    background: linear-gradient(135deg, #f5f7ff, #e8f3ff);
+}
+
+/* Card lembut dengan shadow halus */
+.auth-card {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+}
+
+/* Warna utama soft (biru keunguan lembut) */
+.btn-primary-soft {
+    @apply bg-indigo-500 hover:bg-indigo-600 text-white;
+}
+
+/* Input lembut */
+.input-soft {
+    @apply border border-slate-200 focus:border-indigo-400 focus:ring-indigo-200 bg-slate-50/60;
+}

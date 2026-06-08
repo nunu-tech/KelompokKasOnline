@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Transaksi;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon; // Tambahkan ini untuk urusan tanggal yang lebih mudah
 
 class BendaharaController extends Controller
@@ -14,9 +14,11 @@ class BendaharaController extends Controller
     public function index()
     {
         // Fitur Pengaman otomatis: Jika belum login, otomatis login menggunakan ID user pertama yang ada di database
-        if (!Auth::check()) { 
+        if (!Auth::check()) {
             $user_tersedia = User::first();
-            if ($user_tersedia) { Auth::loginUsingId($user_tersedia->id); }
+            if ($user_tersedia) {
+                Auth::loginUsingId($user_tersedia->id);
+            }
         }
 
         $semua_transaksi = Transaksi::with('user')->latest()->get();
@@ -31,12 +33,14 @@ class BendaharaController extends Controller
 
     public function siswa()
     {
-        if (!Auth::check()) { 
+        if (!Auth::check()) {
             $user_tersedia = User::first();
-            if ($user_tersedia) { Auth::loginUsingId($user_tersedia->id); }
+            if ($user_tersedia) {
+                Auth::loginUsingId($user_tersedia->id);
+            }
         }
 
-        $daftar_siswa = User::withSum(['transaksi as total_bayar' => function($query) {
+        $daftar_siswa = User::withSum(['transaksi as total_bayar' => function ($query) {
             $query->where('jenis', 'Masuk');
         }], 'nominal')->get();
 
@@ -66,7 +70,7 @@ class BendaharaController extends Controller
 
         Transaksi::create([
             'id_bendahara' => Auth::id() ?? $user_default, // <--- Sudah diperbaiki secara dinamis agar tidak gagal Foreign Key
-            'id_user' => $request->id_user, 
+            'id_user' => $request->id_user,
             'jenis' => $request->jenis,
             'nominal' => $request->nominal,
             'keterangan' => $request->keterangan,
@@ -81,9 +85,11 @@ class BendaharaController extends Controller
      */
     public function laporan(Request $request)
     {
-        if (!Auth::check()) { 
+        if (!Auth::check()) {
             $user_tersedia = User::first();
-            if ($user_tersedia) { Auth::loginUsingId($user_tersedia->id); }
+            if ($user_tersedia) {
+                Auth::loginUsingId($user_tersedia->id);
+            }
         }
 
         // Ambil filter dari request, defaultnya adalah bulan dan tahun sekarang
@@ -92,10 +98,10 @@ class BendaharaController extends Controller
 
         // Ambil data transaksi berdasarkan bulan dan tahun
         $laporan = Transaksi::with('user')
-                    ->whereMonth('tanggal', $bulan)
-                    ->whereYear('tanggal', $tahun)
-                    ->orderBy('tanggal', 'asc')
-                    ->get();
+            ->whereMonth('tanggal', $bulan)
+            ->whereYear('tanggal', $tahun)
+            ->orderBy('tanggal', 'asc')
+            ->get();
 
         // Hitung totalan untuk summary di atas tabel laporan
         $total_masuk = $laporan->where('jenis', 'Masuk')->sum('nominal');
@@ -103,11 +109,11 @@ class BendaharaController extends Controller
         $saldo_periode = $total_masuk - $total_keluar;
 
         return view('bendahara.laporan', compact(
-            'laporan', 
-            'total_masuk', 
-            'total_keluar', 
-            'saldo_periode', 
-            'bulan', 
+            'laporan',
+            'total_masuk',
+            'total_keluar',
+            'saldo_periode',
+            'bulan',
             'tahun'
         ));
     }
@@ -119,9 +125,11 @@ class BendaharaController extends Controller
     public function edit($id_transaksi)
     {
         // Fitur Pengaman otomatis jalankan juga di sini demi keamanan data
-        if (!Auth::check()) { 
+        if (!Auth::check()) {
             $user_tersedia = User::first();
-            if ($user_tersedia) { Auth::loginUsingId($user_tersedia->id); }
+            if ($user_tersedia) {
+                Auth::loginUsingId($user_tersedia->id);
+            }
         }
 
         $transaksi = Transaksi::findOrFail($id_transaksi);
@@ -157,9 +165,9 @@ class BendaharaController extends Controller
         ]);
 
         $transaksi = Transaksi::findOrFail($id_transaksi);
-        
+
         $transaksi->update([
-            'id_user' => $request->id_user, 
+            'id_user' => $request->id_user,
             'jenis' => $request->jenis,
             'nominal' => $request->nominal,
             'keterangan' => $request->keterangan,
@@ -175,9 +183,11 @@ class BendaharaController extends Controller
      */
     public function verifikasi()
     {
-        if (!Auth::check()) { 
+        if (!Auth::check()) {
             $user_tersedia = User::first();
-            if ($user_tersedia) { Auth::loginUsingId($user_tersedia->id); }
+            if ($user_tersedia) {
+                Auth::loginUsingId($user_tersedia->id);
+            }
         }
 
         // Mengambil kiriman kas yang masih tertahan (Pending)

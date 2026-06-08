@@ -2,43 +2,54 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany; // Pastikan ini tetap ada untuk relasi
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
 
+    protected $primaryKey = 'id_user';
 
-    // 1. Primary Key disesuaikan dengan ERD kamu
-    protected $primaryKey = 'id';
-
-
-    // 2. Kolom-kolom disesuaikan dengan tabel users yang baru
     protected $fillable = [
-    'name',
-    'email',
-    'password',
-    'role',
-];
-
-
-    // 3. Menyembunyikan data sensitif saat data dipanggil
+        'nama_lengkap',
+        'username',
+        'email',
+        'kelamin',
+        'password',
+        'role',
+    ];
     protected $hidden = [
         'password',
         'remember_token',
     ];
-
-    // 4. Bawaan keamanan Laravel
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password'          => 'hashed',
         ];
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isWalikelas(): bool
+    {
+        return $this->role === 'walikelas';
+    }
+
+    public function isBendahara(): bool
+    {
+        return $this->role === 'bendahara';
+    }
+
+    public function isSiswa(): bool
+    {
+        return $this->role === 'siswa';
+    }
+
 
 
 
@@ -46,8 +57,7 @@ class User extends Authenticatable
     //  */
     public function transaksi(): HasMany
     {
-        // Parameter: (Model Tujuan, Foreign Key di tabel tujuan, Local Key di tabel saat ini)
-        // Karena Primary Key kita sekarang 'id_user', maka diubah menjadi seperti ini:
-        return $this->hasMany(Transaksi::class, 'id_user', 'id');
+        // Primary key user: id_user, foreign key di transaksi: id_user
+        return $this->hasMany(Transaksi::class, 'id_user', 'id_user');
     }
 }

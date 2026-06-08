@@ -1,105 +1,204 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
+// Admin
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController;
 
+// Wali Kelas
 use App\Http\Controllers\WaliKelas\WaliKelasController;
 use App\Http\Controllers\WaliKelas\SiswaController;
 use App\Http\Controllers\WaliKelas\LaporanController;
 use App\Http\Controllers\WaliKelas\PengeluaranController;
 use App\Http\Controllers\WaliKelas\KasController;
 
+// Bendahara
 use App\Http\Controllers\Bendahara\BendaharaController;
 
-// Rute Utama / Dashboard Default
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Logout
+Route::get('/logout', function (Request $request) {
+    Auth::logout();
 
-// Rute Profile User (Breeze/Jetstream)
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect('/login');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Landing Page
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/', function () {
+    return view('LandingPage.LandingPage');
+})->name('landing');
+
+/*
+|--------------------------------------------------------------------------
+| Profile (Laravel Breeze)
+|--------------------------------------------------------------------------
+*/
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+/*
+|--------------------------------------------------------------------------
+| Dashboard Per Role
+|--------------------------------------------------------------------------
+*/
 
+Route::middleware(['auth', 'verified'])->group(function () {
 
-// ==========================================
-// RUTE ADMIN
-// ==========================================
-Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
-Route::get('/admin/user', [UserController::class, 'index'])->name('admin.user.tampiluser');
+    // ADMIN
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
+        ->middleware('role:admin')
+        ->name('admin.dashboard');
 
+    // SISWA
+    Route::get('/siswa/dashboard', function () {
+        return view('siswa.dashboard');
+    })
+        ->middleware('role:siswa')
+        ->name('siswa.dashboard');
 
-// ==========================================
-// RUTE WALI KELAS
-// ==========================================
-Route::prefix('walikelas')->name('walikelas.')->group(function () {
+    // WALI KELAS
+    Route::get('/walikelas/dashboard', [WaliKelasController::class, 'index'])
+        ->middleware('role:walikelas')
+        ->name('walikelas.dashboard');
 
-    // Dashboard Wali Kelas
-    Route::get('/dashboard', [WaliKelasController::class, 'index'])->name('dashboard');
-
-    // Manajemen Kas
-    Route::get('/kas', [KasController::class, 'index'])->name('kas.index');
-    Route::get('/kas/create', [KasController::class, 'create'])->name('kas.create');
-    Route::post('/kas', [KasController::class, 'store'])->name('kas.store');
-
-    Route::get('/kas/pdf', [KasController::class, 'pdf'])->name('kas.pdf');
-
-    // Manajemen Pengeluaran
-    Route::get('/pengeluaran', [PengeluaranController::class, 'index'])->name('pengeluaran.index');
-    Route::post('/pengeluaran/store', [PengeluaranController::class, 'store'])->name('pengeluaran.store');
-
-    // Laporan
-    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan');
-    Route::get('/laporan/pdf', [LaporanController::class, 'pdf'])->name('laporan.pdf');
-
-
-    // CRUD Siswa (Otomatis mencakup index, create, store, show, edit, update, destroy)
-    Route::resource('siswa', SiswaController::class);
+    // BENDAHARA
+    Route::get('/bendahara/dashboard', [BendaharaController::class, 'index'])
+        ->middleware('role:bendahara')
+        ->name('bendahara.dashboard');
 });
 
+/*
+|--------------------------------------------------------------------------
+| ADMIN
+|--------------------------------------------------------------------------
+*/
 
-// ==========================================
-// RUTE BENDAHARA
-// ==========================================
-Route::prefix('bendahara')->group(function () {
-    
-    // 1. Halaman Dashboard Utama
-    Route::get('/', [BendaharaController::class, 'index'])->name('bendahara.index');
+Route::middleware(['auth', 'role:admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
 
-    // 2. Halaman Daftar Siswa
-    Route::get('/siswa', [BendaharaController::class, 'siswa'])->name('bendahara.siswa');
+        Route::get('/user', [UserController::class, 'index'])
+            ->name('user.tampiluser');
+    });
 
-    // 3. Halaman Laporan
-    Route::get('/laporan', [BendaharaController::class, 'laporan'])->name('bendahara.laporan');
+/*
+|--------------------------------------------------------------------------
+| WALI KELAS
+|--------------------------------------------------------------------------
+*/
 
-    // 4. Simpan transaksi baru
-    Route::post('/store', [BendaharaController::class, 'store'])->name('bendahara.store');
+Route::middleware(['auth', 'role:walikelas'])
+    ->prefix('walikelas')
+    ->name('walikelas.')
+    ->group(function () {
 
-    // 5. Lembar Halaman Edit Transaksi
-    Route::get('/transaksi/{id}/edit', [BendaharaController::class, 'edit'])->name('bendahara.transaksi.edit');
+        // Dashboard
+        Route::get('/dashboard', [WaliKelasController::class, 'index'])
+            ->name('dashboard');
 
-    // 6. Proses Update data transaksi ke database
-    Route::put('/update/{id}', [BendaharaController::class, 'update'])->name('bendahara.update');
+        // Kas
+        Route::get('/kas', [KasController::class, 'index'])
+            ->name('kas.index');
 
-    // 7. Hapus transaksi
-    Route::delete('/hapus/{id}', [BendaharaController::class, 'destroy'])->name('bendahara.transaksi.destroy');
+        Route::get('/kas/create', [KasController::class, 'create'])
+            ->name('kas.create');
 
-    // 8. Halaman Antrean Verifikasi Setoran Siswa
-    Route::get('/verifikasi', [BendaharaController::class, 'verifikasi'])->name('bendahara.verifikasi');
+        Route::post('/kas', [KasController::class, 'store'])
+            ->name('kas.store');
 
-    // 9. Proses Verifikasi / Menyetujui Pembayaran
-    Route::patch('/verifikasi/{id}/setujui', [BendaharaController::class, 'setujui'])->name('bendahara.setujui');
+        Route::get('/kas/pdf', [KasController::class, 'pdf'])
+            ->name('kas.pdf');
 
-    // 10. Proses Menolak Pembayaran yang Bermasalah
-    Route::patch('/verifikasi/{id}/tolak', [BendaharaController::class, 'tolak'])->name('bendahara.tolak');
+        // Pengeluaran
+        Route::get('/pengeluaran', [PengeluaranController::class, 'index'])
+            ->name('pengeluaran.index');
 
-    // 11. Detail transaksi (Wajib paling bawah agar tidak memblokir rute text / rute lain)
-    Route::get('/{id}', [BendaharaController::class, 'show'])->name('bendahara.show');
-});
+        Route::post('/pengeluaran/store', [PengeluaranController::class, 'store'])
+            ->name('pengeluaran.store');
+
+        // Laporan
+        Route::get('/laporan', [LaporanController::class, 'index'])
+            ->name('laporan');
+
+        Route::get('/laporan/pdf', [LaporanController::class, 'pdf'])
+            ->name('laporan.pdf');
+
+        // CRUD Siswa
+        Route::resource('siswa', SiswaController::class);
+    });
+
+/*
+|--------------------------------------------------------------------------
+| BENDAHARA
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth', 'role:bendahara'])
+    ->prefix('bendahara')
+    ->name('bendahara.')
+    ->group(function () {
+
+        // Dashboard
+        Route::get('/', [BendaharaController::class, 'index'])
+            ->name('index');
+
+        // Data Siswa
+        Route::get('/siswa', [BendaharaController::class, 'siswa'])
+            ->name('siswa');
+
+        // Laporan
+        Route::get('/laporan', [BendaharaController::class, 'laporan'])
+            ->name('laporan');
+
+        // Simpan transaksi
+        Route::post('/store', [BendaharaController::class, 'store'])
+            ->name('store');
+
+        // Edit transaksi
+        Route::get('/transaksi/{id}/edit', [BendaharaController::class, 'edit'])
+            ->name('transaksi.edit');
+
+        // Update transaksi
+        Route::put('/update/{id}', [BendaharaController::class, 'update'])
+            ->name('update');
+
+        // Hapus transaksi
+        Route::delete('/hapus/{id}', [BendaharaController::class, 'destroy'])
+            ->name('transaksi.destroy');
+
+        // Verifikasi pembayaran
+        Route::get('/verifikasi', [BendaharaController::class, 'verifikasi'])
+            ->name('verifikasi');
+
+        Route::patch('/verifikasi/{id}/setujui', [BendaharaController::class, 'setujui'])
+            ->name('setujui');
+
+        Route::patch('/verifikasi/{id}/tolak', [BendaharaController::class, 'tolak'])
+            ->name('tolak');
+
+        // Detail transaksi (harus paling bawah)
+        Route::get('/{id}', [BendaharaController::class, 'show'])
+            ->name('show');
+    });
+
+/*
+|--------------------------------------------------------------------------
+| Auth Routes
+|--------------------------------------------------------------------------
+*/
+
+require __DIR__ . '/auth.php';

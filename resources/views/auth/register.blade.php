@@ -1,52 +1,109 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <h2 class="text-2xl font-semibold text-slate-800 mb-1">
+        Buat Akun Baru
+    </h2>
+    <p class="text-sm text-slate-500 mb-6">
+        Lengkapi data berikut untuk mendaftar.
+    </p>
+
+    <x-input-error :messages="$errors->all()" class="mt-2" />
+
+    <form method="POST" action="{{ route('register') }}" class="space-y-4">
         @csrf
 
-        <!-- Name -->
+        {{-- Nama Lengkap --}}
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <label class="block text-sm font-medium text-slate-600 mb-1" for="nama_lengkap">
+                Nama Lengkap
+            </label>
+            <input id="nama_lengkap" name="nama_lengkap" type="text"
+                class="input-soft block w-full rounded-lg px-3 py-2 text-sm text-slate-800"
+                value="{{ old('nama_lengkap') }}" required autofocus>
         </div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        {{-- Username --}}
+        <div>
+            <label class="block text-sm font-medium text-slate-600 mb-1" for="username">
+                Username
+            </label>
+            <input id="username" name="username" type="text"
+                class="input-soft block w-full rounded-lg px-3 py-2 text-sm text-slate-800"
+                value="{{ old('username') }}" required>
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        {{-- Email --}}
+        <div>
+            <label class="block text-sm font-medium text-slate-600 mb-1" for="email">
+                Email
+            </label>
+            <input id="email" name="email" type="email"
+                class="input-soft block w-full rounded-lg px-3 py-2 text-sm text-slate-800" value="{{ old('email') }}"
+                required>
         </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        {{-- Role --}}
+        <div>
+            <label class="block text-sm font-medium text-slate-600 mb-1" for="role">
+                Role
+            </label>
+            <select id="role" name="role"
+                class="input-soft block w-full rounded-lg px-3 py-2 text-sm text-slate-800" required>
+                <option value="" disabled {{ old('role') ? '' : 'selected' }}>Pilih role</option>
+                <option value="siswa" {{ old('role') == 'siswa' ? 'selected' : '' }}>siswa</option>
+                <option value="walikelas" {{ old('role') == 'walikelas' ? 'selected' : '' }}>walikelas</option>
+                <option value="bendahara" {{ old('role') == 'bendahara' ? 'selected' : '' }}>bendahara</option>
+                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                {{-- tambah opsi lain kalau perlu --}}
+            </select>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
+        {{-- Jenis Kelamin --}}
+        <div>
+            <span class="block text-sm font-medium text-slate-600 mb-1">Jenis Kelamin</span>
+            <div class="flex items-center gap-4 text-sm text-slate-700">
+                <label class="inline-flex items-center gap-1">
+                    <input type="radio" name="kelamin" value="L"
+                        class="text-indigo-500 border-slate-300 focus:ring-indigo-300"
+                        {{ old('kelamin') == 'L' ? 'checked' : '' }} required>
+                    <span>Laki-laki</span>
+                </label>
+                <label class="inline-flex items-center gap-1">
+                    <input type="radio" name="kelamin" value="P"
+                        class="text-indigo-500 border-slate-300 focus:ring-indigo-300"
+                        {{ old('kelamin') == 'P' ? 'checked' : '' }} required>
+                    <span>Perempuan</span>
+                </label>
+            </div>
+        </div>
+        </div>
+
+        {{-- Password --}}
+        <div>
+            <label class="block text-sm font-medium text-slate-600 mb-1" for="password">
+                Password
+            </label>
+            <input id="password" name="password" type="password"
+                class="input-soft block w-full rounded-lg px-3 py-2 text-sm text-slate-800" required
+                autocomplete="new-password">
+        </div>
+
+        {{-- Confirm Password --}}
+        <div>
+            <label class="block text-sm font-medium text-slate-600 mb-1" for="password_confirmation">
+                Konfirmasi Password
+            </label>
+            <input id="password_confirmation" name="password_confirmation" type="password"
+                class="input-soft block w-full rounded-lg px-3 py-2 text-sm text-slate-800" required>
+        </div>
+
+        <div class="flex items-center justify-between pt-2">
+            <a class="text-xs text-indigo-500 hover:text-indigo-600 underline" href="{{ route('login') }}">
+                Sudah punya akun? Masuk
             </a>
 
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
+            <button type="submit" class="btn-primary-soft px-4 py-2 rounded-lg text-sm font-medium shadow-sm">
+                Daftar
+            </button>
         </div>
     </form>
 </x-guest-layout>
