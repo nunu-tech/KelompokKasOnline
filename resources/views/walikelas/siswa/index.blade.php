@@ -16,11 +16,6 @@
             </p>
         </div>
 
-        <a href="{{ route('walikelas.siswa.create') }}"
-           class="px-5 py-2 bg-darkJet text-white rounded-xl">
-            + Tambah Siswa
-        </a>
-
     </div>
 
     <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
@@ -34,11 +29,8 @@
 
                         <th class="pb-4">No</th>
                         <th class="pb-4">Nama</th>
-                        <th class="pb-4">NIS</th>
                         <th class="pb-4">Kelas</th>
-                        <th class="pb-4">Jenis Kelamin</th>
-                        <th class="pb-4">No HP</th>
-                        <th class="pb-4">Aksi</th>
+                        <th claas="pb-4">jenis_kelamin</th>
 
                     </tr>
                 </thead>
@@ -58,19 +50,11 @@
                         </td>
 
                         <td class="py-4">
-                            {{ $item->nis }}
-                        </td>
-
-                        <td class="py-4">
                             {{ $item->kelas }}
                         </td>
 
                         <td class="py-4">
                             {{ $item->jenis_kelamin }}
-                        </td>
-
-                        <td class="py-4">
-                            {{ $item->no_hp }}
                         </td>
 
                         <td class="py-4 flex gap-2">

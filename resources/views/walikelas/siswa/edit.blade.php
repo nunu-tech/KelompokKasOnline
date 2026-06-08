@@ -37,17 +37,6 @@
 
             <div>
                 <label class="text-sm font-medium text-darkJet">
-                    NIS
-                </label>
-
-                <input type="text"
-                       name="nis"
-                       value="{{ $siswa->nis }}"
-                       class="w-full mt-2 border border-gray-200 rounded-2xl p-3">
-            </div>
-
-            <div>
-                <label class="text-sm font-medium text-darkJet">
                     Kelas
                 </label>
 
@@ -77,20 +66,6 @@
 
                 </select>
             </div>
-
-            <div class="md:col-span-2">
-
-                <label class="text-sm font-medium text-darkJet">
-                    No HP
-                </label>
-
-                <input type="text"
-                       name="no_hp"
-                       value="{{ $siswa->no_hp }}"
-                       class="w-full mt-2 border border-gray-200 rounded-2xl p-3">
-
-            </div>
-
         </div>
 
         <div class="mt-8 flex gap-3">
