@@ -2,7 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-<<<<<<< HEAD
+/* ==========================================================================
+   1. PERBAIKAN UTAMA: MEMAKSA HALAMAN AGAR BISA DI-SCROLL SECARA NORMAL
+   ========================================================================== */
+html {
+    overflow-y: auto !important;
+    height: auto !important;
+}
+
+body {
+    min-height: 100vh !important;
+    height: auto !important;
+    background: linear-gradient(135deg, #1f2937, #374151);
+    position: relative;
+    overflow-x: hidden !important;
+    /* Mencegah scroll ke samping akibat animasi blob */
+    overflow-y: auto !important;
+    /* Memaksa scroll atas bawah agar aktif */
+}
+
+
+/* ==========================================================================
+   2. CUSTOM STYLE & TEMA UTAMA
+   ========================================================================== */
+
 /* Soft gradient background untuk auth */
 .auth-bg {
     background: linear-gradient(135deg, #f5f7ff, #e8f3ff);
@@ -23,16 +46,12 @@
 /* Input lembut */
 .input-soft {
     @apply border border-slate-200 focus:border-indigo-400 focus:ring-indigo-200 bg-slate-50/60;
-=======
-/* Background */
-body {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #1f2937, #374151);
-    position: relative;
-    overflow: hidden;
 }
 
-/* Efek cahaya background */
+
+/* ==========================================================================
+   3. EFEK CAHAYA BACKGROUND (BLOB ANIMATION)
+   ========================================================================== */
 body::before,
 body::after {
     content: "";
@@ -80,7 +99,12 @@ body::after {
     }
 }
 
-/* Card */
+
+/* ==========================================================================
+   4. STYLING CARD & COMPONENT (LOGIN / REGISTER FORM)
+   ========================================================================== */
+
+/* Kotak Form Utama */
 .w-full.sm\:max-w-md {
     background: #2d3748;
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -111,13 +135,13 @@ body::after {
     transform: rotate(10deg) scale(1.08);
 }
 
-/* Label */
+/* Judul / Label */
 label {
     color: #e5e7eb;
     font-weight: 600;
 }
 
-/* Input */
+/* Kolom Input Text & Password */
 input[type="text"],
 input[type="email"],
 input[type="password"] {
@@ -147,7 +171,7 @@ input[type="checkbox"] {
     accent-color: #3b82f6;
 }
 
-/* Tombol */
+/* Tombol Submit dengan Efek Shine Glimmer */
 button,
 [type="submit"] {
     position: relative;
@@ -165,7 +189,7 @@ button:hover,
     box-shadow: 0 10px 25px rgba(37, 99, 235, .35);
 }
 
-/* Efek cahaya geser */
+/* Efek cahaya geser pada tombol saat dihover */
 button::before,
 [type="submit"]::before {
     content: "";
@@ -189,7 +213,7 @@ button:hover::before,
     }
 }
 
-/* Link */
+/* Link Teks navigasi bawah */
 a {
     color: #93c5fd;
     transition: 0.3s;
@@ -197,5 +221,4 @@ a {
 
 a:hover {
     color: #ffffff !important;
->>>>>>> 60810f02bcb09570a9db86b401e027e9c156408a
 }

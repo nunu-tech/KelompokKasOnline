@@ -52,7 +52,6 @@
                 <option value="siswa" {{ old('role') == 'siswa' ? 'selected' : '' }}>siswa</option>
                 <option value="walikelas" {{ old('role') == 'walikelas' ? 'selected' : '' }}>walikelas</option>
                 <option value="bendahara" {{ old('role') == 'bendahara' ? 'selected' : '' }}>bendahara</option>
-                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
                 {{-- tambah opsi lain kalau perlu --}}
             </select>
         </div>

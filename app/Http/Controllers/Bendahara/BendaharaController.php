@@ -6,12 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Transaksi;
 use App\Models\User;
-<<<<<<< HEAD
 use Illuminate\Support\Facades\Auth;
-=======
-use App\Models\Notifikasi; // <--- TAMBAHAN: Import Model Notifikasi Baru
-use Illuminate\Support\Facades\Auth; 
->>>>>>> 60810f02bcb09570a9db86b401e027e9c156408a
 use Carbon\Carbon; // Tambahkan ini untuk urusan tanggal yang lebih mudah
 
 class BendaharaController extends Controller
@@ -21,13 +16,9 @@ class BendaharaController extends Controller
         // Fitur Pengaman otomatis: Jika belum login, otomatis login menggunakan ID user pertama yang ada di database
         if (!Auth::check()) {
             $user_tersedia = User::first();
-<<<<<<< HEAD
             if ($user_tersedia) {
                 Auth::loginUsingId($user_tersedia->id);
             }
-=======
-            if ($user_tersedia) { Auth::loginUsingId($user_tersedia->id_user); } // <--- DIUBAH: id menjadi id_user
->>>>>>> 60810f02bcb09570a9db86b401e027e9c156408a
         }
 
         $semua_transaksi = Transaksi::with('user')->latest()->get();
@@ -44,13 +35,9 @@ class BendaharaController extends Controller
     {
         if (!Auth::check()) {
             $user_tersedia = User::first();
-<<<<<<< HEAD
             if ($user_tersedia) {
                 Auth::loginUsingId($user_tersedia->id);
             }
-=======
-            if ($user_tersedia) { Auth::loginUsingId($user_tersedia->id_user); } // <--- DIUBAH: id menjadi id_user
->>>>>>> 60810f02bcb09570a9db86b401e027e9c156408a
         }
 
         $daftar_siswa = User::withSum(['transaksi as total_bayar' => function ($query) {
@@ -71,7 +58,7 @@ class BendaharaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_user' => 'nullable|exists:users,id_user', // <--- DIUBAH: id menjadi id_user sesuai database kelompok
+            'id_user' => 'nullable|exists:users,id',
             'nominal' => 'required|numeric',
             'jenis' => 'required',
             'keterangan' => 'required',
@@ -79,19 +66,11 @@ class BendaharaController extends Controller
         ]);
 
         // Ambil ID user pertama yang ada di tabel sebagai cadangan jika tidak ada session login
-        $user_default = User::first()->id_user ?? null; // <--- DIUBAH: id menjadi id_user
-
-        // Ambil ID dari bendahara yang sedang login dengan cara yang aman untuk custom primary key
-        $id_bendahara_login = auth()->user() ? auth()->user()->id_user : null;
+        $user_default = User::first()->id ?? null;
 
         Transaksi::create([
-<<<<<<< HEAD
             'id_bendahara' => Auth::id() ?? $user_default, // <--- Sudah diperbaiki secara dinamis agar tidak gagal Foreign Key
             'id_user' => $request->id_user,
-=======
-            'id_bendahara' => $id_bendahara_login ?? $user_default, // <--- Sudah diperbaiki secara dinamis agar tidak gagal Foreign Key
-            'id_user' => $request->id_user, 
->>>>>>> 60810f02bcb09570a9db86b401e027e9c156408a
             'jenis' => $request->jenis,
             'nominal' => $request->nominal,
             'keterangan' => $request->keterangan,
@@ -108,13 +87,9 @@ class BendaharaController extends Controller
     {
         if (!Auth::check()) {
             $user_tersedia = User::first();
-<<<<<<< HEAD
             if ($user_tersedia) {
                 Auth::loginUsingId($user_tersedia->id);
             }
-=======
-            if ($user_tersedia) { Auth::loginUsingId($user_tersedia->id_user); } // <--- DIUBAH: id menjadi id_user
->>>>>>> 60810f02bcb09570a9db86b401e027e9c156408a
         }
 
         // Ambil filter dari request, defaultnya adalah bulan dan tahun sekarang
@@ -152,13 +127,9 @@ class BendaharaController extends Controller
         // Fitur Pengaman otomatis jalankan juga di sini demi keamanan data
         if (!Auth::check()) {
             $user_tersedia = User::first();
-<<<<<<< HEAD
             if ($user_tersedia) {
                 Auth::loginUsingId($user_tersedia->id);
             }
-=======
-            if ($user_tersedia) { Auth::loginUsingId($user_tersedia->id_user); } // <--- DIUBAH: id menjadi id_user
->>>>>>> 60810f02bcb09570a9db86b401e027e9c156408a
         }
 
         $transaksi = Transaksi::findOrFail($id_transaksi);
@@ -186,7 +157,7 @@ class BendaharaController extends Controller
     public function update(Request $request, $id_transaksi)
     {
         $request->validate([
-            'id_user' => 'nullable|exists:users,id_user', // <--- DIUBAH: id menjadi id_user
+            'id_user' => 'nullable|exists:users,id',
             'nominal' => 'required|numeric',
             'jenis' => 'required',
             'keterangan' => 'required',
@@ -214,13 +185,9 @@ class BendaharaController extends Controller
     {
         if (!Auth::check()) {
             $user_tersedia = User::first();
-<<<<<<< HEAD
             if ($user_tersedia) {
                 Auth::loginUsingId($user_tersedia->id);
             }
-=======
-            if ($user_tersedia) { Auth::loginUsingId($user_tersedia->id_user); } // <--- DIUBAH: id menjadi id_user
->>>>>>> 60810f02bcb09570a9db86b401e027e9c156408a
         }
 
         // Mengambil kiriman kas yang masih tertahan (Pending)
@@ -252,49 +219,4 @@ class BendaharaController extends Controller
 
         return redirect()->back()->with('sukses', 'Status pembayaran kas berhasil ditolak.');
     }
-<<<<<<< HEAD
 }
-=======
-
-    /**
-     * 7. AKSI KIRIM NOTIFIKASI TAGIHAN TUNGGAKAN KE SISWA (SISTEM MINGGUAN)
-     * DIUBAH: Menggunakan angka bulat dan target flat Rp5.000 sesuai keinginanmu.
-     */
-    public function kirimTagihan($id)
-    {
-        $siswa = User::withSum(['transaksi as total_bayar' => function($query) {
-            $query->where('jenis', 'Masuk');
-        }], 'nominal')->findOrFail($id);
-        
-        // 1. Ambil hitungan minggu bulat menggunakan perkiraan rentang waktu hari lalu dibulatkan ke bawah (floor)
-        $tanggal_mulai_kas = Carbon::parse('2026-05-01'); 
-        $tanggal_sekarang = Carbon::now();
-        $selisih_hari = $tanggal_mulai_kas->diffInDays($tanggal_sekarang);
-        
-        // Menghasilkan angka bulat (Misal: 5)
-        $jumlah_minggu = floor($selisih_hari / 7);
-        $jumlah_minggu = $jumlah_minggu < 1 ? 1 : $jumlah_minggu;
-
-        // 2. Kunci target kas flat Rp5.000 saja per minggu sesuai request
-        $target_kas = 5000;
-
-        // 3. Hitung sisa tunggakan
-        $sudah_bayar = $siswa->total_bayar ?? 0;
-        $tunggakan = $target_kas - $sudah_bayar;
-
-        if ($tunggakan > 0) {
-            // Data dimasukkan ke tabel database 'notifikasis'
-            Notifikasi::create([
-                'siswa_id' => $siswa->id_user, 
-                'pesan' => "Tagihan Uang Kas (Minggu ke-" . $jumlah_minggu . "): Halo " . $siswa->nama_lengkap . ", kewajiban iuran kas kamu minggu ini adalah Rp " . number_format($target_kas, 0, ',', '.') . ". Kamu baru membayar Rp " . number_format($sudah_bayar, 0, ',', '.') . ", sehingga masih memiliki sisa kekurangan sebesar Rp " . number_format($tunggakan, 0, ',', '.') . ". Harap segera melakukan pembayaran, ya!",
-                'is_read' => 0
-            ]);
-
-            // Output notifikasi sukses kini dijamin bersih tanpa desimal panjang
-            return redirect()->back()->with('sukses', 'Sistem Berhasil! Pesan tagihan minggu ke-' . $jumlah_minggu . ' sudah diteruskan ke dalam akun dasbor ' . $siswa->nama_lengkap . '.');
-        }
-
-        return redirect()->back()->with('error', 'Hebat! Siswa bernama ' . $siswa->nama_lengkap . ' sudah melunasi seluruh iuran kas sampai minggu ke-' . $jumlah_minggu . '.');
-    }
-}
->>>>>>> 60810f02bcb09570a9db86b401e027e9c156408a

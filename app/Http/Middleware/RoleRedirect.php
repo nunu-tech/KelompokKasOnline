@@ -21,4 +21,6 @@ class RoleRedirect
 
         return $next($request);
     }
+
+    
 }

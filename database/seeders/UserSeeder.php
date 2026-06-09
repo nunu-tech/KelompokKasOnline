@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'username'     => 'melani123',
             'email'        => 'melani@gmail.com',
             'password'     => Hash::make('password123'),
-            'id_role'      => 2, // Sesuaikan dengan id_role untuk Siswa
+            'id_role'      => 1, // Sesuaikan dengan id_role untuk Siswa
         ]);
     }
 }
