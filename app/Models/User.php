@@ -2,70 +2,62 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
 
-    // 1. Primary Key disesuaikan dengan isi tabel users kamu
     protected $primaryKey = 'id_user';
 
-
-    // 2. Kolom-kolom disesuaikan dengan tabel users yang baru
     protected $fillable = [
         'nama_lengkap',
         'username',
-        'kelamin',
         'email',
+        'kelamin',
         'password',
-        'id_role',
-        'id_kelas',
+        'role',
     ];
-
-
-
-
-    // 3. Menyembunyikan data sensitif saat data dipanggil
     protected $hidden = [
         'password',
         'remember_token',
     ];
-
-    // 4. Bawaan keamanan Laravel
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password'          => 'hashed',
         ];
     }
 
-
-    public function role()
+    public function isAdmin(): bool
     {
-        return $this->belongsTo(Role::class, 'id_role');
+        return $this->role === 'admin';
     }
 
-    public function kelas()
+    public function isWalikelas(): bool
     {
-        return $this->belongsTo(Kelas::class, 'id_kelas');
+        return $this->role === 'walikelas';
+    }
+
+    public function isBendahara(): bool
+    {
+        return $this->role === 'bendahara';
+    }
+
+    public function isSiswa(): bool
+    {
+        return $this->role === 'siswa';
     }
 
 
 
 
-    /**
-     * RELASI: User punya banyak Transaksi
-     */
-
+    //  * RELASI: User punya banyak Transaksi
+    //  */
     public function transaksi(): HasMany
     {
-        // Parameter: (Model Tujuan, Foreign Key di tabel tujuan, Local Key di tabel saat ini)
-        // Disamakan ke 'id_user' sebagai jembatan penghubungnya
+        // Primary key user: id_user, foreign key di transaksi: id_user
         return $this->hasMany(Transaksi::class, 'id_user', 'id_user');
     }
 }

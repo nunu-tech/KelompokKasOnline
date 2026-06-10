@@ -12,17 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            // Sesuai dengan ERD
             $table->id('id_user');
-            $table->unsignedBigInteger('id_kelas')->nullable(); // Foreign key ke tabel kelas (jika ada)
-            $table->string('nama_lengkap'); // Menggantikan 'name'
-            $table->string('kelamin'); // tambahan
-            $table->string('username')->unique(); // Tambahan username
-            $table->string('password');
+            $table->unsignedBigInteger('id_kelas')->nullable();
+            $table->string('nama_lengkap');
+            $table->string('username')->unique();
             $table->string('email')->unique();
-            $table->unsignedBigInteger('id_role')->nullable(); // Untuk membedakan Admin dan Siswa
-            
-            // Bawaan keamanan Laravel (Sebaiknya dibiarkan)
+
+            $table->enum('role', [
+                'siswa',
+                'admin',
+                'walikelas',
+                'bendahara'
+            ])->default('siswa');
+            $table->string('kelamin');
+            $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

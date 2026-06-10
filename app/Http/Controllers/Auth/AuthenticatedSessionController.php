@@ -28,9 +28,15 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
-    }
+        $role = $request->user()->role;
 
+        return match ($role) {
+            'admin' => redirect()->intended(route('admin.dashboard')),
+            'walikelas' => redirect()->intended(route('walikelas.dashboard')),
+            'bendahara' => redirect()->intended(route('bendahara.dashboard')),
+            default => redirect()->intended(route('siswa.dashboard')),
+        };
+    }
     /**
      * Destroy an authenticated session.
      */

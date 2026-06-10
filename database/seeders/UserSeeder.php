@@ -16,11 +16,11 @@ class UserSeeder extends Seeder
         // Ganti 'name' menjadi 'nama_lengkap' dan tambahkan id_role
         User::create([
             'nama_lengkap' => 'Melani',
-            'kelamin'      => 'perempuan',
+            'kelamin'      => 'P',
             'username'     => 'melani123',
             'email'        => 'melani@gmail.com',
-            'password'     => Hash::make('password123'),
-            'id_role'      => 2, // Sesuaikan dengan id_role untuk Siswa
+            'password'     => Hash::make('admin123'),
+            'role'      => 1, // Sesuaikan dengan id_role untuk Siswa
         ]);
     }
 }
