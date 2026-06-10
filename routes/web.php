@@ -188,6 +188,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // CRUD SISWA
         // ==========================================
 
+        Route::get('/siswa/riwayat', [SiswaController::class, 'riwayat'])
+            ->name('siswa.riwayat');
+            
         // Tampil daftar siswa
         Route::get('/siswa', [SiswaController::class, 'index'])
             ->name('siswa.index');
