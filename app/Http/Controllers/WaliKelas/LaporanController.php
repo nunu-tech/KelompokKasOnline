@@ -9,30 +9,11 @@ use App\Models\Pengeluaran;
 class LaporanController extends Controller
 {
     public function index()
-    {
-        // Total pemasukan
-        $totalPemasukan = Kas::sum('jumlah');
+{
+    $laporan = Kas::latest()->get();
 
-        // Total pengeluaran
-        $totalPengeluaran = Pengeluaran::sum('jumlah');
-
-        // Saldo akhir
-        $saldo = $totalPemasukan - $totalPengeluaran;
-
-        // Data pembayaran terbaru
-        $kas = Kas::latest()->get();
-
-        // Data pengeluaran terbaru
-        $pengeluaran = Pengeluaran::latest()->get();
-
-        return view('waliKelas.laporan.index', compact(
-            'totalPemasukan',
-            'totalPengeluaran',
-            'saldo',
-            'kas',
-            'pengeluaran'
-        ));
-    }
+    return view('waliKelas.laporan.index', compact('laporan'));
+}
 
     public function pdf()
 {

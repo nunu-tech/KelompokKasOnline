@@ -14,11 +14,13 @@
         body {
             font-family: 'Inter', sans-serif;
         }
+
         /* Menghilangkan panah default bawaan browser pada summary */
-        details > summary {
+        details>summary {
             list-style: none;
         }
-        details > summary::-webkit-details-marker {
+
+        details>summary::-webkit-details-marker {
             display: none;
         }
     </style>
@@ -61,7 +63,7 @@
 
                 <div>
                     <p class="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Administrator</p>
-                    
+
                     <details class="group" {{ request()->routeIs('admin.kelas.*', 'admin.user.*', 'admin.peran.*') ? 'open' : '' }}>
                         <summary class="flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer transition-all
                             {{ request()->routeIs('admin.kelas.*', 'admin.user.*', 'admin.peran.*') ? 'text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800' }}">
@@ -75,22 +77,22 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </summary>
-                        
+
                         <div class="mt-1 pl-12 pr-4 space-y-1">
-                            <a href="{{ route('admin.kelas.index') }}" 
-                               class="block px-3 py-2 rounded-lg text-sm transition-all
+                            <a href="{{ route('admin.kelas.index') }}"
+                                class="block px-3 py-2 rounded-lg text-sm transition-all
                                {{ request()->routeIs('admin.kelas.*') ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20' : 'text-slate-400 hover:text-white hover:bg-slate-800' }}">
-                               Data Kelas
+                                Data Kelas
                             </a>
-                            <a href="{{ route('admin.user.tampiluser') }}" 
-                               class="block px-3 py-2 rounded-lg text-sm transition-all
+                            <a href="{{ route('admin.user.tampiluser') }}"
+                                class="block px-3 py-2 rounded-lg text-sm transition-all
                                {{ request()->routeIs('admin.user.*') ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20' : 'text-slate-400 hover:text-white hover:bg-slate-800' }}">
-                               Data User
+                                Data User
                             </a>
-                            <a href="{{ route('admin.peran.index') }}" 
-                               class="block px-3 py-2 rounded-lg text-sm transition-all
+                            <a href="{{ route('admin.peran.index') }}"
+                                class="block px-3 py-2 rounded-lg text-sm transition-all
                                {{ request()->routeIs('admin.peran.index') ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20' : 'text-slate-400 hover:text-white hover:bg-slate-800' }}">
-                               Pengaturan Peran
+                                Pengaturan Peran
                             </a>
                         </div>
                     </details>
@@ -98,10 +100,10 @@
 
                 <div>
                     <p class="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Bendahara</p>
-                    
-                    <details class="group" {{ request()->routeIs('admin.tagihan.*', 'admin.pemasukan.*', 'admin.pengeluaran.*') ? 'open' : '' }}>
+
+                    <details class="group" {{ request()->routeIs('admin.keuangan.*', 'admin.pemasukan.*', 'admin.pengeluaran.*') ? 'open' : '' }}>
                         <summary class="flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer transition-all
-                            {{ request()->routeIs('admin.tagihan.*', 'admin.pemasukan.*', 'admin.pengeluaran.*') ? 'text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800' }}">
+                            {{ request()->routeIs('admin.keuangan.*', 'admin.pemasukan.*', 'admin.pengeluaran.*') ? 'text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800' }}">
                             <div class="flex items-center gap-3">
                                 <svg class="w-5 h-5 group-hover:scale-110 transition-transform {{ request()->routeIs('admin.tagihan.*', 'admin.pemasukan.*', 'admin.pengeluaran.*') ? 'text-indigo-400' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -112,67 +114,34 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </summary>
-                        
+
                         <div class="mt-1 pl-12 pr-4 space-y-1">
-                            <a href="#" 
-                               class="block px-3 py-2 rounded-lg text-sm transition-all
-                               {{ request()->routeIs('admin.tagihan.*') ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20' : 'text-slate-400 hover:text-white hover:bg-slate-800' }}">
-                               Buat Tagihan Kas
+                            <a href="{{ route('admin.keuangan.laporan') }}"
+                                class="block px-3 py-2 rounded-lg text-sm transition-all
+                               {{ request()->routeIs('admin.keuangan.laporan') ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20' : 'text-slate-400 hover:text-white hover:bg-slate-800' }}">
+                                Buku Kas (Rekapitulasi)
                             </a>
-                            <a href="#" 
-                               class="block px-3 py-2 rounded-lg text-sm transition-all
-                               {{ request()->routeIs('admin.pemasukan.*') ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20' : 'text-slate-400 hover:text-white hover:bg-slate-800' }}">
-                               Kas Masuk (Pemasukan)
+                            <a href="{{ route('admin.keuangan.index') }}"
+                                class="block px-3 py-2 rounded-lg text-sm transition-all
+                               {{ request()->routeIs('admin.keuangan.index') ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20' : 'text-slate-400 hover:text-white hover:bg-slate-800' }}">
+                                Ringkasan Keuangan
                             </a>
-                            <a href="#" 
-                               class="block px-3 py-2 rounded-lg text-sm transition-all
-                               {{ request()->routeIs('admin.pengeluaran.*') ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20' : 'text-slate-400 hover:text-white hover:bg-slate-800' }}">
-                               Kas Keluar (Pengeluaran)
+                            <a href="{{ route('admin.keuangan.daftarTagihan') }}"
+                                class="block px-3 py-2 rounded-lg text-sm transition-all
+                               {{ request()->routeIs('admin.keuangan.daftarTagihan') ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20' : 'text-slate-400 hover:text-white hover:bg-slate-800' }}">
+                                Daftar Tagihan Kas
                             </a>
+                            <a href="{{ route('admin.keuangan.create') }}"
+                                class="block px-3 py-2 rounded-lg text-sm transition-all
+                               {{ request()->routeIs('admin.keuangan.create') ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20' : 'text-slate-400 hover:text-white hover:bg-slate-800' }}">
+                                Transaksi
+                            </a>
+                
                         </div>
                     </details>
                 </div>
 
-                <div>
-                    <p class="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Umum</p>
-                    
-                    <details class="group" {{ request()->routeIs('admin.riwayat.*', 'admin.bukukas.*') ? 'open' : '' }}>
-                        <summary class="flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer transition-all
-                            {{ request()->routeIs('admin.riwayat.*', 'admin.bukukas.*') ? 'text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800' }}">
-                            <div class="flex items-center gap-3">
-                                <svg class="w-5 h-5 group-hover:scale-110 transition-transform {{ request()->routeIs('admin.riwayat.*', 'admin.bukukas.*') ? 'text-indigo-400' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6m4 6V7m4 10v-3M5 21h14"></path>
-                                </svg>
-                                <span class="font-medium">Laporan & Histori</span>
-                            </div>
-                            <svg class="w-4 h-4 transition-transform duration-200 group-open:rotate-180 {{ request()->routeIs('admin.riwayat.*', 'admin.bukukas.*') ? 'text-indigo-400' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </summary>
-                        
-                        <div class="mt-1 pl-12 pr-4 space-y-1">
-                            <a href="#" 
-                               class="block px-3 py-2 rounded-lg text-sm transition-all
-                               {{ request()->routeIs('admin.riwayat.*') ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20' : 'text-slate-400 hover:text-white hover:bg-slate-800' }}">
-                               Riwayat Transaksi
-                            </a>
-                            <a href="#" 
-                               class="block px-3 py-2 rounded-lg text-sm transition-all
-                               {{ request()->routeIs('admin.bukukas.*') ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20' : 'text-slate-400 hover:text-white hover:bg-slate-800' }}">
-                               Buku Kas (Rekapitulasi)
-                            </a>
-                        </div>
-                    </details>
-
-                    <a href="#" 
-                       class="flex items-center gap-3 px-4 py-3 mt-1 rounded-xl group transition-all
-                       {{ request()->routeIs('admin.pengumuman.*') ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20' : 'text-slate-400 hover:text-white hover:bg-slate-800' }}">
-                        <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5L6 9H3v6h3l5 4V5z"></path>
-                        </svg>
-                        <span class="font-medium">Pengumuman</span>
-                    </a>
-                </div>
+               
 
             </nav>
 

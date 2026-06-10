@@ -6,10 +6,12 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\KeuanganController;
 use App\Http\Controllers\WaliKelas\WaliKelasController;
 use App\Http\Controllers\WaliKelas\SiswaController;
 use App\Http\Controllers\WaliKelas\LaporanController;
 use App\Http\Controllers\WaliKelas\PengeluaranController;
+use App\Http\Controllers\WaliKelas\KasController;
 use App\Http\Controllers\Bendahara\BendaharaController;
 
 // Rute Utama / Dashboard Default
@@ -24,7 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 
 // ==========================================
@@ -69,11 +71,37 @@ Route::delete('/admin/kelas/{id}', [KelasController::class, 'destroy'])->name('a
 
 // PERAN
 Route::get('/admin/peran', [RoleController::class, 'index'])->name('admin.peran.index');
-    Route::get('/admin/peran/tambah', [RoleController::class, 'create'])->name('admin.peran.create');
-    Route::post('/admin/peran', [RoleController::class, 'store'])->name('admin.peran.store');
-    Route::get('/admin/peran/{id}/edit', [RoleController::class, 'edit'])->name('admin.peran.edit');
-    Route::put('/admin/peran/{id}', [RoleController::class, 'update'])->name('admin.peran.update');
-    Route::delete('/peran/{id}', [RoleController::class, 'destroy'])->name('admin.peran.destroy');
+Route::get('/admin/peran/tambah', [RoleController::class, 'create'])->name('admin.peran.create');
+Route::post('/admin/peran', [RoleController::class, 'store'])->name('admin.peran.store');
+Route::get('/admin/peran/{id}/edit', [RoleController::class, 'edit'])->name('admin.peran.edit');
+Route::put('/admin/peran/{id}', [RoleController::class, 'update'])->name('admin.peran.update');
+Route::delete('/peran/{id}', [RoleController::class, 'destroy'])->name('admin.peran.destroy');
+
+
+// KEUANGAN
+Route::prefix('admin/keuangan')->name('admin.keuangan.')->group(function () {
+    Route::get('/', [KeuanganController::class, 'index'])->name('index');
+    Route::get('/laporan', [KeuanganController::class, 'laporan'])->name('laporan');
+    Route::get('/verifikasi', [KeuanganController::class, 'verifikasi'])->name('verifikasi');
+    Route::patch('/verifikasi/{id}/setujui', [KeuanganController::class, 'setujui'])->name('setujui');
+    Route::patch('/verifikasi/{id}/tolak', [KeuanganController::class, 'tolak'])->name('tolak');
+    // URL: /admin/keuangan/tambah (Untuk menampilkan halaman form)
+    Route::get('/tambah', [KeuanganController::class, 'create'])->name('create');
+    
+    // URL: /admin/keuangan/simpan (Untuk memproses data form ke database)
+    Route::post('/simpan', [KeuanganController::class, 'store'])->name('store');
+    // URL: /admin/keuangan/tagihan (Untuk menampilkan form tagihan)
+    Route::get('/tagihan', [KeuanganController::class, 'tagihan'])->name('tagihan');
+    
+    // URL: /admin/keuangan/tagihan/kirim (Untuk memproses tagihan)
+    Route::post('/tagihan/kirim', [KeuanganController::class, 'kirimTagihan'])->name('kirimTagihan');
+
+    // URL: /admin/keuangan/daftar-tagihan (Melihat semua tagihan)
+    Route::get('/daftar-tagihan', [KeuanganController::class, 'daftarTagihan'])->name('daftarTagihan');
+    
+    // URL: /admin/keuangan/tagihan/acc/{id} (Aksi tombol ACC)
+    Route::post('/tagihan/acc/{id_tagihan}', [KeuanganController::class, 'accTagihan'])->name('accTagihan');
+});
 
 
 // ==========================================
@@ -99,7 +127,7 @@ Route::prefix('walikelas')->name('walikelas.')->group(function () {
     Route::get('/pengeluaran', [PengeluaranController::class, 'index'])->name('pengeluaran.index');
     Route::post('/pengeluaran/store', [PengeluaranController::class, 'store'])->name('pengeluaran.store');
     Route::get('/pengeluaran/create', [PengeluaranController::class, 'create'])
-         ->name('pengeluaran.create');
+        ->name('pengeluaran.create');
 
     Route::get('/pengeluaran/{id}/edit', [PengeluaranController::class, 'edit'])
         ->name('pengeluaran.edit');
@@ -115,41 +143,41 @@ Route::prefix('walikelas')->name('walikelas.')->group(function () {
     Route::get('/laporan/pdf', [LaporanController::class, 'pdf'])->name('laporan.pdf');
 
     // Tunggakan
-Route::get('/tunggakan', [WaliKelasController::class, 'tunggakan'])
-    ->name('tunggakan');
+    Route::get('/tunggakan', [WaliKelasController::class, 'tunggakan'])
+        ->name('tunggakan');
 
-// Pengumuman
-Route::get('/pengumuman', [WaliKelasController::class, 'pengumuman'])
-    ->name('pengumuman');
+    // Pengumuman
+    Route::get('/pengumuman', [WaliKelasController::class, 'pengumuman'])
+        ->name('pengumuman');
 
 
     // ==========================================
-// CRUD SISWA
-// ==========================================
+    // CRUD SISWA
+    // ==========================================
 
-// Tampil daftar siswa
-Route::get('/siswa', [SiswaController::class, 'index'])
-    ->name('siswa.index');
+    // Tampil daftar siswa
+    Route::get('/siswa', [SiswaController::class, 'index'])
+        ->name('siswa.index');
 
-// Form tambah siswa
-Route::get('/siswa/create', [SiswaController::class, 'create'])
-    ->name('siswa.create');
+    // Form tambah siswa
+    Route::get('/siswa/create', [SiswaController::class, 'create'])
+        ->name('siswa.create');
 
-// Simpan siswa baru
-Route::post('/siswa', [SiswaController::class, 'store'])
-    ->name('siswa.store');
+    // Simpan siswa baru
+    Route::post('/siswa', [SiswaController::class, 'store'])
+        ->name('siswa.store');
 
-// Form edit siswa
-Route::get('/siswa/{id}/edit', [SiswaController::class, 'edit'])
-    ->name('siswa.edit');
+    // Form edit siswa
+    Route::get('/siswa/{id}/edit', [SiswaController::class, 'edit'])
+        ->name('siswa.edit');
 
-// Update siswa
-Route::put('/siswa/{id}', [SiswaController::class, 'update'])
-    ->name('siswa.update');
+    // Update siswa
+    Route::put('/siswa/{id}', [SiswaController::class, 'update'])
+        ->name('siswa.update');
 
-// Hapus siswa
-Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])
-    ->name('siswa.destroy');
+    // Hapus siswa
+    Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])
+        ->name('siswa.destroy');
 });
 
 
@@ -159,22 +187,22 @@ Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])
 Route::prefix('bendahara')->group(function () {
 
     // 1. Halaman Dashboard Utama
-    Route::get('/', [BendaharaController::class, 'index'])->name('bendahara.index');
+    Route::get('/bendahara', [BendaharaController::class, 'index'])->name('bendahara.index');
 
     // 2. Halaman Daftar Siswa
-    Route::get('/siswa', [BendaharaController::class, 'siswa'])->name('bendahara.siswa');
+    Route::get('/bendahara/siswa', [BendaharaController::class, 'siswa'])->name('bendahara.siswa');
 
     // 3. Halaman Laporan
-    Route::get('/laporan', [BendaharaController::class, 'laporan'])->name('bendahara.laporan');
+    Route::get('/bendahara/laporan', [BendaharaController::class, 'laporan'])->name('bendahara.laporan');
 
     // 4. Simpan transaksi baru
-    Route::post('/store', [BendaharaController::class, 'store'])->name('bendahara.store');
+    Route::post('/bendahara/store', [BendaharaController::class, 'store'])->name('bendahara.store');
 
     // 5. Lembar Halaman Edit Transaksi
-    Route::get('/transaksi/{id}/edit', [BendaharaController::class, 'edit'])->name('bendahara.transaksi.edit');
+    Route::get('/bendahara/transaksi/{id}/edit', [BendaharaController::class, 'edit'])->name('bendahara.transaksi.edit');
 
     // 6. Proses Update data transaksi ke database
-    Route::put('/update/{id}', [BendaharaController::class, 'update'])->name('bendahara.update');
+    Route::put('/bendahara/update/{id}', [BendaharaController::class, 'update'])->name('bendahara.update');
 
     // 7. Hapus transaksi
     Route::delete('/hapus/{id}', [BendaharaController::class, 'destroy'])->name('bendahara.transaksi.destroy');

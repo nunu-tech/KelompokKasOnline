@@ -88,16 +88,31 @@
         </div>
 
         <div class="border-t border-gray-800 pt-4 space-y-4">
-            <div class="flex items-center justify-between px-2 text-gray-400 text-sm">
-                <span>Dark Mode</span>
-                <button class="w-10 h-6 bg-gray-800 rounded-full p-1 transition-all duration-300 flex items-center justify-start" id="darkModeToggle">
-                    <div class="w-4 h-4 bg-luxuryGold rounded-full"></div>
-                </button>
-            </div>
-            <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-xl text-red-400 hover:bg-red-500/10 font-medium transition-all duration-300">
-                <i data-lucide="log-out" class="w-5 h-5"></i> Keluar
-            </a>
-        </div>
+
+    <div class="flex items-center justify-between px-2 text-gray-400 text-sm">
+        <span>Dark Mode</span>
+
+        <button class="w-10 h-6 bg-gray-800 rounded-full p-1 transition-all duration-300 flex items-center justify-start"
+            id="darkModeToggle">
+
+            <div class="w-4 h-4 bg-luxuryGold rounded-full"></div>
+
+        </button>
+    </div>
+
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+
+        <button type="submit"
+            class="w-full flex items-center gap-4 px-4 py-3 rounded-xl text-red-400 hover:bg-red-500/10 font-medium transition-all duration-300">
+
+            <i data-lucide="log-out" class="w-5 h-5"></i>
+            Keluar
+
+        </button>
+    </form>
+
+</div>
     </aside>
 
     <div class="flex-1 flex flex-col overflow-y-auto bg-[#FAFAFA]">

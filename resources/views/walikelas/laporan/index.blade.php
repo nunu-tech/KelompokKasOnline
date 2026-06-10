@@ -4,202 +4,137 @@
 
 <div class="space-y-8">
 
-    {{-- HEADER --}}
-    <section class="bg-white p-8 rounded-[24px] shadow-sm border border-gray-100">
-        <div class="flex items-center justify-between">
-            <div>
-                <h2 class="text-2xl font-bold font-poppins text-darkJet">
-                    Laporan Keuangan Kas
-                </h2>
+    {{-- HERO --}}
+    <section class="bg-gradient-to-r from-darkJet to-gray-800 text-white rounded-[30px] p-8 shadow-lg">
 
-                <p class="text-sm text-gray-500 mt-1">
-                    Ringkasan pemasukan dan pengeluaran kas kelas
+        <div class="flex justify-between items-center">
+
+            <div>
+                <p class="text-luxuryGold text-sm font-medium uppercase tracking-wider">
+                    Laporan Keuangan
+                </p>
+
+                <h1 class="text-4xl font-bold mt-2">
+                    Laporan Bendahara
+                </h1>
+
+                <p class="mt-3 text-gray-300">
+                    Seluruh transaksi kas yang telah dicatat bendahara kelas.
                 </p>
             </div>
 
-            <div class="bg-softCream p-4 rounded-2xl">
-                <i data-lucide="file-text" class="w-10 h-10 text-luxuryGold"></i>
+            <div class="bg-white/10 p-5 rounded-3xl">
+                <i data-lucide="file-text" class="w-12 h-12 text-luxuryGold"></i>
             </div>
-        </div>
-    </section>
 
-    {{-- CARD STATISTIK --}}
-    <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-        {{-- PEMASUKAN --}}
-        <div class="bg-white p-6 rounded-[24px] border border-gray-100 shadow-sm">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-gray-400">Total Pemasukan</p>
-
-                    <h3 class="text-2xl font-bold mt-2 text-emerald-600">
-                        Rp {{ number_format($totalPemasukan, 0, ',', '.') }}
-                    </h3>
-                </div>
-
-                <div class="bg-emerald-100 p-3 rounded-xl">
-                    <i data-lucide="arrow-down-circle" class="w-6 h-6 text-emerald-600"></i>
-                </div>
-            </div>
-        </div>
-
-        {{-- PENGELUARAN --}}
-        <div class="bg-white p-6 rounded-[24px] border border-gray-100 shadow-sm">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-gray-400">Total Pengeluaran</p>
-
-                    <h3 class="text-2xl font-bold mt-2 text-red-500">
-                        Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}
-                    </h3>
-                </div>
-
-                <div class="bg-red-100 p-3 rounded-xl">
-                    <i data-lucide="arrow-up-circle" class="w-6 h-6 text-red-500"></i>
-                </div>
-            </div>
-        </div>
-
-        {{-- SALDO --}}
-        <div class="bg-darkJet text-white p-6 rounded-[24px] shadow-sm">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-gray-300">Saldo Akhir</p>
-
-                    <h3 class="text-2xl font-bold mt-2 text-luxuryGold">
-                        Rp {{ number_format($saldo, 0, ',', '.') }}
-                    </h3>
-                </div>
-
-                <div class="bg-white/10 p-3 rounded-xl">
-                    <i data-lucide="wallet" class="w-6 h-6 text-luxuryGold"></i>
-                </div>
-            </div>
         </div>
 
     </section>
 
-    {{-- TABEL PEMASUKAN --}}
-    <section class="bg-white p-8 rounded-[24px] shadow-sm border border-gray-100">
+    {{-- STATISTIK --}}
+    <section class="grid md:grid-cols-3 gap-5">
 
-        <div class="flex items-center justify-between mb-6">
-            <div>
-                <h3 class="text-lg font-bold font-poppins">
-                    Data Pembayaran Kas
-                </h3>
+        <div class="bg-white rounded-3xl p-6 border shadow-sm">
 
-                <p class="text-sm text-gray-400">
-                    Seluruh data pemasukan kas siswa
-                </p>
-            </div>
+            <p class="text-gray-500 text-sm">
+                Total Transaksi
+            </p>
+
+            <h3 class="text-4xl font-bold mt-3">
+                {{ $laporan->count() }}
+            </h3>
+
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 border shadow-sm">
+
+            <p class="text-gray-500 text-sm">
+                Total Kas Masuk
+            </p>
+
+            <h3 class="text-3xl font-bold text-green-600 mt-3">
+                Rp {{ number_format($laporan->sum('jumlah'),0,',','.') }}
+            </h3>
+
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 border shadow-sm">
+
+            <p class="text-gray-500 text-sm">
+                Data Terakhir
+            </p>
+
+            <h3 class="text-xl font-bold mt-3">
+                {{ $laporan->count() > 0 ? $laporan->first()->nama : '-' }}
+            </h3>
+
+        </div>
+
+    </section>
+
+    {{-- TABEL --}}
+    <section class="bg-white rounded-[30px] shadow-sm border overflow-hidden">
+
+        <div class="p-6 border-b">
+
+            <h3 class="text-xl font-bold">
+                Riwayat Transaksi Kas
+            </h3>
+
+            <p class="text-gray-500 text-sm mt-1">
+                Data transaksi yang dicatat bendahara
+            </p>
+
         </div>
 
         <div class="overflow-x-auto">
 
-            <table class="w-full text-sm">
+            <table class="w-full">
 
-                <thead>
-                    <tr class="border-b border-gray-100 text-left text-gray-400 uppercase text-xs">
-                        <th class="pb-4">No</th>
-                        <th class="pb-4">Nama</th>
-                        <th class="pb-4">Tanggal</th>
-                        <th class="pb-4">Jumlah</th>
-                        <th class="pb-4">Keterangan</th>
+                <thead class="bg-gray-50">
+
+                    <tr class="text-left text-xs uppercase text-gray-500">
+
+                        <th class="px-6 py-4">No</th>
+                        <th class="px-6 py-4">Tanggal</th>
+                        <th class="px-6 py-4">Nama</th>
+                        <th class="px-6 py-4">Nominal</th>
+                        <th class="px-6 py-4">Keterangan</th>
+
                     </tr>
+
                 </thead>
 
-                <tbody class="divide-y divide-gray-50">
+                <tbody>
 
-                    @forelse($kas as $item)
+                    @forelse($laporan as $item)
 
-                    <tr class="hover:bg-softCream/10 transition-all">
+                    <tr class="border-b hover:bg-gray-50 transition">
 
-                        <td class="py-4">
+                        <td class="px-6 py-4">
                             {{ $loop->iteration }}
                         </td>
 
-                        <td class="py-4 font-medium text-darkJet">
+                        <td class="px-6 py-4">
+                            {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
+                        </td>
+
+                        <td class="px-6 py-4 font-medium">
                             {{ $item->nama }}
                         </td>
 
-                        <td class="py-4 text-gray-500">
-                            {{ $item->tanggal }}
+                        <td class="px-6 py-4">
+
+                            <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-semibold">
+
+                                Rp {{ number_format($item->jumlah,0,',','.') }}
+
+                            </span>
+
                         </td>
 
-                        <td class="py-4 font-semibold text-emerald-600">
-                            Rp {{ number_format($item->jumlah, 0, ',', '.') }}
-                        </td>
-
-                        <td class="py-4 text-gray-500">
-                            {{ $item->keterangan }}
-                        </td>
-
-                    </tr>
-
-                    @empty
-
-                    <tr>
-                        <td colspan="5" class="py-6 text-center text-gray-400">
-                            Belum ada data pembayaran
-                        </td>
-                    </tr>
-
-                    @endforelse
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </section>
-
-    {{-- TABEL PENGELUARAN --}}
-    <section class="bg-white p-8 rounded-[24px] shadow-sm border border-gray-100">
-
-        <div class="mb-6">
-            <h3 class="text-lg font-bold font-poppins">
-                Data Pengeluaran
-            </h3>
-
-            <p class="text-sm text-gray-400">
-                Seluruh penggunaan uang kas kelas
-            </p>
-        </div>
-
-        <div class="overflow-x-auto">
-
-            <table class="w-full text-sm">
-
-                <thead>
-                    <tr class="border-b border-gray-100 text-left text-gray-400 uppercase text-xs">
-                        <th class="pb-4">No</th>
-                        <th class="pb-4">Tanggal</th>
-                        <th class="pb-4">Keperluan</th>
-                        <th class="pb-4">Jumlah</th>
-                    </tr>
-                </thead>
-
-                <tbody class="divide-y divide-gray-50">
-
-                    @forelse($pengeluaran as $item)
-
-                    <tr class="hover:bg-softCream/10 transition-all">
-
-                        <td class="py-4">
-                            {{ $loop->iteration }}
-                        </td>
-
-                        <td class="py-4 text-gray-500">
-                            {{ $item->tanggal }}
-                        </td>
-
-                        <td class="py-4 font-medium text-darkJet">
-                            {{ $item->keterangan }}
-                        </td>
-
-                        <td class="py-4 font-semibold text-red-500">
-                            Rp {{ number_format($item->jumlah, 0, ',', '.') }}
+                        <td class="px-6 py-4 text-gray-600">
+                            {{ $item->keterangan ?? '-' }}
                         </td>
 
                     </tr>
@@ -207,9 +142,22 @@
                     @empty
 
                     <tr>
-                        <td colspan="4" class="py-6 text-center text-gray-400">
-                            Belum ada data pengeluaran
+
+                        <td colspan="5" class="text-center py-16">
+
+                            <div class="space-y-3">
+
+                                <i data-lucide="folder-open"
+                                    class="w-12 h-12 mx-auto text-gray-300"></i>
+
+                                <p class="text-gray-400">
+                                    Belum ada transaksi kas
+                                </p>
+
+                            </div>
+
                         </td>
+
                     </tr>
 
                     @endforelse
